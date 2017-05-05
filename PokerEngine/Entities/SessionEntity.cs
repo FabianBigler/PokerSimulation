@@ -15,10 +15,9 @@ namespace PokerEngine.Entities
         public SessionState State { get; set; }
         public int TotalHandsCount { get; set; }
         public int PlayedHandsCount { get;  set; }        
-        
-        //these properties are loaded lazily
+                
         public PlayerEntity Player1 { get; set; }        
         public PlayerEntity Player2 { get; set; }     
-        public IEnumerable<PlayedHand> PlayedHands { get; set; }              
+        public IEnumerable<PlayedHandEntity> PlayedHands { get; set; }              
     }
 }

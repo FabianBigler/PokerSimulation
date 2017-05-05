@@ -1,4 +1,5 @@
-﻿using PokerEngine.Enumerations;
+﻿using PokerEngine.Entities;
+using PokerEngine.Enumerations;
 using PokerEngine.Exceptions;
 using PokerEngine.Helpers;
 using PokerEngine.Interfaces;
@@ -59,11 +60,11 @@ namespace PokerEngine.Model
             this.players[indexBigBlind].IsBigBlind = true;
         }
 
-        public PlayedHand PlayHand()
+        public PlayedHandEntity PlayHand()
         {
             initializeValues();
 
-            var result = new PlayedHand();    
+            var result = new PlayedHandEntity();    
                              
             moveBlinds();
             foreach (var player in players)
@@ -124,7 +125,7 @@ namespace PokerEngine.Model
             return result;
         }
 
-        private void showDown(Player smallBlindPlayer, Player bigBlindPlayer, PlayedHand result)
+        private void showDown(Player smallBlindPlayer, Player bigBlindPlayer, PlayedHandEntity result)
         {
             //showdown
             var smallBlindEvaluator = new HandEvaluator(smallBlindPlayer.HoleCards.ToList(), Board);
@@ -164,7 +165,7 @@ namespace PokerEngine.Model
         }
 
 
-        private void playBettingRound(Player playerFirstToAct, Player playerSecondToAct, List<ActionType> possibleActions, int amountToCall, PlayedHand result, out bool roundFinished, out bool goToShowdown)
+        private void playBettingRound(Player playerFirstToAct, Player playerSecondToAct, List<ActionType> possibleActions, int amountToCall, PlayedHandEntity result, out bool roundFinished, out bool goToShowdown)
         {
             roundFinished = false;
             goToShowdown = false;

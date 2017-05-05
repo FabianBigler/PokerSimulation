@@ -11,11 +11,6 @@ namespace PokerEngine.Model
     public class Session  
     {
         private SessionEntity entity;
-
-        //public Guid Id { get; set; }
-        //private int totalHands;
-        //private int playedHands;
-        //private SessionState state;
         private Player player1;
         private Player player2;
 
@@ -61,7 +56,7 @@ namespace PokerEngine.Model
             while(entity.PlayedHandsCount < entity.TotalHandsCount && State == SessionState.Running)
             {
                 var playedHand = game.PlayHand();
-                playedHand.SessionID = this.entity.Id;
+                playedHand.SessionId = this.entity.Id;
                 playedHand.Timestamp = DateTime.Now;
                 //store played hand!    
                 this.entity.PlayedHandsCount++;     

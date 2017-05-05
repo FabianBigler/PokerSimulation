@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PokerEngine.Model
 {
-    public class GameAction    
+    public class GameActionEntity
     {
         public Guid Id { get; set; }
         public Guid HandId { get; set; }

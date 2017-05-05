@@ -15,7 +15,7 @@ namespace TestPokerEngine
         {
         }
 
-        public override GameAction GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)
+        public override GameActionEntity GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)
         {
             if (possibleActions.Contains(ActionType.Raise))
             {
@@ -31,7 +31,7 @@ namespace TestPokerEngine
                     minRaise = HeadsupGame.SmallBlindSize + HeadsupGame.BigBlindSize;
                 }
                              
-                return new GameAction
+                return new GameActionEntity
                 {
                     ActionType = ActionType.Raise,
                     Amount = minRaise,
@@ -43,7 +43,7 @@ namespace TestPokerEngine
             if (possibleActions.Contains(ActionType.Bet))
             {
                 var minBet = HeadsupGame.BigBlindSize;                
-                return new GameAction
+                return new GameActionEntity
                 {
                     ActionType = ActionType.Raise,
                     Amount = minBet,
@@ -51,7 +51,7 @@ namespace TestPokerEngine
                 };
             }
             
-            return new GameAction
+            return new GameActionEntity
             {
                 ActionType = ActionType.Call,
                 Amount = amountToCall,

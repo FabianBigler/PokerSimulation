@@ -14,13 +14,13 @@ namespace PokerEngine.Model.Bots
         {
         }
 
-        public override GameAction GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)
+        public override GameActionEntity GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)
         {
             this.ChipStack -= amountToCall;
             var rand = new Random();
             var randIndex = rand.Next(0, possibleActions.Count - 1);
 
-            var action = new GameAction
+            var action = new GameActionEntity
             {
                 PlayerId = Id,
                 ActionType = possibleActions[randIndex],

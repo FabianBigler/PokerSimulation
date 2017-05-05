@@ -14,11 +14,11 @@ namespace PokerEngine.Model.Bots
         {
         }
 
-        public override GameAction GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)
+        public override GameActionEntity GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)
         {
             if (possibleActions.Contains(ActionType.Call))
             {
-                return new GameAction
+                return new GameActionEntity
                 {
                     ActionType = ActionType.Call,
                     Amount = amountToCall,
@@ -28,14 +28,14 @@ namespace PokerEngine.Model.Bots
 
             if (possibleActions.Contains(ActionType.Check))
             {
-                return new GameAction
+                return new GameActionEntity
                 {
                     ActionType = ActionType.Check,
                     PlayerId = this.Id
                 };
             }
 
-            return new GameAction
+            return new GameActionEntity
             {
                 ActionType = ActionType.Fold,
                 Amount = amountToCall,

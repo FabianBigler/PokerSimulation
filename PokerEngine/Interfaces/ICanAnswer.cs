@@ -10,6 +10,6 @@ namespace PokerEngine.Interfaces
 {
     public interface ICanPlay
     {
-        GameAction GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall);
+        GameActionEntity GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall);
     }
 }

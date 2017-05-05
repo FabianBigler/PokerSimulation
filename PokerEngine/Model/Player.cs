@@ -66,7 +66,7 @@ namespace PokerEngine.Model
             return 0;
         }
 
-        public virtual GameAction GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)
+        public virtual GameActionEntity GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)
         {
             throw new NotImplementedException("GetAction not implemented!");
         }

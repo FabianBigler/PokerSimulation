@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\PlayedHandEntity.cs" />
     <Compile Include="Entities\PlayerEntity.cs" />
     <Compile Include="Entities\SessionEntity.cs" />
     <Compile Include="Enumerations\PlayerType.cs" />
@@ -55,8 +56,7 @@
     <Compile Include="Model\Bots\AlwaysMinRaiseBot.cs" />
     <Compile Include="Model\Bots\CallingStationBot.cs" />
     <Compile Include="Model\CardDeck.cs" />
-    <Compile Include="Model\HandNode.cs" />
-    <Compile Include="Model\PlayedHand.cs" />
+    <Compile Include="Entities\GameActionEntity.cs" />
     <Compile Include="Model\RandomDealer.cs" />
     <Compile Include="Model\Bots\RandomBot.cs" />
     <Compile Include="Enumerations\GameAction.cs" />
