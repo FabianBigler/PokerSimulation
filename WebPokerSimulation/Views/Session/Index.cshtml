@@ -1,0 +1,36 @@
+﻿@model IEnumerable<PokerEngine.Entities.SessionEntity>
+
+@{
+    ViewBag.Title = "Session Overview";
+}
+
+@*<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>*@
+
+<div class="row">  
+    <div class="col-md-12">
+        <h1>Sessions</h1>
+        @if (Model.Count() == 0)
+        {
+            
+            <p>No sessions available yet. Create a new session now!</p>
+        }
+        else
+        {
+            foreach (var session in Model)
+            {
+                <div class="row"><h2>@session.Player1.Name vs @session.Player2.Name</h2></div>
+
+
+                
+                @*<div>Player 2: @session.Player2.Name</div>
+                <div>Played Hands: @session.PlayedHands.ToString()</div>*@
+            }            
+        }
+
+        
+    </div>
+</div>

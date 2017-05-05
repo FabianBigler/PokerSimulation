@@ -1,0 +1,43 @@
+﻿@model IEnumerable<PokerEngine.Entities.PlayerEntity>
+
+<h1>New Session</h1>
+
+@using (@Html.BeginForm())
+{
+    if (!String.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-warning">
+            <strong>Error!</strong> @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <div class="form-group">        
+        <div class="form-group row">
+            <label for="totalHandsToPlay" class="col-2 col-form-label">Total Hands to play</label>
+            <div class="col-10">
+                <input class="form-control" type="number" value="10000" name="totalHandsToPlay">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="player1Select">Select Player 1</label>
+            <select class="form-control" name="player1Id">
+                @foreach (var player in Model)
+                {
+                    <option value="@player.Id">@player.Name</option>
+                    }
+            </select>
+         </div>
+        <div class="form-group row">
+            <label for="player2Select">Select Player 2</label>
+            <select class="form-control" name="player2Id">
+                @foreach (var player in Model)
+                {
+                    <option value="@player.Id">@player.Name</option>
+                }
+            </select>
+        </div>        
+        <!-- form content here -->                
+        <input type="submit" class="btn btn-default" value="Create">    
+    </div>
+}
