@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using PokerEngine.Enumerations;
 using PokerEngine.Interfaces;
 using PokerEngine.Entities;
+using PokerEngine.Core;
 
 namespace PokerEngine.Model
 {

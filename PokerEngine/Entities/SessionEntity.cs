@@ -16,8 +16,8 @@ namespace PokerEngine.Entities
         public int TotalHandsCount { get; set; }
         public int PlayedHandsCount { get;  set; }        
                 
-        public PlayerEntity Player1 { get; set; }        
-        public PlayerEntity Player2 { get; set; }     
-        public IEnumerable<PlayedHandEntity> PlayedHands { get; set; }              
+        public PlayerEntity PlayerEntity1 { get; set; }        
+        public PlayerEntity PlayerEntity2 { get; set; }     
+        public IEnumerable<PlayedHandEntity> PlayedHandEntities { get; set; }              
     }
 }

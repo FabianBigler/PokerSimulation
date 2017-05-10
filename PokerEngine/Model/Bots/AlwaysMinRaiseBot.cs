@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using PokerEngine.Enumerations;
 using PokerEngine.Entities;
+using PokerEngine.Core;
 
-namespace TestPokerEngine
+namespace PokerEngine.Model.Bots
 {
     public class AlwaysMinRaiseBot : Player
     {
@@ -45,7 +46,7 @@ namespace TestPokerEngine
                 var minBet = HeadsupGame.BigBlindSize;                
                 return new GameActionEntity
                 {
-                    ActionType = ActionType.Raise,
+                    ActionType = ActionType.Bet,
                     Amount = minBet,
                     PlayerId = Id
                 };

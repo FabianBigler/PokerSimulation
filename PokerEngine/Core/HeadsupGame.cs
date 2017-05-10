@@ -3,13 +3,14 @@ using PokerEngine.Enumerations;
 using PokerEngine.Exceptions;
 using PokerEngine.Helpers;
 using PokerEngine.Interfaces;
+using PokerEngine.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PokerEngine.Model
+namespace PokerEngine.Core
 {
     public class HeadsupGame
     {
@@ -62,7 +63,7 @@ namespace PokerEngine.Model
 
         public PlayedHandEntity PlayHand()
         {
-            initializeValues();
+            initializeValues();            
 
             var result = new PlayedHandEntity();    
                              
@@ -134,11 +135,11 @@ namespace PokerEngine.Model
             var bigBlindRank = bigBlindEvaluator.GetHandRank();
             if (smallBlindRank > bigBlindRank)
             {
-                result.Winner = smallBlindPlayer;                
+                result.WinnerId = smallBlindPlayer.Id;                
             }
             if (bigBlindRank > smallBlindRank)
             {
-                result.Winner = bigBlindPlayer;                
+                result.WinnerId = bigBlindPlayer.Id;                
             }
                         
             if(bigBlindRank == smallBlindRank)
@@ -150,11 +151,11 @@ namespace PokerEngine.Model
                 {
                     if(smallBlindCards[i].Value > bigBlindCards[i].Value)
                     {
-                        result.Winner = smallBlindPlayer;
+                        result.WinnerId = smallBlindPlayer.Id;
                         break;
                     } else if (bigBlindCards[i].Value > smallBlindCards[i].Value)
                     {
-                        result.Winner = bigBlindPlayer;
+                        result.WinnerId = bigBlindPlayer.Id;
                         break;
                     }
                 }
@@ -178,6 +179,7 @@ namespace PokerEngine.Model
             while (!bettingRoundFinished)
             {                
                 var playerAction = playerToAct.GetAction(possibleActions, this, amountToCall);
+                playerAction.Timestamp = DateTime.Now;                                
                 result.Actions.Add(playerAction);
 
                 if (possibleActions.Contains(playerAction.ActionType))
@@ -213,11 +215,11 @@ namespace PokerEngine.Model
                             //the other player wins this hand
                             if (playerToAct == playerFirstToAct)
                             {
-                                result.Winner = playerSecondToAct;                                
+                                result.WinnerId = playerSecondToAct.Id;                                
                             }
                             else
                             {
-                                result.Winner = playerFirstToAct;
+                                result.WinnerId = playerFirstToAct.Id;
                             }
                             result.PotSize = PotSize;                                                    
                             break;

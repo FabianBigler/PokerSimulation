@@ -14,6 +14,7 @@ namespace PokerEngine.Model
         
         public void DealHoleCards(List<Player> players)
         {
+            deck = new CardDeck();
             deck.Shuffle();
             foreach(var player in players)
             {

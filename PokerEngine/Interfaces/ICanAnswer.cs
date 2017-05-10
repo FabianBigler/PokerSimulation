@@ -1,4 +1,5 @@
-﻿using PokerEngine.Enumerations;
+﻿using PokerEngine.Core;
+using PokerEngine.Enumerations;
 using PokerEngine.Model;
 using System;
 using System.Collections.Generic;

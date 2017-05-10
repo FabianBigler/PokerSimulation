@@ -5,6 +5,7 @@ using PokerEngine.Model.Bots;
 using System.Collections.Generic;
 using PokerEngine.Enumerations;
 using PokerEngine.Entities;
+using PokerEngine.Core;
 
 namespace TestPokerEngine
 {
@@ -14,8 +15,8 @@ namespace TestPokerEngine
         [TestMethod]
         public void TestSimpleHandByCallingStationBots()
         {
-            var callingStationBot1 = new CallingStationBot(new PlayerEntity { Id = new Guid() });
-            var callingStationBot2 = new CallingStationBot(new PlayerEntity { Id = new Guid() });
+            var callingStationBot1 = new CallingStationBot(new PlayerEntity { Id = Guid.NewGuid() });
+            var callingStationBot2 = new CallingStationBot(new PlayerEntity { Id = Guid.NewGuid() });
             var players = new List<Player> { callingStationBot1, callingStationBot2 };
             var dealer = new DeterministicDealer();
             dealer.HoleCardsPlayer1 = new List<Card> { new Card(CardSuit.Diamonds, CardValue.Ten), new Card(CardSuit.Diamonds, CardValue.Nine) };
@@ -30,7 +31,7 @@ namespace TestPokerEngine
             var game = new HeadsupGame(players, dealer);
             var result = game.PlayHand();
             //player 1 wins with a flush
-            Assert.IsTrue(result.Winner == callingStationBot1);
+            Assert.IsTrue(result.WinnerId == callingStationBot1.Id);
             //small blind calls and both players check until showdown => PotSize must be 2 big blinds
             Assert.IsTrue(result.PotSize == (HeadsupGame.BigBlindSize * 2));
         }
@@ -55,7 +56,7 @@ namespace TestPokerEngine
             var game = new HeadsupGame(players, dealer);
             var result = game.PlayHand();
             //player 1 wins with a flush
-            Assert.IsTrue(result.Winner == alwaysRaiseBot1);
+            Assert.IsTrue(result.WinnerId == alwaysRaiseBot1.Id);
             //pot size should be all ins of both bots
             Assert.IsTrue(result.PotSize == HeadsupGame.StackSize * 2);
         }

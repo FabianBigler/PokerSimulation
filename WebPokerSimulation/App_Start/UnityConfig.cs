@@ -4,6 +4,10 @@ using Microsoft.Practices.Unity.Configuration;
 using PokerEngine.Repositories;
 using PokerEngine.Model;
 using PokerEngine.Entities;
+using PokerEngine.Interfaces;
+using PokerEngine.Helpers;
+using PokerEngine;
+using PokerEngine.Core;
 
 namespace WebPokerSimulation.App_Start
 {
@@ -36,7 +40,12 @@ namespace WebPokerSimulation.App_Start
         public static void RegisterTypes(IUnityContainer container)
         {
             container.RegisterType<IRepository<PlayerEntity>, PlayerRepository>();
-            container.RegisterType<IRepository<SessionEntity>, SessionRepository>();            
+            container.RegisterType<IRepository<SessionEntity>, SessionRepository>();
+            container.RegisterType<ILogger, Logger>();
+            container.RegisterType<IRepository<PlayedHandEntity>, PlayedHandRepository>();
+            container.RegisterType<IRepository<GameActionEntity>, GameActionRepository>();
+            //singleton
+            container.RegisterType<ISessionScheduler, SessionScheduler>(new ContainerControlledLifetimeManager());            
         }
     }
 }

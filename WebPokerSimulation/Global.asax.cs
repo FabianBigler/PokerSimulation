@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PokerEngine.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,7 +16,10 @@ namespace WebPokerSimulation
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);            
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            var sessionScheduler = DependencyResolver.Current.GetService<ISessionScheduler>();
+            sessionScheduler.StartAllSessions();                
         }
     }
 }

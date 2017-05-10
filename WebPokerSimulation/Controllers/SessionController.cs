@@ -1,4 +1,5 @@
 ﻿using PokerEngine.Entities;
+using PokerEngine.Interfaces;
 using PokerEngine.Model;
 using PokerEngine.Repositories;
 using System;
@@ -14,11 +15,16 @@ namespace WebPokerSimulation.Controllers
     {
         private IRepository<SessionEntity> sessionRepository;
         private IRepository<PlayerEntity> playerRepository;
+        private ISessionScheduler sessionScheduler;
 
-        public SessionController(IRepository<SessionEntity> sessionRepository, IRepository<PlayerEntity> playerRepository)
+
+        public SessionController(IRepository<SessionEntity> sessionRepository, 
+                                 IRepository<PlayerEntity> playerRepository,
+                                 ISessionScheduler sessionScheduler)
         {
             this.sessionRepository = sessionRepository;
             this.playerRepository = playerRepository;
+            this.sessionScheduler = sessionScheduler;
         }
 
         public ActionResult Index()
@@ -40,15 +46,21 @@ namespace WebPokerSimulation.Controllers
                 return View(playerRepository.GetAll());
             }         
             var session = new SessionEntity { Player1Id = player1Id, Player2Id = player2Id, TotalHandsCount = totalHandsToPlay };
-            sessionRepository.Insert(session); 
-                                               
+            sessionRepository.Insert(session);
+            
+            sessionScheduler.StartNewSession(session);
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult Pause(Guid SessionId)
+        {
+            sessionScheduler.PauseSession(SessionId);
+            return View();
+        }
 
         public ActionResult GetAvailablePlayers()
         {
-
             return View();
         }
 

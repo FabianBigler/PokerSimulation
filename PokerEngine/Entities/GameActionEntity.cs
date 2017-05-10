@@ -13,6 +13,7 @@ namespace PokerEngine.Model
         public Guid HandId { get; set; }
         public Guid PlayerId { get; set; }
         public int Amount { get; set; }
-        public ActionType ActionType { get; set; }        
+        public ActionType ActionType { get; set; }       
+        public DateTime Timestamp { get; set; } 
     }
 }

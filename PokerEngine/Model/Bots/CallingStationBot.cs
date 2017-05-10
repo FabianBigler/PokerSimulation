@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PokerEngine.Entities;
 using PokerEngine.Enumerations;
+using PokerEngine.Core;
 
 namespace PokerEngine.Model.Bots
 {

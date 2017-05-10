@@ -133,7 +133,11 @@ namespace PokerEngine.Helpers
                 {
                     cardsToReturn.Add(cardsOrderedByValue[i]);
                     currentSequence++;
-                    if (currentSequence == minCardsForStraight) return cardsToReturn;
+                    if (currentSequence == minCardsForStraight)
+                    {
+                        cardsToReturn.Add(cardsOrderedByValue[i + 1]);
+                        return cardsToReturn;
+                    }
                 }
                 else
                 {

@@ -184,6 +184,26 @@ namespace TestPokerEngine
         }
 
         [TestMethod]
+        public void TestStraightCards()
+        {
+            var holeCards = new List<Card>();
+            holeCards.Add(new Card(CardSuit.Diamonds, CardValue.Six));
+            holeCards.Add(new Card(CardSuit.Clubs, CardValue.Ten));
+
+            var board = new List<Card>();
+            board.Add(new Card(CardSuit.Diamonds, CardValue.Nine));
+            board.Add(new Card(CardSuit.Spades, CardValue.Seven));
+            board.Add(new Card(CardSuit.Hearts, CardValue.Six));
+            board.Add(new Card(CardSuit.Clubs, CardValue.Eight));
+
+            var evaluator = new HandEvaluator(holeCards, board);
+            var bestCards = evaluator.GetBestFiveCards(evaluator.GetHandRank());
+
+
+            Assert.AreEqual(bestCards.Count, 5);
+        }
+
+        [TestMethod]
         public void TestStraightFlush()
         {
             var holeCards = new List<Card>();

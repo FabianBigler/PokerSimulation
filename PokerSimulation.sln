@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPokerEngine", "TestPokerEngine\TestPokerEngine.csproj", "{2F1F19B8-202C-4901-9386-BA8B23DC12B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPokerSimulation", "WebPokerSimulation\WebPokerSimulation.csproj", "{B9017610-44C8-47D3-9D9F-28BA9FEDB137}"
+	ProjectSection(ProjectDependencies) = postProject
+		{76E1AF2B-AE70-4904-94CD-233E6AF07255} = {76E1AF2B-AE70-4904-94CD-233E6AF07255}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

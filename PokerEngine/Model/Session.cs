@@ -1,5 +1,7 @@
-﻿using PokerEngine.Entities;
+﻿using PokerEngine.Core;
+using PokerEngine.Entities;
 using PokerEngine.Model;
+using PokerEngine.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +12,29 @@ namespace PokerEngine.Model
 {
     public class Session  
     {
-        private SessionEntity entity;
+        private SessionEntity sessionEntity;
         private Player player1;
         private Player player2;
+        private IRepository<SessionEntity> sessionRepository;
+        private IRepository<PlayedHandEntity> playedHandRepository;
+
+
+        public Guid Id { 
+            get { return sessionEntity.Id; }
+        }
 
         public int TotalHandsCount {
-            get { return entity.TotalHandsCount;  }            
+            get { return sessionEntity.TotalHandsCount;  }            
         }
 
         public int PlayedHandsCount
         {
-            get { return entity.PlayedHandsCount; }
+            get { return sessionEntity.PlayedHandsCount; }
         }
 
         public SessionState State
         {
-            get { return entity.State; }
+            get { return sessionEntity.State; }
         }        
 
         public Player Player1 {
@@ -37,15 +46,20 @@ namespace PokerEngine.Model
             get { return player2; }
         }      
         
-        public Session(SessionEntity entity, Player player1, Player player2)
+        public Session(SessionEntity entity, IRepository<SessionEntity> sessionRepository, IRepository<PlayedHandEntity> playedHandRepository)
         {
-            this.entity = entity;
-            this.player1 = player1;
-            this.player2 = player2;
+            this.sessionEntity = entity;
+            this.sessionRepository = sessionRepository;
+            this.playedHandRepository = playedHandRepository;
+
+            var factory = new PlayerFactory();
+            this.player1 = factory.GetPlayer(entity.PlayerEntity1);
+            this.player2 = factory.GetPlayer(entity.PlayerEntity2);
         }                        
         
         public void Start()
         {
+            this.sessionEntity.State = SessionState.Running;
             var players = new List<Player>();
             players.Add(player1);
             players.Add(player2);
@@ -53,20 +67,25 @@ namespace PokerEngine.Model
             var dealer = new RandomDealer();
             var game = new HeadsupGame(players, dealer);
 
-            while(entity.PlayedHandsCount < entity.TotalHandsCount && State == SessionState.Running)
+            while(sessionEntity.PlayedHandsCount < sessionEntity.TotalHandsCount && State == SessionState.Running)
             {
                 var playedHand = game.PlayHand();
-                playedHand.SessionId = this.entity.Id;
+                playedHand.SessionId = this.sessionEntity.Id;
                 playedHand.Timestamp = DateTime.Now;
-                //store played hand!    
-                this.entity.PlayedHandsCount++;     
-                //store session?                                                    
+
+                playedHandRepository.Insert(playedHand);                
+                this.sessionEntity.PlayedHandsCount++;
+                sessionRepository.Update(sessionEntity);                                                         
             }
+
+            this.sessionEntity.State = SessionState.Completed;
+            sessionRepository.Update(sessionEntity);
         }
 
         public void Pause()
         {
-            this.entity.State = SessionState.Paused;
+            this.sessionEntity.State = SessionState.Paused;
+            //store sessionEntity!
         }
     }
 }
