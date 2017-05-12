@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PokerEngine.Entities.SessionEntity>
+﻿@model IEnumerable<PokerSimulation.Core.Entities.SessionEntity>
 
 @{
     ViewBag.Title = "Session Overview";
@@ -22,12 +22,27 @@
         {
             foreach (var session in Model)
             {
-                <div class="row"><h2>@session.PlayerEntity1.Name vs @session.PlayerEntity2.Name</h2></div>
-
-
-                
-                @*<div>Player 2: @session.Player2.Name</div>
-                <div>Played Hands: @session.PlayedHands.ToString()</div>*@
+                <div class="row">
+                    <div class="col-md-12"><h2>@session.PlayerEntity1.Name vs @session.PlayerEntity2.Name</h2></div>                    
+                    <div class="col-md-6">                   
+                        <div class="progress">
+                            @{
+                                var percentCompleted = Decimal.Round((Decimal.Divide(session.PlayedHandsCount, session.TotalHandsCount) * 100),2);
+                                <div class="progress-bar" role="progressbar" aria-valuenow="@percentCompleted" aria-valuemin="0" aria-valuemax="100" style="width: @percentCompleted%;">
+                                    @session.PlayedHandsCount / @session.TotalHandsCount
+                                </div>
+                            }                            
+                        </div>
+                    </div>
+                    <div class="col-md-4"><h3>@session.State.ToString()</h3></div>
+                    <div class="col-md-2">
+                        @if (session.State != PokerSimulation.Core.Enumerations.SessionState.Completed)
+                        {
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span> Pause</button>
+                        }
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                    </div>
+                    </div>                                
             }            
         }
 

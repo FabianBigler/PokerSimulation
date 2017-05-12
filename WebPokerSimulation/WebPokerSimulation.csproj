@@ -65,9 +65,6 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokerEngine">
-      <HintPath>..\PokerEngine\bin\Debug\PokerEngine.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -198,6 +195,16 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PokerSimulation.Core\PokerSimulation.Core.csproj">
+      <Project>{76e1af2b-ae70-4904-94cd-233e6af07255}</Project>
+      <Name>PokerSimulation.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PokerSimulation.Infrastructure\PokerSimulation.Infrastructure.csproj">
+      <Project>{42ee5eb6-55cb-49f0-97d0-d928f7e3cafd}</Project>
+      <Name>PokerSimulation.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

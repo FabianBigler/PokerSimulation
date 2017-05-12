@@ -1,13 +1,13 @@
 using System;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
-using PokerEngine.Repositories;
-using PokerEngine.Model;
-using PokerEngine.Entities;
-using PokerEngine.Interfaces;
-using PokerEngine.Helpers;
-using PokerEngine;
-using PokerEngine.Core;
+using PokerSimulation.Core.Repositories;
+using PokerSimulation.Core.Entities;
+using PokerSimulation.Core.Interfaces;
+using PokerSimulation.Infrastructure.Repositories;
+using PokerSimulation.Core.Helpers;
+using PokerSimulation.Core.Model;
+using PokerSimulation.Core;
 
 namespace WebPokerSimulation.App_Start
 {

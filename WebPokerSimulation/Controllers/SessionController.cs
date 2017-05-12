@@ -1,7 +1,6 @@
-﻿using PokerEngine.Entities;
-using PokerEngine.Interfaces;
-using PokerEngine.Model;
-using PokerEngine.Repositories;
+﻿using PokerSimulation.Core.Entities;
+using PokerSimulation.Core.Interfaces;
+using PokerSimulation.Core.Repositories;
 using System;
 using System.Collections.Generic;
 
