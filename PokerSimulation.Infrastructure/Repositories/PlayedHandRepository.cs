@@ -88,30 +88,34 @@ namespace PokerSimulation.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public void Insert(PlayedHandEntity entity)
+        public void Insert(PlayedHandEntity hand)
         {
-            entity.Id = Guid.NewGuid();
+            hand.Id = Guid.NewGuid();
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlInsert = @"INSERT INTO [dbo].[PlayedHand]
-                   ([Id],[WinnerId],[PotSize],[Timestamp],[SessionId])
+                   ([Id],[WinnerId],[PotSize],[Timestamp],[SessionId],[Holecards1],[Holecards2],[Board],[AmountWon])
                     VALUES
-                   (@Id, @WinnerId, @Potsize, @Timestamp, @SessionId)";
+                   (@Id, @WinnerId, @Potsize, @Timestamp, @SessionId,@Holecards1,@Holecards2,@Board,@AmountWon)";
 
                 db.Execute(sqlInsert,
                 new
                 {
-                    Id = entity.Id,
-                    WinnerId = entity.WinnerId,
-                    PotSize = entity.PotSize,
-                    Timestamp = entity.Timestamp,
-                    SessionId = entity.SessionId                    
-                });
+                    Id = hand.Id,
+                    WinnerId = hand.WinnerId,
+                    PotSize = hand.PotSize,
+                    Timestamp = hand.Timestamp,
+                    SessionId = hand.SessionId,
+                    Holecards1 = hand.HoleCards1,
+                    Holecards2 = hand.HoleCards2,
+                    Board = hand.Board,
+                    AmountWon = hand.AmountWon
+                });                
             }
-            
-            foreach (var action in entity.Actions)
+
+            foreach (var action in hand.Actions)
             {
-                action.HandId = entity.Id;                
+                action.HandId = hand.Id;                
                 gameActonRepository.Insert(action);
             }
         }

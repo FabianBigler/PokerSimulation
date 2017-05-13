@@ -7,6 +7,7 @@ using PokerSimulation.Core.Entities;
 using PokerSimulation.Core.Enumerations;
 using PokerSimulation.Core.Exceptions;
 using PokerSimulation.Core.Helpers;
+using PokerSimulation.Core.Extensions;
 
 namespace PokerSimulation.Core
 {
@@ -34,7 +35,7 @@ namespace PokerSimulation.Core
             this.dealer = dealer;
             this.players = players;
 
-            Board = new List<Card>();
+            Board = new List<Card>(5);
             Random random = new Random();
             oldIndexSmallBlind = random.Next(players.Count - 1);                
         }
@@ -46,7 +47,7 @@ namespace PokerSimulation.Core
             foreach(var player in players)
             {
                 player.ChipStack = StackSize;
-                player.HoleCards = new Card[2];
+                player.HoleCards = new List<Card>(2);
             }
             PotSize = 0;                  
         }                 
@@ -61,17 +62,19 @@ namespace PokerSimulation.Core
 
         public PlayedHandEntity PlayHand()
         {
-            initializeValues();            
+            initializeValues();
 
-            var result = new PlayedHandEntity();    
-                             
+            var result = new PlayedHandEntity();
+
             moveBlinds();
             foreach (var player in players)
             {
                 PotSize += player.GetBlind();
             }
-                                               
-            dealer.DealHoleCards(players);  
+
+            dealer.DealHoleCards(players);
+            result.HoleCards1 = players[0].HoleCards.ToAbbreviations();
+            result.HoleCards2 = players[1].HoleCards.ToAbbreviations();
 
             bool roundFinished = false;
             bool goToShowdown = false;
@@ -85,7 +88,7 @@ namespace PokerSimulation.Core
             //in headsup: the small blind acts first before the Flop  
             playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, result, out roundFinished, out goToShowdown);
             if (roundFinished)
-            {
+            {                
                 return result;
             }
 
@@ -93,7 +96,9 @@ namespace PokerSimulation.Core
             possibleActions = new List<ActionType> { ActionType.Check, ActionType.Bet };
             firstAmountToCall = 0;
             dealer.DealFlop(Board);
-            if(!goToShowdown)
+            result.Board = this.Board.ToAbbreviations();
+
+            if (!goToShowdown)
             {
                 playBettingRound(bigBlindPlayer, smallBlindPlayer, possibleActions, firstAmountToCall, result, out roundFinished, out goToShowdown);
                 if (roundFinished) return result;         
@@ -103,6 +108,8 @@ namespace PokerSimulation.Core
             possibleActions = new List<ActionType> { ActionType.Check, ActionType.Bet };
             firstAmountToCall = 0;
             dealer.DealTurn(Board);
+            result.Board = this.Board.ToAbbreviations();
+
             if (!goToShowdown)
             {
                 playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, result, out roundFinished, out goToShowdown);
@@ -113,13 +120,15 @@ namespace PokerSimulation.Core
             possibleActions = new List<ActionType> { ActionType.Check, ActionType.Bet };
             firstAmountToCall = 0;
             dealer.DealRiver(Board);
+            result.Board = this.Board.ToAbbreviations();
+
             if (!goToShowdown)
             {
                 playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, result,   out roundFinished, out goToShowdown);
                 if (roundFinished) return result;
             }
 
-            showDown(smallBlindPlayer, bigBlindPlayer, result);
+            showDown(smallBlindPlayer, bigBlindPlayer, result);          
 
             return result;
         }
@@ -160,6 +169,7 @@ namespace PokerSimulation.Core
                 //if no winner is determined = split pot!                                                                                                                                                 
            }
 
+            result.AmountWon = PotSize / 2;
             result.PotSize = PotSize;
         }
 
@@ -208,7 +218,7 @@ namespace PokerSimulation.Core
                         case ActionType.Fold:
                             bettingRoundFinished = true;
                             roundFinished = true;
-                            playerToAct.AmountAlreadyInPotThisRound = 0;
+                            playerToAct.AmountAlreadyInPotThisRound = 0;                                                                                
 
                             //the other player wins this hand
                             if (playerToAct == playerFirstToAct)
@@ -218,6 +228,21 @@ namespace PokerSimulation.Core
                             else
                             {
                                 result.WinnerId = playerFirstToAct.Id;
+                            }
+
+                            if((PotSize - amountToCall) < 2 * BigBlindSize)
+                            {         
+                                //special cases: big blind or small blind won                                              
+                                if(playerToAct.IsSmallBlind)
+                                {
+                                    result.AmountWon = SmallBlindSize;
+                                } else
+                                {
+                                    result.AmountWon = BigBlindSize;
+                                }                                                             
+                            } else
+                            {
+                                result.AmountWon = (PotSize - amountToCall) / 2;
                             }
                             result.PotSize = PotSize;                                                    
                             break;

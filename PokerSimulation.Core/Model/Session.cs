@@ -81,7 +81,7 @@ namespace PokerSimulation.Core.Model
         public void Pause()
         {
             this.sessionEntity.State = SessionState.Paused;
-            //store sessionEntity!
+            sessionRepository.Update(sessionEntity);
         }
     }
 }

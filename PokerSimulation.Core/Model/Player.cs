@@ -33,13 +33,13 @@ namespace PokerSimulation.Core.Model
             this.Entity = entity;
         }
 
-        public Card[] HoleCards {get;set;}
+        public List<Card> HoleCards {get;set;}
         
         public void DealHoleCards(Card card1, Card card2)
         {
-            HoleCards = new Card[2];
-            HoleCards[0] = card1;
-            HoleCards[1] = card2;
+            HoleCards = new List<Card>(2);
+            HoleCards.Add(card1);
+            HoleCards.Add(card2);
         }  
 
         public int GetBlind()

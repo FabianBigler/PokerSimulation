@@ -51,11 +51,18 @@ namespace WebPokerSimulation.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public ActionResult Detail(Guid sessionID)
+        {            
+            var session = sessionRepository.GetById(sessionID);
+            return View(session);
+        }
+
         [HttpPost]
         public ActionResult Pause(Guid SessionId)
         {
             sessionScheduler.PauseSession(SessionId);
-            return View();
+            return View(sessionRepository.GetAll());
         }
 
         public ActionResult GetAvailablePlayers()
@@ -63,11 +70,14 @@ namespace WebPokerSimulation.Controllers
             return View();
         }
 
+        public ActionResult About()
+        {
+            return View();
+        }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

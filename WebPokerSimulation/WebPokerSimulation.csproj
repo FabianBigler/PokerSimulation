@@ -168,6 +168,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\sessions.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -183,6 +184,7 @@
     <Content Include="Views\Session\About.cshtml" />
     <Content Include="Views\Session\New.cshtml" />
     <Content Include="Views\Session\Index.cshtml" />
+    <Content Include="Views\Session\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

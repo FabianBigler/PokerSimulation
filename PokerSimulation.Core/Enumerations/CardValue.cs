@@ -1,7 +1,7 @@
 ﻿namespace PokerSimulation.Core.Enumerations
 {
     public enum CardValue
-    {
+    {        
         Two,
         Three,
         Four,

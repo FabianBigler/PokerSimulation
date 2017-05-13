@@ -34,18 +34,26 @@
                             }                            
                         </div>
                     </div>
-                    <div class="col-md-4"><h3>@session.State.ToString()</h3></div>
-                    <div class="col-md-2">
-                        @if (session.State != PokerSimulation.Core.Enumerations.SessionState.Completed)
-                        {
-                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span> Pause</button>
-                        }
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Delete</button>
-                    </div>
+                    <div class="col-md-2"><h3>@session.State.ToString()</h3></div>
+                        <div class="col-md-4">
+                            @switch (session.State)
+                            {
+                                case PokerSimulation.Core.Enumerations.SessionState.Paused:
+                                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Play</button>
+                                    break;
+                                case PokerSimulation.Core.Enumerations.SessionState.Running:
+                                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span> Pause</button>
+                                    break;
+                            }                                       
+                            <a href="@Url.Action("Detail", new { sessionId = @session.Id })" class="btn btn-default">
+                                <span class="glyphicon glyphicon-zoom-in"></span>
+                                Detail                                
+                            </a>
+                                                                                                                               
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Delete</button>                        
+                        </div>
                     </div>                                
             }            
-        }
-
-        
+        }        
     </div>
 </div>

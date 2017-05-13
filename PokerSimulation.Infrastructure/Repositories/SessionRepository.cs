@@ -89,7 +89,19 @@ namespace PokerSimulation.Infrastructure.Repositories
 
         SessionEntity IRepository<SessionEntity>.GetById(Guid id)
         {
-            throw new NotImplementedException();
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+                var session = db.Query<SessionEntity>("SELECT * FROM Session WHERE Id=@Id",
+                    new
+                    {
+                        Id = id
+                    }).FirstOrDefault();
+             
+                session.PlayerEntity1 = playerRepository.GetById(session.Player1Id);
+                session.PlayerEntity2 = playerRepository.GetById(session.Player2Id);                
+
+                return session;
+            }
         }
 
         public IEnumerable<SessionEntity> SearchFor(Expression<Func<SessionEntity, bool>> predicate)
