@@ -7,6 +7,7 @@ namespace PokerSimulation.Core.Interfaces
     {
         void StartNewSession(SessionEntity sessionEntity);
         void PauseSession(Guid sessionId);
+        void ResumeSession(Guid sessionId);
         void StartAllSessions();
     }
 }

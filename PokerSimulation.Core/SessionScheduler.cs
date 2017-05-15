@@ -44,6 +44,12 @@ namespace PokerSimulation.Core
             session.Pause();
         }            
 
+        public void ResumeSession(Guid sessionId)
+        {
+            var session = currentSessions.FirstOrDefault(x => x.Id == sessionId);
+            session.Resume();
+        }
+
         public void StartAllSessions()
         {
             try

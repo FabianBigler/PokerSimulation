@@ -63,7 +63,17 @@ namespace PokerSimulation.Infrastructure.Repositories
 
         public void Delete(SessionEntity entity)
         {
-            throw new NotImplementedException();
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+                string sqlDelete = @"DELETE FROM Session
+                                     WHERE Id=@Id";
+                //played hands and game actions are deleted too (added constraint with cascade delete)
+                db.Execute(sqlDelete,
+                    new
+                    {
+                        Id = entity.Id                       
+                    });
+            }
         }
 
         public void Update(SessionEntity entity)
@@ -97,8 +107,11 @@ namespace PokerSimulation.Infrastructure.Repositories
                         Id = id
                     }).FirstOrDefault();
              
-                session.PlayerEntity1 = playerRepository.GetById(session.Player1Id);
-                session.PlayerEntity2 = playerRepository.GetById(session.Player2Id);                
+                if(session != null)
+                {
+                    session.PlayerEntity1 = playerRepository.GetById(session.Player1Id);
+                    session.PlayerEntity2 = playerRepository.GetById(session.Player2Id);
+                }                          
 
                 return session;
             }

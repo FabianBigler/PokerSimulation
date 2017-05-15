@@ -80,8 +80,20 @@ namespace PokerSimulation.Core.Model
 
         public void Pause()
         {
-            this.sessionEntity.State = SessionState.Paused;
-            sessionRepository.Update(sessionEntity);
+            if(this.sessionEntity.State != SessionState.Completed)
+            {
+                this.sessionEntity.State = SessionState.Paused;
+                sessionRepository.Update(sessionEntity);
+            }          
+        }
+
+        public void Resume()
+        {
+            if (this.sessionEntity.State != SessionState.Completed)
+            {
+                this.sessionEntity.State = SessionState.Running;
+                sessionRepository.Update(sessionEntity);
+            }          
         }
     }
 }

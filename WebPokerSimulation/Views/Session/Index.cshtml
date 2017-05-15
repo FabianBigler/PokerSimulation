@@ -9,6 +9,7 @@
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
     <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>*@
+<div id="getByIdAction" data-request-url="@Url.Action("GetById", "Session")"></div>
 
 <div class="row">  
     <div class="col-md-12">
@@ -22,38 +23,43 @@
         {
             foreach (var session in Model)
             {
-                <div class="row">
-                    <div class="col-md-12"><h2>@session.PlayerEntity1.Name vs @session.PlayerEntity2.Name</h2></div>                    
-                    <div class="col-md-6">                   
+                var sessionClass = "";
+                if (session.State != PokerSimulation.Core.Enumerations.SessionState.Completed)
+                {
+                    sessionClass = "running-session";               
+                }
+
+                <div class="row @sessionClass" id="@session.Id">
+                    <div class="col-md-12"><h2>@session.PlayerEntity1.Name vs @session.PlayerEntity2.Name</h2></div>
+                    <div class="col-md-6">
                         <div class="progress">
                             @{
-                                var percentCompleted = Decimal.Round((Decimal.Divide(session.PlayedHandsCount, session.TotalHandsCount) * 100),2);
+                                var percentCompleted = Decimal.Round((Decimal.Divide(session.PlayedHandsCount, session.TotalHandsCount) * 100), 2);
                                 <div class="progress-bar" role="progressbar" aria-valuenow="@percentCompleted" aria-valuemin="0" aria-valuemax="100" style="width: @percentCompleted%;">
                                     @session.PlayedHandsCount / @session.TotalHandsCount
                                 </div>
-                            }                            
+                            }
                         </div>
                     </div>
                     <div class="col-md-2"><h3>@session.State.ToString()</h3></div>
-                        <div class="col-md-4">
-                            @switch (session.State)
-                            {
-                                case PokerSimulation.Core.Enumerations.SessionState.Paused:
-                                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Play</button>
-                                    break;
-                                case PokerSimulation.Core.Enumerations.SessionState.Running:
-                                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span> Pause</button>
-                                    break;
-                            }                                       
-                            <a href="@Url.Action("Detail", new { sessionId = @session.Id })" class="btn btn-default">
-                                <span class="glyphicon glyphicon-zoom-in"></span>
-                                Detail                                
-                            </a>
-                                                                                                                               
-                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Delete</button>                        
-                        </div>
-                    </div>                                
-            }            
-        }        
+                    <div class="col-md-4">
+                        @*@switch (session.State)
+                        {
+                            case PokerSimulation.Core.Enumerations.SessionState.Paused:
+                                <button type="button" onclick="ResumeSession('@session.Id')" class="btn btn-default"><span class="glyphicon glyphicon-play"></span>Resume</button>
+                                break;
+                            case PokerSimulation.Core.Enumerations.SessionState.Running:
+                                <button type="button" onclick="PauseSession('@session.Id')" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span>Pause</button>
+                                break;
+                        }*@
+                        <a href="@Url.Action("Detail", new { sessionId = @session.Id })" class="btn btn-default">
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                            Detail
+                        </a>
+                        <button type="button" onclick="DeleteSession('@session.Id')" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                    </div>
+                </div>
+                }
+            }
     </div>
 </div>

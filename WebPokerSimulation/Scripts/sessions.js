@@ -1,24 +1,46 @@
-﻿$('.progress-bar').each(function (i, obj) {
-    //test
-
+﻿$(document).ready(function () {        
+    setInterval(doPollSessions, 5000);
 });
 
-var testimonialElements = $(".testimonial");
-for (var i = 0; i < testimonialElements.length; i++) {
-    var element = testimonialElements.eq(i);
-    //do something with element
+function doPollSessions() {
+    $('.running-session').each(function () {      
+        $.ajax({
+            url: '/session/GetById',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: { sessionId: $(this).attr('id')},
+            success: function (data) {
+                alert(data.State);
+                $(this).find('progress-bar')
+            },
+            error: function (data) {
+                //alert('error!');
+            }
+        });
+    })    
 }
 
-function doUpdateProgressbars() {
-    var testimonialElements = $(".session");
-    for (var i = 0; i < testimonialElements.length; i++) {
-        var element = testimonialElements.eq(i);
-        //do something with element
-    }
-    //$.get('ajax/test.html', function (data) {
-    //    alert('TEST');        
-        
-    //});
+function DeleteSession(sessionIdToDelete) {
+    $("#" + sessionIdToDelete).remove();
 
-    setTimeout(doUpdateProgressbars, 5000);
+    $.ajax({
+        url: '/session/Delete',
+        type: 'POST',
+        data: { sessionId: sessionIdToDelete },
+        success: function (data) {            
+        }
+    });
+}
+
+function PauseSession(sessionIdToPause) {
+    alert('HELLO');
+    $.ajax({
+        url: '/session/Pause',
+        type: 'POST',
+        data: { sessionId: sessionIdToPause },
+        success: function (data) {
+            alert('paused!');
+            doPollSessions();            
+        }
+    });
 }
