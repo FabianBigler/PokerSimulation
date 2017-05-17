@@ -1,3 +1,0 @@
-﻿ALTER TABLE dbo.PlayedHand
-   ADD CONSTRAINT FK_Session_PlayedHand_Cascade
-   FOREIGN KEY (SessionId) REFERENCES dbo.[Session](Id) ON DELETE CASCADE
