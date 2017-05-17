@@ -13,11 +13,11 @@ namespace PokerSimulation.Core
     public class SessionScheduler : ISessionScheduler
     {        
         private IRepository<SessionEntity> sessionRepository;        
-        private IRepository<PlayedHandEntity> playedHandRepository;
+        private IPlayedHandRepository playedHandRepository;
         private ILogger logger;
         private List<Session> currentSessions;        
 
-        public SessionScheduler(IRepository<SessionEntity> sessionRepository, IRepository<PlayedHandEntity> playedHandRepository, ILogger logger)
+        public SessionScheduler(IRepository<SessionEntity> sessionRepository, IPlayedHandRepository playedHandRepository, ILogger logger)
         {            
             this.sessionRepository = sessionRepository;
             this.playedHandRepository = playedHandRepository;
@@ -41,7 +41,10 @@ namespace PokerSimulation.Core
         public void PauseSession(Guid sessionId)
         {
             var session = currentSessions.FirstOrDefault(x => x.Id == sessionId);
-            session.Pause();
+            if(session != null)
+            {
+                session.Pause();
+            }            
         }            
 
         public void ResumeSession(Guid sessionId)

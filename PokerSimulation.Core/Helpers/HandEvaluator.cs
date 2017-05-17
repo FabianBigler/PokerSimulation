@@ -183,7 +183,11 @@ namespace PokerSimulation.Core.Helpers
                 {
                     currentSequence++;
                     cards.Add(cardsOrderedBySuit[i]); 
-                    if (currentSequence == minCardsForStraightFlush) return cards;
+                    if (currentSequence == minCardsForStraightFlush)
+                    {
+                        cards.Add(cardsOrderedBySuit[i + 1]);
+                        return cards;
+                    }
                 }
                 else
                 {

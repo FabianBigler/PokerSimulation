@@ -1,11 +1,12 @@
 ﻿@model PokerSimulation.Core.Entities.SessionEntity
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
 
 <div class="row">  
     <div class="col-md-12">
         <h1>Session</h1>             
-        <div class="row"> 
-            Player 1: @Model.PlayerEntity1.Name;         
-            Player 2: @Model.PlayerEntity2.Name;                               
+        <div class="row">              
+            @Html.Action("LineChart", "Session", new { sessionId = @Model.Id })           
         </div>                                                               
     </div>
 </div>

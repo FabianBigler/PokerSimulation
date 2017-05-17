@@ -55,12 +55,7 @@ namespace PokerSimulation.Infrastructure.Repositories
                     Amount = entity.Amount                    
                 });
             }
-        }
-
-    public IEnumerable<GameActionEntity> SearchFor(Expression<Func<GameActionEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
+        }   
 
         public void Update(GameActionEntity entity)
         {

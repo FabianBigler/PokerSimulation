@@ -9,8 +9,7 @@ namespace PokerSimulation.Core.Repositories
         void Insert(T entity);
         void Delete(T entity);
         void Update(T entity);
-        T GetById(Guid id);
-        IEnumerable<T> SearchFor(Expression<Func<T, bool>> predicate);
+        T GetById(Guid id);        
         IEnumerable<T> GetAll();        
     }
 }

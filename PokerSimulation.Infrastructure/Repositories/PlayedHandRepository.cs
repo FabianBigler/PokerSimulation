@@ -11,54 +11,18 @@ using Dapper;
 using PokerSimulation.Core.Repositories;
 using PokerSimulation.Core.Model;
 using PokerSimulation.Core.Entities;
+using PokerSimulation.Core.Interfaces;
 
 namespace PokerSimulation.Infrastructure.Repositories
 {
-    public class PlayedHandRepository : BaseRepository, IRepository<PlayedHandEntity>
+    public class PlayedHandRepository : BaseRepository, IPlayedHandRepository
     {
         private IRepository<GameActionEntity> gameActonRepository;
         public PlayedHandRepository(IRepository<GameActionEntity> gameActonRepository)
         {
             this.gameActonRepository = gameActonRepository;
         }
-
-        //public void Delete(PlayerEntity entity)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void Insert(PlayerEntity entity)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public IEnumerable<PlayerEntity> SearchFor(Expression<Func<PlayerEntity, bool>> predicate)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void Update(PlayerEntity entity)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //IEnumerable<PlayerEntity> IRepository<PlayerEntity>.GetAll()
-        //{
-        //    using (IDbConnection db = new SqlConnection(connectionString))
-        //    {
-        //        return db.Query<PlayerEntity>("SELECT * FROM Player");                
-        //    }
-        //}
-
-        //PlayerEntity IRepository<PlayerEntity>.GetById(Guid id)
-        //{
-        //    using (IDbConnection db = new SqlConnection(connectionString))
-        //    {
-        //        var sql = "SELECT * FROM Player WHERE id = @id";
-        //        return db.Query<PlayerEntity>(sql, new { id = id }).FirstOrDefault();
-        //    }
-        //}
-
+        
         public void Delete(PlayedHandEntity entity)
         {
             throw new NotImplementedException();
@@ -118,11 +82,6 @@ namespace PokerSimulation.Infrastructure.Repositories
                 action.HandId = hand.Id;                
                 gameActonRepository.Insert(action);
             }
-        }
-
-        public IEnumerable<PlayedHandEntity> SearchFor(Expression<Func<PlayedHandEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
         }
 
         public void Update(PlayedHandEntity entity)

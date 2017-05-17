@@ -3,15 +3,29 @@
 });
 
 function doPollSessions() {
-    $('.running-session').each(function () {      
+    $('.running-session').each(function () {        
         $.ajax({
             url: '/session/GetById',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: { sessionId: $(this).attr('id')},
             success: function (data) {
-                alert(data.State);
-                $(this).find('progress-bar')
+                var percentCompleted = (data.PlayedHandsCount * 100 / data.TotalHandsCount);              
+                $("#" + data.Id).find('.progress-bar').css('width', percentCompleted + '%')
+                $("#" + data.Id).find('.progress-bar').text(data.PlayedHandsCount + " / " + data.TotalHandsCount)
+                var stateText = '';
+                switch (data.State)
+                {
+                    case 0: stateText = 'Ready';
+                        break;
+                    case 1: stateText = 'Running';
+                        break;
+                    case 2: stateText = 'Paused';
+                        break;
+                    case 3: stateText = 'Completed';
+                    default: stateText = 'Completed'   
+                }                
+                $("#" + data.Id).find('.state').text(stateText);
             },
             error: function (data) {
                 //alert('error!');
@@ -32,14 +46,12 @@ function DeleteSession(sessionIdToDelete) {
     });
 }
 
-function PauseSession(sessionIdToPause) {
-    alert('HELLO');
+function PauseSession(sessionIdToPause) {    
     $.ajax({
         url: '/session/Pause',
         type: 'POST',
         data: { sessionId: sessionIdToPause },
-        success: function (data) {
-            alert('paused!');
+        success: function (data) {            
             doPollSessions();            
         }
     });

@@ -25,11 +25,6 @@ namespace PokerSimulation.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<PlayerEntity> SearchFor(Expression<Func<PlayerEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Update(PlayerEntity entity)
         {
             throw new NotImplementedException();

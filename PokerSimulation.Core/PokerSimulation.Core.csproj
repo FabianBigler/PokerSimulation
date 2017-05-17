@@ -87,6 +87,7 @@
     <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Interfaces\ICanDeal.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
+    <Compile Include="Interfaces\IPlayedHandRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\ISessionScheduler.cs" />
     <Compile Include="Model\Bots\AlwaysMinRaiseBot.cs" />

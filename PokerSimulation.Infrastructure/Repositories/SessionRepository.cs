@@ -67,7 +67,7 @@ namespace PokerSimulation.Infrastructure.Repositories
             {
                 string sqlDelete = @"DELETE FROM Session
                                      WHERE Id=@Id";
-                //played hands and game actions are deleted too (added constraint with cascade delete)
+                //played hands and game actions are deleted too (added constraint with cascade delete)                
                 db.Execute(sqlDelete,
                     new
                     {
@@ -115,11 +115,6 @@ namespace PokerSimulation.Infrastructure.Repositories
 
                 return session;
             }
-        }
-
-        public IEnumerable<SessionEntity> SearchFor(Expression<Func<SessionEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }       
+        }   
     }
 }

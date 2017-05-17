@@ -15,8 +15,7 @@
     <div class="col-md-12">
         <h1>Sessions</h1>
         @if (Model.Count() == 0)
-        {
-            
+        {            
             <p>No sessions available yet. Create a new session now!</p>
         }
         else
@@ -41,7 +40,7 @@
                             }
                         </div>
                     </div>
-                    <div class="col-md-2"><h3>@session.State.ToString()</h3></div>
+                    <div class="col-md-2"><h3 class="state">@session.State.ToString()</h3></div>
                     <div class="col-md-4">
                         @*@switch (session.State)
                         {

@@ -37,7 +37,7 @@ namespace PokerSimulation.Core
 
             Board = new List<Card>(5);
             Random random = new Random();
-            oldIndexSmallBlind = random.Next(players.Count - 1);                
+            oldIndexSmallBlind = random.Next(players.Count);                
         }
 
         private void initializeValues()
@@ -47,7 +47,10 @@ namespace PokerSimulation.Core
             foreach(var player in players)
             {
                 player.ChipStack = StackSize;
+                player.AmountAlreadyInPotThisRound = 0;                
                 player.HoleCards = new List<Card>(2);
+                player.IsSmallBlind = false;
+                player.IsBigBlind = false;
             }
             PotSize = 0;                  
         }                 
@@ -58,6 +61,7 @@ namespace PokerSimulation.Core
             var indexBigBlind = (indexSmallBlind + 1) % players.Count;
             this.players[indexSmallBlind].IsSmallBlind = true;
             this.players[indexBigBlind].IsBigBlind = true;
+            oldIndexSmallBlind++;
         }
 
         public PlayedHandEntity PlayHand()
