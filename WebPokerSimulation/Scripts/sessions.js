@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {        
-    setInterval(doPollSessions, 5000);
+    setInterval(doPollSessions, 1000);
 });
 
 function doPollSessions() {

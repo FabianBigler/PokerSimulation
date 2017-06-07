@@ -101,7 +101,6 @@
     <Compile Include="HeadsupGame.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Model\Card.cs" />
-    <Compile Include="Model\Hand.cs" />
     <Compile Include="Helpers\HandEvaluator.cs" />
     <Compile Include="Model\HandRank.cs" />
     <Compile Include="Enumerations\CardValue.cs" />
@@ -113,6 +112,7 @@
     <Compile Include="SessionScheduler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
