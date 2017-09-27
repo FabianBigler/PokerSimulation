@@ -7,7 +7,7 @@ using PokerSimulation.Core.Enumerations;
 using PokerSimulation.Core.Entities;
 using PokerSimulation.Core;
 
-namespace PokerSimulation.Test
+namespace PokerSimulation.Test.Core
 {
     [TestClass]
     public class HeadsupGameTest

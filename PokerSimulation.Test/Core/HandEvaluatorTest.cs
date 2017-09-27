@@ -5,7 +5,7 @@ using PokerSimulation.Core.Helpers;
 using PokerSimulation.Core.Model;
 using System.Collections.Generic;
 
-namespace PokerSimulation.Test
+namespace PokerSimulation.Test.Core
 {
     [TestClass]
     public class HandEvaluatorTest

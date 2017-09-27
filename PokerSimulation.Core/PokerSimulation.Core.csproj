@@ -92,6 +92,7 @@
     <Compile Include="Interfaces\ISessionScheduler.cs" />
     <Compile Include="Model\Bots\AlwaysMinRaiseBot.cs" />
     <Compile Include="Model\Bots\CallingStationBot.cs" />
+    <Compile Include="Model\Bots\MinimalRegretBot.cs" />
     <Compile Include="Model\CardDeck.cs" />
     <Compile Include="Entities\GameActionEntity.cs" />
     <Compile Include="Model\PlayerFactory.cs" />

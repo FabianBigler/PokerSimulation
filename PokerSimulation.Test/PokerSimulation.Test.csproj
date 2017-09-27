@@ -56,9 +56,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DeterministicDealer.cs" />
-    <Compile Include="HeadsupGameTest.cs" />
-    <Compile Include="HandEvaluatorTest.cs" />
+    <Compile Include="Algorithms\KuhnPokerTrainerTest.cs" />
+    <Compile Include="Core\DeterministicDealer.cs" />
+    <Compile Include="Core\HeadsupGameTest.cs" />
+    <Compile Include="Core\HandEvaluatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +67,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PokerSimulation.Algorithms\PokerSimulation.Algorithms.csproj">
+      <Project>{6a7548a8-d9be-4400-87ed-85f3e05377df}</Project>
+      <Name>PokerSimulation.Algorithms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PokerSimulation.Core\PokerSimulation.Core.csproj">
       <Project>{76e1af2b-ae70-4904-94cd-233e6af07255}</Project>
       <Name>PokerSimulation.Core</Name>

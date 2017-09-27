@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PokerSimulation.Test
+namespace PokerSimulation.Test.Core
 {
     /// <summary>
     /// This class is solely used for unit tests (injecting cards)
