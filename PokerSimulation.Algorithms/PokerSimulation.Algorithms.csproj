@@ -46,7 +46,7 @@
     <Compile Include="KuhnPoker\Settings.cs" />
     <Compile Include="TexasHoldem\Action.cs" />
     <Compile Include="TexasHoldem\Settings.cs" />
-    <Compile Include="KuhnPoker\KuhnPokerTrainer.cs" />
+    <Compile Include="KuhnPoker\RegretTrainer.cs" />
     <Compile Include="RegretGameNode.cs" />
     <Compile Include="Infoset.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

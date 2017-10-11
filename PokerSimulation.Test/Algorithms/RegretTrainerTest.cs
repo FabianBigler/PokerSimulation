@@ -11,17 +11,17 @@ using System.Diagnostics;
 namespace PokerSimulation.Test.Algorithms
 {
     [TestClass]
-    public class KuhnPokerTrainerTest
+    public class RegretTrainerTest
     {
-        private const int numberOfhands = 100000;
-        private const float tolerance = 0.05f;
+        private const int numberOfhands = 1000000;
+        private const float tolerance = 0.01f;
 
-        private KuhnPokerTrainer trainer = null;
+        private RegretTrainer trainer = null;
 
         [TestInitialize]
         public void Train()
         {
-            trainer = new KuhnPokerTrainer();
+            trainer = new RegretTrainer();
             trainer.Train(numberOfhands);
             foreach(var node in trainer.GameNodes)
             {

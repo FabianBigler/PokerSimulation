@@ -56,7 +56,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Algorithms\KuhnPokerTrainerTest.cs" />
+    <Compile Include="Algorithms\RegretTrainerTest.cs" />
     <Compile Include="Core\DeterministicDealer.cs" />
     <Compile Include="Core\HeadsupGameTest.cs" />
     <Compile Include="Core\HandEvaluatorTest.cs" />

@@ -10,8 +10,8 @@ namespace PokerSimulation.Algorithms
     public class RegretGameNode<T>
     {        
         public InformationSet<T> InfoSet { get; set; }
-
         public List<float> RegretSum { get; set; }
+
         private List<float> strategy { get; set; }
         private List<float> strategySum { get; set; }
         private List<float> averageStrategy { get; set; }

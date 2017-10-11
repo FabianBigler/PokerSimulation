@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokerSimulation.Algorithms.KuhnPoker
 {
-    public class KuhnPokerTrainer : ITrainer
+    public class RegretTrainer : ITrainer
     {       
         public Dictionary<int, RegretGameNode<GameAction>> GameNodes { get; private set; }
 
@@ -19,8 +19,7 @@ namespace PokerSimulation.Algorithms.KuhnPoker
             var rand = new Random();
 
             for (int i = 0; i < numberOfhands; i++)
-            {
-                var r = new Random();
+            {                
                 var shuffled = cards.OrderBy(x => rand.Next()).ToArray();
                 util += CalculateCounterFactualRegret(shuffled, new List<GameAction>(), 1, 1);
             }
@@ -39,21 +38,7 @@ namespace PokerSimulation.Algorithms.KuhnPoker
                 bool isPlayerCardHigher = cards[player] > cards[opponent];
                 bool isDoubleBet = !isLastActionPass && !isSecondLastActionPass;
                 bool isDoublePass = isLastActionPass && isSecondLastActionPass;
-
-                //if (plays > 1)
-                //{
-                //    boolean terminalPass = history.charAt(plays - 1) == 'p';
-                //    boolean doubleBet = history.substring(plays - 2, plays).equals("bb");
-                //    boolean isPlayerCardHigher = cards[player] > cards[opponent];
-                //    if (terminalPass)
-                //        if (history.equals("pp"))
-                //            return isPlayerCardHigher ? 1 : -1;
-                //        else
-                //            return 1;
-                //    else if (doubleBet)
-                //        return isPlayerCardHigher ? 2 : -2;
-                //}
-
+              
                 if (isLastActionPass)
                 {
                     if (isDoublePass)
