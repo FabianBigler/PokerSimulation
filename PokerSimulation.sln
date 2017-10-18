@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerSimulation.Algorithms"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerSimulation.TrainingConsole", "PokerSimulation.TrainingConsole\PokerSimulation.TrainingConsole.csproj", "{E4CE5CA0-9169-48EF-BB51-435861F8E884}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerSimulation.Model", "PokerSimulation.Model\PokerSimulation.Model.csproj", "{3C823343-7383-4ACC-B93A-432590655F9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{E4CE5CA0-9169-48EF-BB51-435861F8E884}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4CE5CA0-9169-48EF-BB51-435861F8E884}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4CE5CA0-9169-48EF-BB51-435861F8E884}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C823343-7383-4ACC-B93A-432590655F9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C823343-7383-4ACC-B93A-432590655F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C823343-7383-4ACC-B93A-432590655F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C823343-7383-4ACC-B93A-432590655F9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

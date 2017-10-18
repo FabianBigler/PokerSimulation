@@ -8,8 +8,9 @@ namespace PokerSimulation.Core.Model.Bots
     {
         public CallingStationBot(PlayerEntity entity) : base(entity)
         {
-        }
-
+            
+        }        
+    
         public override GameActionEntity GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)
         {
             if (possibleActions.Contains(ActionType.Call))

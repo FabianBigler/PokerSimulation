@@ -3,9 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using PokerSimulation.Core.Model.Bots;
 using PokerSimulation.Core.Model;
-using PokerSimulation.Core.Enumerations;
 using PokerSimulation.Core.Entities;
 using PokerSimulation.Core;
+using PokerSimulation.Model.Enumerations;
 
 namespace PokerSimulation.Test.Core
 {

@@ -102,11 +102,8 @@
     <Compile Include="Enumerations\GameAction.cs" />
     <Compile Include="HeadsupGame.cs" />
     <Compile Include="Model\Session.cs" />
-    <Compile Include="Model\Card.cs" />
     <Compile Include="Helpers\HandEvaluator.cs" />
     <Compile Include="Model\HandRank.cs" />
-    <Compile Include="Enumerations\CardValue.cs" />
-    <Compile Include="Enumerations\CardSuit.cs" />
     <Compile Include="Interfaces\ICanAnswer.cs" />
     <Compile Include="Model\Player.cs" />
     <Compile Include="Enumerations\SessionState.cs" />
@@ -117,7 +114,16 @@
     <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\PokerSimulation.Algorithms\PokerSimulation.Algorithms.csproj">
+      <Project>{6A7548A8-D9BE-4400-87ED-85F3E05377DF}</Project>
+      <Name>PokerSimulation.Algorithms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PokerSimulation.Model\PokerSimulation.Model.csproj">
+      <Project>{3c823343-7383-4acc-b93a-432590655f9b}</Project>
+      <Name>PokerSimulation.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

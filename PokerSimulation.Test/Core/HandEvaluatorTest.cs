@@ -3,6 +3,7 @@ using PokerSimulation.Core.Enumerations;
 using PokerSimulation.Core.Exceptions;
 using PokerSimulation.Core.Helpers;
 using PokerSimulation.Core.Model;
+using PokerSimulation.Model.Enumerations;
 using System.Collections.Generic;
 
 namespace PokerSimulation.Test.Core

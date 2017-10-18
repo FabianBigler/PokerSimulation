@@ -1,4 +1,5 @@
 ﻿using PokerSimulation.Core.Enumerations;
+using PokerSimulation.Model.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;

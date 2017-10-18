@@ -35,7 +35,7 @@ namespace PokerSimulation.Core.Model
 
         public List<Card> HoleCards {get;set;}
         
-        public void DealHoleCards(Card card1, Card card2)
+        public virtual void DealHoleCards(Card card1, Card card2)
         {
             HoleCards = new List<Card>(2);
             HoleCards.Add(card1);

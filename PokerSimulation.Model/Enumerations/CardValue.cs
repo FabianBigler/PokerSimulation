@@ -1,8 +1,8 @@
-﻿namespace PokerSimulation.Core.Enumerations
+﻿namespace PokerSimulation.Model.Enumerations
 {
-    public enum CardValue
+    public enum CardValue : byte
     {        
-        Two,
+        Two = 0,
         Three,
         Four,
         Five,
@@ -14,6 +14,6 @@
         Jack,
         Queen,
         King,
-        Ace
+        Ace = 12
     }
 }

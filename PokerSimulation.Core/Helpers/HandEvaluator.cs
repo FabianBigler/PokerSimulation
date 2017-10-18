@@ -1,6 +1,7 @@
 ﻿using PokerSimulation.Core.Enumerations;
 using PokerSimulation.Core.Exceptions;
 using PokerSimulation.Core.Model;
+using PokerSimulation.Model.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;

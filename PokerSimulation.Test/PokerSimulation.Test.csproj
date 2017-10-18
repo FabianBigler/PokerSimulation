@@ -61,6 +61,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Algorithms\RegretTrainerTest.cs" />
+    <Compile Include="Algorithms\StartHandAbstracterTest.cs" />
     <Compile Include="Core\DeterministicDealer.cs" />
     <Compile Include="Core\HeadsupGameTest.cs" />
     <Compile Include="Core\HandEvaluatorTest.cs" />
@@ -78,6 +79,10 @@
     <ProjectReference Include="..\PokerSimulation.Core\PokerSimulation.Core.csproj">
       <Project>{76e1af2b-ae70-4904-94cd-233e6af07255}</Project>
       <Name>PokerSimulation.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PokerSimulation.Model\PokerSimulation.Model.csproj">
+      <Project>{3c823343-7383-4acc-b93a-432590655f9b}</Project>
+      <Name>PokerSimulation.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

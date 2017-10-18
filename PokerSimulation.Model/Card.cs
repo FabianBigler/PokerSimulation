@@ -1,4 +1,4 @@
-﻿using PokerSimulation.Core.Enumerations;
+﻿using PokerSimulation.Model.Enumerations;
 using System;
 
 namespace PokerSimulation.Core.Model
