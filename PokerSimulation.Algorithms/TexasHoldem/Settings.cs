@@ -8,6 +8,6 @@ namespace PokerSimulation.Algorithms.TexasHoldem
 {
     public class Settings
     {
-        public static int NumberOfActions = 4;
+        public static int NumberOfActions = 5;
     }
 }

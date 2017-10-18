@@ -16,12 +16,12 @@ namespace PokerSimulation.Test.Algorithms
         private const int numberOfhands = 1000000;
         private const float tolerance = 0.01f;
 
-        private RegretTrainer trainer = null;
+        private KuhnPokerTrainer trainer = null;
 
         [TestInitialize]
         public void Train()
         {
-            trainer = new RegretTrainer();
+            trainer = new KuhnPokerTrainer();
             trainer.Train(numberOfhands);
             foreach(var node in trainer.GameNodes)
             {

@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PokerSimulation.Algorithms.TexasHoldem
+namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
 {
-    public enum Action : byte
+    public enum ActionBucket : byte
     {
-        // Pass, Call or Check is considered to be the same action
+        // Pass, Check is considered to be the same action
         Pass,
 
         // Bet has to be abstracted to buckets
+        Call,
         LowBet, 
         MediumBet, 
         HighBet  

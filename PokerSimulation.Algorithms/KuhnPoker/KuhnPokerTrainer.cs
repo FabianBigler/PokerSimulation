@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokerSimulation.Algorithms.KuhnPoker
 {
-    public class RegretTrainer : ITrainer
+    public class KuhnPokerTrainer : ITrainer
     {       
         public Dictionary<int, RegretGameNode<GameAction>> GameNodes { get; private set; }
 

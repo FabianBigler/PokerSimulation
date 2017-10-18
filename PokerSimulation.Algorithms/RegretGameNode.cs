@@ -1,4 +1,5 @@
 ﻿using PokerSimulation.Algorithms.KuhnPoker;
+using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,29 +8,33 @@ using System.Threading.Tasks;
 
 namespace PokerSimulation.Algorithms
 {
+    [ProtoContract]
     public class RegretGameNode<T>
-    {        
+    {                
+        [ProtoMember(1)]
         public InformationSet<T> InfoSet { get; set; }
+
+        [ProtoMember(2)]
         public List<float> RegretSum { get; set; }
 
+        [ProtoMember(3)]
         private List<float> strategy { get; set; }
-        private List<float> strategySum { get; set; }
-        private List<float> averageStrategy { get; set; }
+
+        [ProtoMember(4)]
+        private List<float> strategySum { get; set; }        
 
         public RegretGameNode(int numberOfAction)
         {
             RegretSum = new List<float>(numberOfAction);
             strategy = new List<float>(numberOfAction);
             strategySum = new List<float>(numberOfAction);
-            averageStrategy = new List<float>(numberOfAction);
 
             //initialize lists with 0s
             for (int i = 0;i < numberOfAction; i++)
             {
                 RegretSum.Add(0);
                 strategy.Add(0);
-                strategySum.Add(0);
-                averageStrategy.Add(0);
+                strategySum.Add(0);                
             }
         }
 
@@ -56,13 +61,18 @@ namespace PokerSimulation.Algorithms
         }
 
         public List<float> calculateAverageStrategy()
-        {                   
-            float normalizingSum = strategySum.Sum();                        
-            for (int i = 0; i < Settings.NumberOfActions; i++)
+        {
+            var averageStrategy = new List<float>();                   
+            float normalizingSum = strategySum.Sum();
+            for (int i = 0; i < strategySum.Count; i++)
+            {
+                averageStrategy.Add(0);
+
                 if (normalizingSum > 0)
                     averageStrategy[i] = strategySum[i] / normalizingSum;
                 else
                     averageStrategy[i] = 1.0f / Settings.NumberOfActions;
+            }
 
             return averageStrategy;
         }

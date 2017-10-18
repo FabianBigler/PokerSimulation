@@ -12,7 +12,7 @@ using PokerSimulation.Core.Extensions;
 namespace PokerSimulation.Core
 {
     public class HeadsupGame
-    {
+    {        
         public const int BigBlindSize = 2;
         public const int SmallBlindSize = 1;
         public const int StackSize = 200;
