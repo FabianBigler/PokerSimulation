@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PokerSimulation.Core.Model;
-using PokerSimulation.Core.Interfaces;
-using PokerSimulation.Core.Entities;
-using PokerSimulation.Core.Enumerations;
-using PokerSimulation.Core.Exceptions;
-using PokerSimulation.Core.Helpers;
-using PokerSimulation.Core.Extensions;
+using PokerSimulation.Game.Enumerations;
+using PokerSimulation.Game.Model;
+using PokerSimulation.Game.Exceptions;
+using PokerSimulation.Game.Entities;
+using PokerSimulation.Game.Interfaces;
+using PokerSimulation.Game.Helpers;
+using PokerSimulation.Game.Extensions;
 
-namespace PokerSimulation.Core
+namespace PokerSimulation.Game
 {
     public class HeadsupGame
     {        
+        public delegate void ChangedPhaseEventHandler(List<Card> board, GamePhase phase);
+        public event ChangedPhaseEventHandler ChangedPhase;
+
         public const int BigBlindSize = 2;
         public const int SmallBlindSize = 1;
         public const int StackSize = 200;
@@ -34,6 +37,10 @@ namespace PokerSimulation.Core
         {
             this.dealer = dealer;
             this.players = players;
+            foreach(var player in players)
+            {
+                player.AssignCurrentGame(this);
+            }
 
             Board = new List<Card>(5);
             Random random = new Random();
@@ -85,9 +92,8 @@ namespace PokerSimulation.Core
                         
             var smallBlindPlayer = players.First(x => x.IsSmallBlind);
             var bigBlindPlayer = players.First(x => x.IsBigBlind);            
-            var possibleActions = new List<ActionType> { ActionType.Fold, ActionType.Call, ActionType.Raise };
+            var possibleActions = new List<ActionType> { ActionType.Fold, ActionType.Call, ActionType.Raise };                      
 
-                      
             var firstAmountToCall = SmallBlindSize;
             //in headsup: the small blind acts first before the Flop  
             playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, result, out roundFinished, out goToShowdown);
@@ -102,8 +108,9 @@ namespace PokerSimulation.Core
             dealer.DealFlop(Board);
             result.Board = this.Board.ToAbbreviations();
 
+            onChangedPhase(this.Board, GamePhase.Flop);
             if (!goToShowdown)
-            {
+            {                
                 playBettingRound(bigBlindPlayer, smallBlindPlayer, possibleActions, firstAmountToCall, result, out roundFinished, out goToShowdown);
                 if (roundFinished) return result;         
             }
@@ -114,8 +121,9 @@ namespace PokerSimulation.Core
             dealer.DealTurn(Board);
             result.Board = this.Board.ToAbbreviations();
 
+            onChangedPhase(this.Board, GamePhase.Turn);
             if (!goToShowdown)
-            {
+            {                
                 playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, result, out roundFinished, out goToShowdown);
                 if (roundFinished) return result;
             }
@@ -126,8 +134,9 @@ namespace PokerSimulation.Core
             dealer.DealRiver(Board);
             result.Board = this.Board.ToAbbreviations();
 
+            onChangedPhase(this.Board, GamePhase.River);
             if (!goToShowdown)
-            {
+            {                
                 playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, result,   out roundFinished, out goToShowdown);
                 if (roundFinished) return result;
             }
@@ -136,6 +145,7 @@ namespace PokerSimulation.Core
 
             return result;
         }
+        
 
         private void showDown(Player smallBlindPlayer, Player bigBlindPlayer, PlayedHandEntity result)
         {
@@ -155,8 +165,8 @@ namespace PokerSimulation.Core
                         
             if(bigBlindRank == smallBlindRank)
             {
-                var smallBlindCards = smallBlindEvaluator.GetBestFiveCards(smallBlindRank);
-                var bigBlindCards = bigBlindEvaluator.GetBestFiveCards(bigBlindRank);
+                var smallBlindCards = smallBlindEvaluator.GetTopFiveCards(smallBlindRank);
+                var bigBlindCards = bigBlindEvaluator.GetTopFiveCards(bigBlindRank);
 
                 for(int i = 0; i < 5; i++)
                 {
@@ -302,5 +312,13 @@ namespace PokerSimulation.Core
                 }               
             }
         }        
+
+        private void onChangedPhase(List<Card> board, GamePhase phase)
+        {
+            if(ChangedPhase != null)
+            {
+                ChangedPhase(board, phase);
+            }            
+        }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PokerSimulation.Core.Enumerations;
-using PokerSimulation.Core.Exceptions;
 using PokerSimulation.Core.Helpers;
 using PokerSimulation.Core.Model;
-using PokerSimulation.Model.Enumerations;
+using PokerSimulation.Game.Enumerations;
+using PokerSimulation.Game.Exceptions;
+using PokerSimulation.Game.Helpers;
+using PokerSimulation.Game.Model;
 using System.Collections.Generic;
 
 namespace PokerSimulation.Test.Core
@@ -197,10 +199,10 @@ namespace PokerSimulation.Test.Core
             board.Add(new Card(CardSuit.Clubs, CardValue.Eight));
 
             var evaluator = new HandEvaluator(holeCards, board);
-            var bestCards = evaluator.GetBestFiveCards(evaluator.GetHandRank());
+            var topCards = evaluator.GetTopFiveCards(evaluator.GetHandRank());
 
 
-            Assert.AreEqual(bestCards.Count, 5);
+            Assert.AreEqual(topCards.Count, 5);
         }
 
         [TestMethod]

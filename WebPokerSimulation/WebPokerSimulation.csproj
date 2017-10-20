@@ -208,6 +208,10 @@
       <Project>{76e1af2b-ae70-4904-94cd-233e6af07255}</Project>
       <Name>PokerSimulation.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PokerSimulation.Game\PokerSimulation.Game.csproj">
+      <Project>{3c823343-7383-4acc-b93a-432590655f9b}</Project>
+      <Name>PokerSimulation.Game</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PokerSimulation.Infrastructure\PokerSimulation.Infrastructure.csproj">
       <Project>{42ee5eb6-55cb-49f0-97d0-d928f7e3cafd}</Project>
       <Name>PokerSimulation.Infrastructure</Name>

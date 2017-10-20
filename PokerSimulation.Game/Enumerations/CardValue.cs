@@ -1,4 +1,4 @@
-﻿namespace PokerSimulation.Model.Enumerations
+﻿namespace PokerSimulation.Game.Enumerations
 {
     public enum CardValue : byte
     {        

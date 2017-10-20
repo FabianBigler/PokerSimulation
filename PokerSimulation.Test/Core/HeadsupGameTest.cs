@@ -2,10 +2,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using PokerSimulation.Core.Model.Bots;
-using PokerSimulation.Core.Model;
-using PokerSimulation.Core.Entities;
-using PokerSimulation.Core;
-using PokerSimulation.Model.Enumerations;
+using PokerSimulation.Game.Enumerations;
+using PokerSimulation.Game.Entities;
+using PokerSimulation.Game;
+using PokerSimulation.Game.Model;
 
 namespace PokerSimulation.Test.Core
 {

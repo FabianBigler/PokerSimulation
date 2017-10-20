@@ -1,8 +1,8 @@
-﻿using PokerSimulation.Core.Enumerations;
-using PokerSimulation.Core.Model;
+﻿using PokerSimulation.Game.Entities;
+using PokerSimulation.Game.Enumerations;
 using System.Collections.Generic;
 
-namespace PokerSimulation.Core.Interfaces
+namespace PokerSimulation.Game.Interfaces
 {
     public interface ICanPlay
     {

@@ -1,7 +1,7 @@
-﻿using PokerSimulation.Core.Interfaces;
+﻿using PokerSimulation.Game.Interfaces;
 using System.Collections.Generic;
 
-namespace PokerSimulation.Core.Model
+namespace PokerSimulation.Game.Model
 {
     public class RandomDealer : ICanDeal
     {

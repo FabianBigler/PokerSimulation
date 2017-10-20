@@ -1,5 +1,6 @@
 ﻿using PokerSimulation.Core.Entities;
 using PokerSimulation.Core.Repositories;
+using PokerSimulation.Game.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

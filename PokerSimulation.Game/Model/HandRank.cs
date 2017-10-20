@@ -1,6 +1,6 @@
-﻿namespace PokerSimulation.Core.Model
+﻿namespace PokerSimulation.Game.Model
 {
-    public enum HandRank
+    public enum HandRank : byte
     {
         HighCard = 0,
         Pair = 1,

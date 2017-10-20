@@ -1,5 +1,7 @@
 ﻿using PokerSimulation.Core.Interfaces;
 using PokerSimulation.Core.Model;
+using PokerSimulation.Game.Interfaces;
+using PokerSimulation.Game.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

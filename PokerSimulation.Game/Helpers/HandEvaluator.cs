@@ -1,12 +1,11 @@
-﻿using PokerSimulation.Core.Enumerations;
-using PokerSimulation.Core.Exceptions;
-using PokerSimulation.Core.Model;
-using PokerSimulation.Model.Enumerations;
+﻿using PokerSimulation.Game.Enumerations;
+using PokerSimulation.Game.Exceptions;
+using PokerSimulation.Game.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PokerSimulation.Core.Helpers
+namespace PokerSimulation.Game.Helpers
 {
     public class HandEvaluator
     {
@@ -41,7 +40,7 @@ namespace PokerSimulation.Core.Helpers
         /// In Texas Hold'em only the best five cards are measured to determine the winner.
         /// </summary>
         /// <returns></returns>
-        public List<Card> GetBestFiveCards(HandRank rank)
+        public List<Card> GetTopFiveCards(HandRank rank)
         {
             switch(rank)
             {
@@ -50,7 +49,7 @@ namespace PokerSimulation.Core.Helpers
                 case HandRank.StraightFlush:
                     return getStraightFlushCards();
                 case HandRank.FourOfAKind:
-                    return getBestFiveCardsOfSameValue(4);
+                    return getTopFiveCardsOfSameValue(4);
                 case HandRank.FullHouse:
                     return getFullHouseCards();
                 case HandRank.Flush:
@@ -58,11 +57,11 @@ namespace PokerSimulation.Core.Helpers
                 case HandRank.Straight:
                     return getStraightCards();
                 case HandRank.ThreeOfAKind:
-                    return getBestFiveCardsOfSameValue(3);
+                    return getTopFiveCardsOfSameValue(3);
                 case HandRank.TwoPairs:
                     return getTwoPairCards();
                 case HandRank.Pair:
-                    return getBestFiveCardsOfSameValue(2);
+                    return getTopFiveCardsOfSameValue(2);
                 default:
                     return cardsOrderedByValue.Take(5).ToList();
             }         
@@ -227,7 +226,7 @@ namespace PokerSimulation.Core.Helpers
             return checkForSameValue(4);
         }          
 
-        private List<Card> getBestFiveCardsOfSameValue(int count)
+        private List<Card> getTopFiveCardsOfSameValue(int count)
         {
             var valueGroup = cardsOrderedByValue.GroupBy(x => x.Value,
                (key, values) => new { Value = key, Count = values.Count() })

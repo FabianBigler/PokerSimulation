@@ -1,4 +1,4 @@
-﻿namespace PokerSimulation.Core.Enumerations
+﻿namespace PokerSimulation.Game.Enumerations
 {
     public enum ActionType
     {

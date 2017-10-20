@@ -1,5 +1,9 @@
 ﻿using PokerSimulation.Core.Entities;
 using PokerSimulation.Core.Enumerations;
+using PokerSimulation.Game;
+using PokerSimulation.Game.Entities;
+using PokerSimulation.Game.Enumerations;
+using PokerSimulation.Game.Model;
 using System.Collections.Generic;
 
 namespace PokerSimulation.Core.Model.Bots

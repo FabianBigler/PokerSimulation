@@ -4,6 +4,10 @@ using PokerSimulation.Core.Entities;
 using PokerSimulation.Core.Enumerations;
 using PokerSimulation.Core.Model;
 using PokerSimulation.Core.Model.Bots;
+using PokerSimulation.Game;
+using PokerSimulation.Game.Entities;
+using PokerSimulation.Game.Enumerations;
+using PokerSimulation.Game.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +25,8 @@ namespace PokerSimulation.TrainingConsole
 
             var entity = new PlayerEntity();
             entity.Type = PlayerType.CounterFactualRegret;
-            var player1 = new CounterFactualRegretBot(entity);
-            var player2 = new CounterFactualRegretBot(entity);
+            var player1 = new MinimalRegretBot(entity);
+            var player2 = new MinimalRegretBot(entity);
             var players = new List<Player>();
             players.Add(player1);
             players.Add(player2);

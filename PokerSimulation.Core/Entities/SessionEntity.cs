@@ -1,5 +1,6 @@
 ﻿using PokerSimulation.Core.Enumerations;
 using PokerSimulation.Core.Model;
+using PokerSimulation.Game.Entities;
 using System;
 using System.Collections.Generic;
 

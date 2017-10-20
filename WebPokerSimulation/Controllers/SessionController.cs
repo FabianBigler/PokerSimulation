@@ -6,7 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Linq;
-using WebPokerSimulation.Model;
+using WebPokerSimulation.Game;
+using PokerSimulation.Game.Entities;
 
 namespace WebPokerSimulation.Controllers
 {

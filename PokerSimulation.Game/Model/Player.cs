@@ -1,17 +1,17 @@
-﻿using PokerSimulation.Core.Entities;
-using PokerSimulation.Core.Enumerations;
-using PokerSimulation.Core.Interfaces;
+﻿using PokerSimulation.Game.Entities;
+using PokerSimulation.Game.Enumerations;
+using PokerSimulation.Game.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace PokerSimulation.Core.Model
+namespace PokerSimulation.Game.Model
 {
     public class Player : ICanPlay
     {        
         public PlayerEntity Entity { get; set; }
         public int ChipStack { get; set; }    
         public bool IsSmallBlind { get; set; }    
-        public bool IsBigBlind { get; set; }
+        public bool IsBigBlind { get; set; }        
         public int AmountAlreadyInPotThisRound { get; set; }
 
         public Guid Id { get
@@ -28,6 +28,8 @@ namespace PokerSimulation.Core.Model
             }
         }
 
+        protected HeadsupGame currentGame { get; set; }
+
         public Player(PlayerEntity entity)
         {
             this.Entity = entity;
@@ -41,6 +43,15 @@ namespace PokerSimulation.Core.Model
             HoleCards.Add(card1);
             HoleCards.Add(card2);
         }  
+
+        /// <summary>
+        /// Assign Game like this to allow subscriptions in derived classes
+        /// </summary>
+        /// <param name="game"></param>
+        public virtual void AssignCurrentGame(HeadsupGame game)
+        {
+            this.currentGame = game;
+        }
 
         public int GetBlind()
         {            

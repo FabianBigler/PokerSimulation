@@ -12,6 +12,7 @@ using PokerSimulation.Core.Repositories;
 using PokerSimulation.Core.Model;
 using PokerSimulation.Core.Entities;
 using PokerSimulation.Core.Interfaces;
+using PokerSimulation.Game.Entities;
 
 namespace PokerSimulation.Infrastructure.Repositories
 {

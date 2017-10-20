@@ -18,7 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerSimulation.Algorithms"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerSimulation.TrainingConsole", "PokerSimulation.TrainingConsole\PokerSimulation.TrainingConsole.csproj", "{E4CE5CA0-9169-48EF-BB51-435861F8E884}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerSimulation.Model", "PokerSimulation.Model\PokerSimulation.Model.csproj", "{3C823343-7383-4ACC-B93A-432590655F9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerSimulation.Game", "PokerSimulation.Game\PokerSimulation.Game.csproj", "{3C823343-7383-4ACC-B93A-432590655F9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

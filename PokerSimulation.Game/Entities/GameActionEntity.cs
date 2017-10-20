@@ -1,7 +1,7 @@
-﻿using PokerSimulation.Core.Enumerations;
+﻿using PokerSimulation.Game.Enumerations;
 using System;
 
-namespace PokerSimulation.Core.Model
+namespace PokerSimulation.Game.Entities
 {
     public class GameActionEntity
     {

@@ -77,35 +77,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\PlayedHandEntity.cs" />
-    <Compile Include="Entities\PlayerEntity.cs" />
     <Compile Include="Entities\SessionEntity.cs" />
-    <Compile Include="Enumerations\PlayerType.cs" />
-    <Compile Include="Exceptions\IllegalActionException.cs" />
-    <Compile Include="Exceptions\InvalidCardCountException.cs" />
-    <Compile Include="Extensions\CardArrayExtension.cs" />
     <Compile Include="Helpers\Logger.cs" />
-    <Compile Include="Interfaces\ICanDeal.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IPlayedHandRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\ISessionScheduler.cs" />
     <Compile Include="Model\Bots\AlwaysMinRaiseBot.cs" />
     <Compile Include="Model\Bots\CallingStationBot.cs" />
-    <Compile Include="Model\Bots\CounterFactualRegretBot.cs" />
     <Compile Include="Model\Bots\MinimalRegretBot.cs" />
-    <Compile Include="Model\CardDeck.cs" />
-    <Compile Include="Entities\GameActionEntity.cs" />
     <Compile Include="Model\PlayerFactory.cs" />
-    <Compile Include="Model\RandomDealer.cs" />
     <Compile Include="Model\Bots\RandomBot.cs" />
-    <Compile Include="Enumerations\GameAction.cs" />
-    <Compile Include="HeadsupGame.cs" />
     <Compile Include="Model\Session.cs" />
-    <Compile Include="Helpers\HandEvaluator.cs" />
-    <Compile Include="Model\HandRank.cs" />
-    <Compile Include="Interfaces\ICanAnswer.cs" />
-    <Compile Include="Model\Player.cs" />
     <Compile Include="Enumerations\SessionState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionScheduler.cs" />
@@ -119,9 +102,9 @@
       <Project>{6A7548A8-D9BE-4400-87ED-85F3E05377DF}</Project>
       <Name>PokerSimulation.Algorithms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PokerSimulation.Model\PokerSimulation.Model.csproj">
+    <ProjectReference Include="..\PokerSimulation.Game\PokerSimulation.Game.csproj">
       <Project>{3c823343-7383-4acc-b93a-432590655f9b}</Project>
-      <Name>PokerSimulation.Model</Name>
+      <Name>PokerSimulation.Game</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

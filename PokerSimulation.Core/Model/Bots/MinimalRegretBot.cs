@@ -1,58 +1,55 @@
-﻿using PokerSimulation.Core.Entities;
-using PokerSimulation.Core.Enumerations;
+﻿using System.Collections.Generic;
+using PokerSimulation.Core.Entities;
+using PokerSimulation.Algorithms.TexasHoldem.Abstraction;
+using PokerSimulation.Algorithms;
+using PokerSimulation.Game.Enumerations;
+using PokerSimulation.Core.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PokerSimulation.Game.Model;
+using PokerSimulation.Game.Entities;
+using PokerSimulation.Game;
 
 namespace PokerSimulation.Core.Model.Bots
 {
     public class MinimalRegretBot : Player
-    {
-        public MinimalRegretBot(PlayerEntity entity) : base(entity)
-        {
+    {        
+        private Dictionary<int, RegretGameNode<ActionBucket>> gameTree;
+        private byte handBucket;
 
+        public MinimalRegretBot(PlayerEntity entity) : base(entity)
+        {                                                
+            //load game tree from memory                                    
         }
+
+        public override void DealHoleCards(Card card1, Card card2)
+        {
+            base.DealHoleCards(card1, card2);
+            handBucket = (byte) StartHandAbstracter.FromStartHand(card1, card2);
+        }
+
+        public override void AssignCurrentGame(HeadsupGame game)
+        {
+            base.AssignCurrentGame(game);           
+            game.ChangedPhase += Game_ChangedPhase;
+        }
+
+        private void Game_ChangedPhase(List<Card> board, GamePhase phase)
+        {
+            handBucket = (byte) GameAbstracter.MapToHandBucket(board, HoleCards);
+        }     
 
         public override GameActionEntity GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)
         {
-            throw new NotImplementedException();
+            
+            // map actions to buckets
+            //ActionBucket.Call                
+                        
+               
+            //var infoSet = new InformationSet<ActionBucket>();
+           // infoSet.CardBucket           
 
-            //var rand = new Random();
-            //var randIndex = rand.Next(0, possibleActions.Count);
-            //var actionType = possibleActions[randIndex];
-            //var amount = 0;
-            //switch (actionType)
-            //{
-            //    case ActionType.Bet:
-            //        amount = HeadsupGame.BigBlindSize;
-            //        break;
-            //    case ActionType.Raise:
-            //        if (amountToCall < HeadsupGame.BigBlindSize)
-            //        {
-            //            amount = HeadsupGame.BigBlindSize * HeadsupGame.MinAmountToBetFactor;
-            //        }
-            //        else
-            //        {
-            //            amount = amountToCall * HeadsupGame.MinAmountToBetFactor;
-            //        }
-            //        break;
-            //    case ActionType.Call:
-            //        amount = amountToCall;
-            //        break;
-            //}
-
-            //if (ChipStack < amount) amount = this.ChipStack;
-
-            //var action = new GameActionEntity
-            //{
-            //    PlayerId = Id,
-            //    ActionType = possibleActions[randIndex],
-            //    Amount = amount
-            //};
-
-            //return action;
-        }
+            return null;
+        }         
     }
 }

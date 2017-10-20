@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PokerSimulation.Core.Exceptions
+namespace PokerSimulation.Game.Exceptions
 {
     public class IllegalActionException : Exception
     {

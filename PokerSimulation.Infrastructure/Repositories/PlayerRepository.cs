@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using Dapper;
 using PokerSimulation.Core.Entities;
 using PokerSimulation.Core.Repositories;
+using PokerSimulation.Game.Entities;
 
 namespace PokerSimulation.Infrastructure.Repositories
 {

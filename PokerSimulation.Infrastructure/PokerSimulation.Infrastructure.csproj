@@ -67,6 +67,10 @@
       <Project>{76e1af2b-ae70-4904-94cd-233e6af07255}</Project>
       <Name>PokerSimulation.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PokerSimulation.Game\PokerSimulation.Game.csproj">
+      <Project>{3c823343-7383-4acc-b93a-432590655f9b}</Project>
+      <Name>PokerSimulation.Game</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\CreateDatabaseWithPlayers.txt" />

@@ -1,6 +1,7 @@
-﻿using PokerSimulation.Core.Entities;
-using PokerSimulation.Core.Enumerations;
-using PokerSimulation.Core.Model.Bots;
+﻿using PokerSimulation.Core.Model.Bots;
+using PokerSimulation.Game.Entities;
+using PokerSimulation.Game.Enumerations;
+using PokerSimulation.Game.Model;
 using System;
 
 namespace PokerSimulation.Core.Model

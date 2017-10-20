@@ -1,8 +1,7 @@
-﻿using PokerSimulation.Core.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace PokerSimulation.Core.Entities
+namespace PokerSimulation.Game.Entities
 {
     public class PlayedHandEntity
     {

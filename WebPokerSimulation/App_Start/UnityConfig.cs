@@ -8,6 +8,7 @@ using PokerSimulation.Infrastructure.Repositories;
 using PokerSimulation.Core.Helpers;
 using PokerSimulation.Core.Model;
 using PokerSimulation.Core;
+using PokerSimulation.Game.Entities;
 
 namespace WebPokerSimulation.App_Start
 {

@@ -1,7 +1,7 @@
-﻿using PokerSimulation.Core.Model;
+﻿using PokerSimulation.Game.Model;
 using System.Collections.Generic;
 
-namespace PokerSimulation.Core.Interfaces
+namespace PokerSimulation.Game.Interfaces
 {
     public interface ICanDeal
     {

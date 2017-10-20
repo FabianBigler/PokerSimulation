@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace PokerSimulation.Model.Enumerations
+namespace PokerSimulation.Game.Enumerations
 {
     public enum CardSuit
     {        

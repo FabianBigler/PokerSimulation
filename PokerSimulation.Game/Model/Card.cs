@@ -1,7 +1,7 @@
-﻿using PokerSimulation.Model.Enumerations;
+﻿using PokerSimulation.Game.Enumerations;
 using System;
 
-namespace PokerSimulation.Core.Model
+namespace PokerSimulation.Game.Model
 {
     public class Card
     {
@@ -17,7 +17,7 @@ namespace PokerSimulation.Core.Model
         public override string ToString()
         {
             return GetAbbreviation();
-        }
+        }       
 
         private string GetAbbreviation()
         {

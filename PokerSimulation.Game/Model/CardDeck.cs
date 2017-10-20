@@ -1,10 +1,9 @@
-﻿using PokerSimulation.Core.Enumerations;
-using PokerSimulation.Model.Enumerations;
+﻿using PokerSimulation.Game.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PokerSimulation.Core.Model
+namespace PokerSimulation.Game.Model
 {
     public class CardDeck
     {        

@@ -49,6 +49,7 @@
     <Compile Include="KuhnPoker\CardValue.cs" />
     <Compile Include="KuhnPoker\Settings.cs" />
     <Compile Include="TexasHoldem\Abstraction\ActionBucket.cs" />
+    <Compile Include="TexasHoldem\Abstraction\GameAbstracter.cs" />
     <Compile Include="TexasHoldem\Abstraction\StartHandAbstracter.cs" />
     <Compile Include="TexasHoldem\Abstraction\HandStrengthBucket.cs" />
     <Compile Include="TexasHoldem\Abstraction\StartHandBucket.cs" />
@@ -63,13 +64,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PokerSimulation.Model\PokerSimulation.Model.csproj">
-      <Project>{3c823343-7383-4acc-b93a-432590655f9b}</Project>
-      <Name>PokerSimulation.Model</Name>
-    </ProjectReference>
+    <Content Include="TexasHoldem\Abstraction\LookUpTable.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TexasHoldem\Abstraction\LookUpTable.txt" />
+    <ProjectReference Include="..\PokerSimulation.Game\PokerSimulation.Game.csproj">
+      <Project>{3c823343-7383-4acc-b93a-432590655f9b}</Project>
+      <Name>PokerSimulation.Game</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

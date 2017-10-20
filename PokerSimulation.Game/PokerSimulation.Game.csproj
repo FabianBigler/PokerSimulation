@@ -7,8 +7,8 @@
     <ProjectGuid>{3C823343-7383-4ACC-B93A-432590655F9B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokerSimulation.Model</RootNamespace>
-    <AssemblyName>PokerSimulation.Model</AssemblyName>
+    <RootNamespace>PokerSimulation.Game</RootNamespace>
+    <AssemblyName>PokerSimulation.Game</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,10 +40,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Card.cs" />
+    <Compile Include="Entities\GameActionEntity.cs" />
+    <Compile Include="Entities\PlayedHandEntity.cs" />
+    <Compile Include="Entities\PlayerEntity.cs" />
+    <Compile Include="Enumerations\PlayerType.cs" />
+    <Compile Include="Exceptions\IllegalActionException.cs" />
+    <Compile Include="Exceptions\InvalidCardCountException.cs" />
+    <Compile Include="Extensions\CardArrayExtension.cs" />
+    <Compile Include="HeadsupGame.cs" />
+    <Compile Include="Helpers\HandEvaluator.cs" />
+    <Compile Include="Interfaces\ICanAnswer.cs" />
+    <Compile Include="Interfaces\ICanDeal.cs" />
+    <Compile Include="Model\Card.cs" />
     <Compile Include="Enumerations\CardSuit.cs" />
     <Compile Include="Enumerations\CardValue.cs" />
     <Compile Include="Enumerations\GameAction.cs" />
+    <Compile Include="Enumerations\GamePhase.cs" />
+    <Compile Include="Model\CardDeck.cs" />
+    <Compile Include="Model\HandRank.cs" />
+    <Compile Include="Model\Player.cs" />
+    <Compile Include="Model\RandomDealer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
