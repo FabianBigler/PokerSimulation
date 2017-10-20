@@ -48,11 +48,14 @@
     <Compile Include="KuhnPoker\GameAction.cs" />
     <Compile Include="KuhnPoker\CardValue.cs" />
     <Compile Include="KuhnPoker\Settings.cs" />
+    <Compile Include="TexasHoldem\Abstraction\ActionAbstracter.cs" />
     <Compile Include="TexasHoldem\Abstraction\ActionBucket.cs" />
-    <Compile Include="TexasHoldem\Abstraction\GameAbstracter.cs" />
+    <Compile Include="TexasHoldem\Abstraction\GameAction.cs" />
+    <Compile Include="TexasHoldem\Abstraction\HandStrengthAbstracter.cs" />
     <Compile Include="TexasHoldem\Abstraction\StartHandAbstracter.cs" />
     <Compile Include="TexasHoldem\Abstraction\HandStrengthBucket.cs" />
     <Compile Include="TexasHoldem\Abstraction\StartHandBucket.cs" />
+    <Compile Include="TexasHoldem\HeadsUpGameState.cs" />
     <Compile Include="TexasHoldem\Settings.cs" />
     <Compile Include="KuhnPoker\KuhnPokerTrainer.cs" />
     <Compile Include="RegretGameNode.cs" />

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
 {
-    public class GameAbstracter
+    public class HandStrengthAbstracter
     {
         public static HandStrengthBucket MapToHandBucket(List<Card> board, List<Card> holeCards)
         {
@@ -62,8 +62,5 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
                     throw new NotImplementedException("Handrank is not supported");
             }
         }
-
-
-        
     }
 }

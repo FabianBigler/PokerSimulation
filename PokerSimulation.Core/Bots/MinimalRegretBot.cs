@@ -10,7 +10,7 @@ using PokerSimulation.Game.Model;
 using PokerSimulation.Game.Entities;
 using PokerSimulation.Game;
 
-namespace PokerSimulation.Core.Model.Bots
+namespace PokerSimulation.Core.Bots
 {
     public class MinimalRegretBot : Player
     {        
@@ -36,7 +36,7 @@ namespace PokerSimulation.Core.Model.Bots
 
         private void Game_ChangedPhase(List<Card> board, GamePhase phase)
         {
-            handBucket = (byte) GameAbstracter.MapToHandBucket(board, HoleCards);
+            handBucket = (byte) HandStrengthAbstracter.MapToHandBucket(board, HoleCards);
         }     
 
         public override GameActionEntity GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)

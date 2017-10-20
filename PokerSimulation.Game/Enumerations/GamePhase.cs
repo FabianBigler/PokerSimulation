@@ -8,6 +8,7 @@ namespace PokerSimulation.Game.Enumerations
 {
     public enum GamePhase
     {
+        PreFlop,
         Flop,
         Turn,
         River

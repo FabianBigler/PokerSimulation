@@ -5,7 +5,7 @@ using PokerSimulation.Game.Model;
 using System;
 using System.Collections.Generic;
 
-namespace PokerSimulation.Core.Model.Bots
+namespace PokerSimulation.Core.Bots
 {
     public class RandomBot : Player
     {

@@ -1,4 +1,4 @@
-﻿using PokerSimulation.Core.Model.Bots;
+﻿using PokerSimulation.Core.Bots;
 using PokerSimulation.Game.Entities;
 using PokerSimulation.Game.Enumerations;
 using PokerSimulation.Game.Model;

@@ -26,7 +26,6 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
 
         public static StartHandBucket FromStartHand(Card card1, Card card2)
         {
-            int bucket = 0;
             byte index1 = (byte)card1.Value;
             byte index2 = (byte)card2.Value;
             
@@ -34,24 +33,22 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
             {
                 if(index1 > index2)
                 {
-                    bucket = lookup[index2, index1];
+                    return (StartHandBucket) lookup[index2, index1];
                 } else
                 {
-                    bucket = lookup[index1, index2];
+                    return (StartHandBucket) lookup[index1, index2];
                 }                                        
             } else
             {
                 if (index1 > index2)
                 {
-                    bucket = lookup[index1, index2];
+                    return (StartHandBucket) lookup[index1, index2];
                 }
                 else
                 {
-                    bucket = lookup[index2, index1];
+                    return (StartHandBucket) lookup[index2, index1];
                 }                
-            }
-
-            return (StartHandBucket) bucket;
+            }            
         }        
     }
 }

@@ -1,9 +1,4 @@
-﻿using PokerSimulation.Algorithms.TexasHoldem;
-using PokerSimulation.Core;
-using PokerSimulation.Core.Entities;
-using PokerSimulation.Core.Enumerations;
-using PokerSimulation.Core.Model;
-using PokerSimulation.Core.Model.Bots;
+﻿using PokerSimulation.Core.Bots;
 using PokerSimulation.Game;
 using PokerSimulation.Game.Entities;
 using PokerSimulation.Game.Enumerations;

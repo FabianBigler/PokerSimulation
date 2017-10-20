@@ -83,11 +83,11 @@
     <Compile Include="Interfaces\IPlayedHandRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\ISessionScheduler.cs" />
-    <Compile Include="Model\Bots\AlwaysMinRaiseBot.cs" />
-    <Compile Include="Model\Bots\CallingStationBot.cs" />
-    <Compile Include="Model\Bots\MinimalRegretBot.cs" />
+    <Compile Include="Bots\AlwaysMinRaiseBot.cs" />
+    <Compile Include="Bots\CallingStationBot.cs" />
+    <Compile Include="Bots\MinimalRegretBot.cs" />
     <Compile Include="Model\PlayerFactory.cs" />
-    <Compile Include="Model\Bots\RandomBot.cs" />
+    <Compile Include="Bots\RandomBot.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Enumerations\SessionState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

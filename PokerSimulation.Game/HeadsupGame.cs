@@ -26,15 +26,16 @@ namespace PokerSimulation.Game
         private int oldIndexSmallBlind;
 
         public List<Card> Board { get; private set; }
-        public int PotSize { get; private set; }        
-        
+        public int PotSize { get; private set; }     
+        public GamePhase Phase { get; private set; }
+
         public List<Player> Players
         {
             get { return players; }
         }
 
         public HeadsupGame(List<Player> players, ICanDeal dealer)
-        {
+        {            
             this.dealer = dealer;
             this.players = players;
             foreach(var player in players)
@@ -71,79 +72,102 @@ namespace PokerSimulation.Game
             oldIndexSmallBlind++;
         }
 
-        public PlayedHandEntity PlayHand()
+        public void StartNewRound(PlayedHandEntity result)
         {
-            initializeValues();
-
-            var result = new PlayedHandEntity();
-
+            initializeValues();            
             moveBlinds();
             foreach (var player in players)
             {
                 PotSize += player.GetBlind();
             }
-
             dealer.DealHoleCards(players);
             result.HoleCards1 = players[0].HoleCards.ToAbbreviations();
             result.HoleCards2 = players[1].HoleCards.ToAbbreviations();
+        }
 
+        public void StartNextPhase(GamePhase phase, out List<ActionType> possibleActions, out int firstAmountToCall)
+        {
+            possibleActions = new List<ActionType> { ActionType.Check, ActionType.Bet };
+            firstAmountToCall = 0;
+            switch(phase)
+            {
+                case GamePhase.Flop:
+                    dealer.DealFlop(Board);
+                    break;
+                case GamePhase.Turn:
+                    dealer.DealTurn(Board);
+                    break;
+                case GamePhase.River:
+                    dealer.DealRiver(Board);
+                    break;
+            }
+                     
+            onChangedPhase(this.Board, phase);
+        }
+
+        public PlayedHandEntity PlayHand()
+        {
+            var playedHand = new PlayedHandEntity();
             bool roundFinished = false;
-            bool goToShowdown = false;
-                        
-            var smallBlindPlayer = players.First(x => x.IsSmallBlind);
-            var bigBlindPlayer = players.First(x => x.IsBigBlind);            
-            var possibleActions = new List<ActionType> { ActionType.Fold, ActionType.Call, ActionType.Raise };                      
+            bool goToShowdown = false;       
+            StartNewRound(playedHand);
 
+            var smallBlindPlayer = players.First(x => x.IsSmallBlind);
+            var bigBlindPlayer = players.First(x => x.IsBigBlind);
+
+            var possibleActions = new List<ActionType> { ActionType.Fold, ActionType.Call, ActionType.Raise };                      
             var firstAmountToCall = SmallBlindSize;
             //in headsup: the small blind acts first before the Flop  
-            playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, result, out roundFinished, out goToShowdown);
+            playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, playedHand, out roundFinished, out goToShowdown);
             if (roundFinished)
             {                
-                return result;
+                return playedHand;
             }
 
             //flop
-            possibleActions = new List<ActionType> { ActionType.Check, ActionType.Bet };
-            firstAmountToCall = 0;
-            dealer.DealFlop(Board);
-            result.Board = this.Board.ToAbbreviations();
-
-            onChangedPhase(this.Board, GamePhase.Flop);
+            //possibleActions = new List<ActionType> { ActionType.Check, ActionType.Bet };
+            //firstAmountToCall = 0;
+            //dealer.DealFlop(Board);
+            //
+            //onChangedPhase(this.Board, GamePhase.Flop);
+            StartNextPhase(GamePhase.Flop, out possibleActions, out firstAmountToCall);
             if (!goToShowdown)
             {                
-                playBettingRound(bigBlindPlayer, smallBlindPlayer, possibleActions, firstAmountToCall, result, out roundFinished, out goToShowdown);
-                if (roundFinished) return result;         
+                playBettingRound(bigBlindPlayer, smallBlindPlayer, possibleActions, firstAmountToCall, playedHand, out roundFinished, out goToShowdown);
+                if (roundFinished)
+                {
+                    playedHand.Board = this.Board.ToAbbreviations();
+                    return playedHand;
+                }
             }
 
             //turn
-            possibleActions = new List<ActionType> { ActionType.Check, ActionType.Bet };
-            firstAmountToCall = 0;
-            dealer.DealTurn(Board);
-            result.Board = this.Board.ToAbbreviations();
-
-            onChangedPhase(this.Board, GamePhase.Turn);
+            StartNextPhase(GamePhase.Turn, out possibleActions, out firstAmountToCall);
             if (!goToShowdown)
             {                
-                playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, result, out roundFinished, out goToShowdown);
-                if (roundFinished) return result;
+                playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, playedHand, out roundFinished, out goToShowdown);
+                if (roundFinished)
+                {
+                    playedHand.Board = this.Board.ToAbbreviations();
+                    return playedHand;
+                }
             }
 
             //river
-            possibleActions = new List<ActionType> { ActionType.Check, ActionType.Bet };
-            firstAmountToCall = 0;
-            dealer.DealRiver(Board);
-            result.Board = this.Board.ToAbbreviations();
-
-            onChangedPhase(this.Board, GamePhase.River);
+            StartNextPhase(GamePhase.River, out possibleActions, out firstAmountToCall);            
             if (!goToShowdown)
             {                
-                playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, result,   out roundFinished, out goToShowdown);
-                if (roundFinished) return result;
+                playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, playedHand,   out roundFinished, out goToShowdown);
+                if (roundFinished)
+                {
+                    playedHand.Board = this.Board.ToAbbreviations();
+                    return playedHand;
+                }
             }
 
-            showDown(smallBlindPlayer, bigBlindPlayer, result);          
-
-            return result;
+            showDown(smallBlindPlayer, bigBlindPlayer, playedHand);
+            playedHand.Board = this.Board.ToAbbreviations();
+            return playedHand;
         }
         
 
@@ -193,8 +217,8 @@ namespace PokerSimulation.Game
             roundFinished = false;
             goToShowdown = false;
 
-            var bothPlayersActed = false;
-            var bettingRoundFinished = false;
+            bool bothPlayersActed = false;
+            bool bettingRoundFinished = false;
             var playerToAct = playerFirstToAct;
             var minRaiseAmount = MinAmountToBetFactor * BigBlindSize;            
             
@@ -206,13 +230,15 @@ namespace PokerSimulation.Game
 
                 if (possibleActions.Contains(playerAction.ActionType))
                 {        
+                    //OnPlayerActed(playerToAct, playerAction, bothPlayersActed, out bettingRoundFinished)
                     switch (playerAction.ActionType)
                     {
                         case ActionType.Call:
-                            if(bothPlayersActed)
+                            if (bothPlayersActed)
                             {
                                 bettingRoundFinished = true;
-                            } else
+                            }
+                            else
                             {
                                 possibleActions = new List<ActionType> { ActionType.Check, ActionType.Raise };
                             }
@@ -225,52 +251,54 @@ namespace PokerSimulation.Game
                             }
                             break;
                         case ActionType.Check:
-                            if(bothPlayersActed)
+                            if (bothPlayersActed)
                                 bettingRoundFinished = true;
                             playerToAct.AmountAlreadyInPotThisRound = 0;
                             break;
                         case ActionType.Fold:
                             bettingRoundFinished = true;
                             roundFinished = true;
-                            playerToAct.AmountAlreadyInPotThisRound = 0;                                                                                
+                            playerToAct.AmountAlreadyInPotThisRound = 0;
 
                             //the other player wins this hand
                             if (playerToAct == playerFirstToAct)
                             {
-                                result.WinnerId = playerSecondToAct.Id;                                
+                                result.WinnerId = playerSecondToAct.Id;
                             }
                             else
                             {
                                 result.WinnerId = playerFirstToAct.Id;
                             }
 
-                            if((PotSize - amountToCall) < 2 * BigBlindSize)
-                            {         
+                            if ((PotSize - amountToCall) < 2 * BigBlindSize)
+                            {
                                 //special cases: big blind or small blind won                                              
-                                if(playerToAct.IsSmallBlind)
+                                if (playerToAct.IsSmallBlind)
                                 {
                                     result.AmountWon = SmallBlindSize;
-                                } else
+                                }
+                                else
                                 {
                                     result.AmountWon = BigBlindSize;
-                                }                                                             
-                            } else
+                                }
+                            }
+                            else
                             {
                                 result.AmountWon = (PotSize - amountToCall) / 2;
                             }
-                            result.PotSize = PotSize;                                                    
+                            result.PotSize = PotSize;
                             break;
                         case ActionType.Bet:
                             if (playerAction.Amount < BigBlindSize && playerToAct.ChipStack >= BigBlindSize)
-                            {                             
+                            {
                                 var exceptionmessage = String.Format("Player {0} invoked illegal action. Bet amount: {1} Min amount to bet: {2}", playerToAct.Name, playerAction.Amount, BigBlindSize);
                                 throw new IllegalActionException(exceptionmessage);
                             }
 
-                            minRaiseAmount = playerAction.Amount * 2;  
+                            minRaiseAmount = playerAction.Amount * 2;
                             playerToAct.ChipStack -= playerAction.Amount;
-                            amountToCall = playerAction.Amount;                            
-                            playerToAct.AmountAlreadyInPotThisRound = playerAction.Amount;                            
+                            amountToCall = playerAction.Amount;
+                            playerToAct.AmountAlreadyInPotThisRound = playerAction.Amount;
                             PotSize += playerAction.Amount;
                             possibleActions = new List<ActionType> { ActionType.Fold, ActionType.Call, ActionType.Raise };
                             break;
@@ -281,26 +309,27 @@ namespace PokerSimulation.Game
                             {
                                 var exceptionmessage = String.Format("Player {0} invoked illegal action. Bet amount: {1} Min amount to bet: {2}", playerToAct.Name, playerAction.Amount, minRaiseAmount);
                                 throw new IllegalActionException(exceptionmessage);
-                            }                            
+                            }
                             //minraise is not enough for second raise
-                            playerToAct.ChipStack -= playerAction.Amount;                                
-                            PotSize += playerAction.Amount;      
-                                                                                                                                                                  
-                            amountToCall = playerAction.Amount - amountToCall;           
-                            
-                            if(playerToAct.ChipStack > 0)
+                            playerToAct.ChipStack -= playerAction.Amount;
+                            PotSize += playerAction.Amount;
+
+                            amountToCall = playerAction.Amount - amountToCall;
+
+                            if (playerToAct.ChipStack > 0)
                             {
                                 possibleActions = new List<ActionType> { ActionType.Fold, ActionType.Call, ActionType.Raise };
-                            } else
+                            }
+                            else
                             {
-                                possibleActions = new List<ActionType> { ActionType.Fold, ActionType.Call};
-                            }                                                                                
+                                possibleActions = new List<ActionType> { ActionType.Fold, ActionType.Call };
+                            }
                             break;
                     }
                 }
                 else
                 {
-                    var exceptionMessage = String.Format("Player {0} invoked impossible action {1}", playerToAct.Name, playerAction.ActionType);
+                    var exceptionMessage = String.Format("Player {0} invoked illegal action {1}", playerToAct.Name, playerAction.ActionType);
                     throw new IllegalActionException(exceptionMessage);
                 }
 
@@ -313,8 +342,112 @@ namespace PokerSimulation.Game
             }
         }        
 
+        //private void OnPlayerActed(Player playerToAct, GameActionEntity playerAction, bool bothPlayersActed, out bool bettingRoundFinished, out bool roundFinished, out bool goToShowdown, out List<ActionType> possibleActions)
+        //{
+        //    bettingRoundFinished = false;
+        //    roundFinished = false;
+        //    goToShowdown = false;
+
+        //    switch (playerAction.ActionType)
+        //    {
+        //        case ActionType.Call:
+        //            if (bothPlayersActed)
+        //            {
+        //                bettingRoundFinished = true;
+        //            }
+        //            else
+        //            {
+        //                possibleActions = new List<ActionType> { ActionType.Check, ActionType.Raise };
+        //            }
+        //            playerToAct.ChipStack -= playerAction.Amount;
+        //            PotSize += playerAction.Amount;
+        //            playerToAct.AmountAlreadyInPotThisRound = 0;
+        //            if (playerToAct.ChipStack == 0)
+        //            {
+        //                goToShowdown = true;
+        //            }
+        //            break;
+        //        case ActionType.Check:
+        //            if (bothPlayersActed)
+        //                bettingRoundFinished = true;
+        //            playerToAct.AmountAlreadyInPotThisRound = 0;
+        //            break;
+        //        case ActionType.Fold:
+        //            bettingRoundFinished = true;
+        //            roundFinished = true;
+        //            playerToAct.AmountAlreadyInPotThisRound = 0;
+
+        //            //the other player wins this hand
+        //            if (playerToAct == playerFirstToAct)
+        //            {
+        //                result.WinnerId = playerSecondToAct.Id;
+        //            }
+        //            else
+        //            {
+        //                result.WinnerId = playerFirstToAct.Id;
+        //            }
+
+        //            if ((PotSize - amountToCall) < 2 * BigBlindSize)
+        //            {
+        //                //special cases: big blind or small blind won                                              
+        //                if (playerToAct.IsSmallBlind)
+        //                {
+        //                    result.AmountWon = SmallBlindSize;
+        //                }
+        //                else
+        //                {
+        //                    result.AmountWon = BigBlindSize;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                result.AmountWon = (PotSize - amountToCall) / 2;
+        //            }
+        //            result.PotSize = PotSize;
+        //            break;
+        //        case ActionType.Bet:
+        //            if (playerAction.Amount < BigBlindSize && playerToAct.ChipStack >= BigBlindSize)
+        //            {
+        //                var exceptionmessage = String.Format("Player {0} invoked illegal action. Bet amount: {1} Min amount to bet: {2}", playerToAct.Name, playerAction.Amount, BigBlindSize);
+        //                throw new IllegalActionException(exceptionmessage);
+        //            }
+
+        //            minRaiseAmount = playerAction.Amount * 2;
+        //            playerToAct.ChipStack -= playerAction.Amount;
+        //            amountToCall = playerAction.Amount;
+        //            playerToAct.AmountAlreadyInPotThisRound = playerAction.Amount;
+        //            PotSize += playerAction.Amount;
+        //            possibleActions = new List<ActionType> { ActionType.Fold, ActionType.Call, ActionType.Raise };
+        //            break;
+        //        case ActionType.Raise:
+        //            //e.g. SB raises to 6 preflop. Amount is 5 in this case. MoneyAlreadyInPot is 1      
+        //            var amountToCheck = (playerAction.Amount + playerToAct.AmountAlreadyInPotThisRound);
+        //            if (amountToCheck < minRaiseAmount && playerToAct.ChipStack > amountToCheck)
+        //            {
+        //                var exceptionmessage = String.Format("Player {0} invoked illegal action. Bet amount: {1} Min amount to bet: {2}", playerToAct.Name, playerAction.Amount, minRaiseAmount);
+        //                throw new IllegalActionException(exceptionmessage);
+        //            }
+        //            //minraise is not enough for second raise
+        //            playerToAct.ChipStack -= playerAction.Amount;
+        //            PotSize += playerAction.Amount;
+
+        //            amountToCall = playerAction.Amount - amountToCall;
+
+        //            if (playerToAct.ChipStack > 0)
+        //            {
+        //                possibleActions = new List<ActionType> { ActionType.Fold, ActionType.Call, ActionType.Raise };
+        //            }
+        //            else
+        //            {
+        //                possibleActions = new List<ActionType> { ActionType.Fold, ActionType.Call };
+        //            }
+        //            break;
+        //    }
+        //}
+
         private void onChangedPhase(List<Card> board, GamePhase phase)
         {
+            Phase = phase;
             if(ChangedPhase != null)
             {
                 ChangedPhase(board, phase);

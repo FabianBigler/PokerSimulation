@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using PokerSimulation.Core.Model.Bots;
+using PokerSimulation.Core.Bots;
 using PokerSimulation.Game.Enumerations;
 using PokerSimulation.Game.Entities;
 using PokerSimulation.Game;
