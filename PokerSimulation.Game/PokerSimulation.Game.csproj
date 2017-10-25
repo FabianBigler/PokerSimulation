@@ -48,6 +48,7 @@
     <Compile Include="Exceptions\InvalidCardCountException.cs" />
     <Compile Include="Extensions\CardArrayExtension.cs" />
     <Compile Include="HeadsupGame.cs" />
+    <Compile Include="Helpers\HandComparer.cs" />
     <Compile Include="Helpers\HandEvaluator.cs" />
     <Compile Include="Interfaces\ICanAnswer.cs" />
     <Compile Include="Interfaces\ICanDeal.cs" />

@@ -11,7 +11,7 @@ using System.Diagnostics;
 namespace PokerSimulation.Test.Algorithms
 {
     [TestClass]
-    public class RegretTrainerTest
+    public class KuhnPokerTrainerTest
     {
         private const int numberOfhands = 1000000;
         private const float tolerance = 0.01f;

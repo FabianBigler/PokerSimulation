@@ -8,6 +8,8 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
 {
     public enum ActionBucket : byte
     {
+        //Default value = None
+        None,
         // Pass, Check is considered to be the same action
         Pass,
 

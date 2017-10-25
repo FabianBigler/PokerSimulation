@@ -11,6 +11,7 @@ namespace PokerSimulation.Game.Enumerations
         PreFlop,
         Flop,
         Turn,
-        River
+        River,
+        ShowDown                    
     }
 }

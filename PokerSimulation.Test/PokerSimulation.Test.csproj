@@ -60,8 +60,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Algorithms\RegretTrainerTest.cs" />
+    <Compile Include="Algorithms\ActionAbstracterTest.cs" />
+    <Compile Include="Algorithms\HandStrengthAbstracterTest.cs" />
+    <Compile Include="Algorithms\KuhnPokerTrainerTest.cs" />
     <Compile Include="Algorithms\StartHandAbstracterTest.cs" />
+    <Compile Include="Algorithms\TexasHoldemTrainerTest.cs" />
     <Compile Include="Core\DeterministicDealer.cs" />
     <Compile Include="Core\HeadsupGameTest.cs" />
     <Compile Include="Core\HandEvaluatorTest.cs" />

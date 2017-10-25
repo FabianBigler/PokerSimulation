@@ -173,40 +173,20 @@ namespace PokerSimulation.Game
 
         private void showDown(Player smallBlindPlayer, Player bigBlindPlayer, PlayedHandEntity result)
         {
-            //showdown
-            var smallBlindEvaluator = new HandEvaluator(smallBlindPlayer.HoleCards.ToList(), Board);
-            var smallBlindRank = smallBlindEvaluator.GetHandRank();
-            var bigBlindEvaluator = new HandEvaluator(bigBlindPlayer.HoleCards.ToList(), Board);
-            var bigBlindRank = bigBlindEvaluator.GetHandRank();
-            if (smallBlindRank > bigBlindRank)
+            HandComparison comparison = HandComparer.Compare(smallBlindPlayer.HoleCards, bigBlindPlayer.HoleCards, Board);
+            switch (comparison)
             {
-                result.WinnerId = smallBlindPlayer.Id;                
+                case HandComparison.None:     
+                    //no winner is determined = split pot                               
+                    break;
+                case HandComparison.Player1Won:
+                    result.WinnerId = smallBlindPlayer.Id;
+                    break;
+                case HandComparison.Player2Won:
+                    result.WinnerId = bigBlindPlayer.Id;
+                    break;
             }
-            if (bigBlindRank > smallBlindRank)
-            {
-                result.WinnerId = bigBlindPlayer.Id;                
-            }
-                        
-            if(bigBlindRank == smallBlindRank)
-            {
-                var smallBlindCards = smallBlindEvaluator.GetTopFiveCards(smallBlindRank);
-                var bigBlindCards = bigBlindEvaluator.GetTopFiveCards(bigBlindRank);
-
-                for(int i = 0; i < 5; i++)
-                {
-                    if(smallBlindCards[i].Value > bigBlindCards[i].Value)
-                    {
-                        result.WinnerId = smallBlindPlayer.Id;
-                        break;
-                    } else if (bigBlindCards[i].Value > smallBlindCards[i].Value)
-                    {
-                        result.WinnerId = bigBlindPlayer.Id;
-                        break;
-                    }
-                }
-                //if no winner is determined = split pot!                                                                                                                                                 
-           }
-
+                      
             result.AmountWon = PotSize / 2;
             result.PotSize = PotSize;
         }
