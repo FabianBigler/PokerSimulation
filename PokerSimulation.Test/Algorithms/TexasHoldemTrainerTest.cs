@@ -14,7 +14,7 @@ namespace PokerSimulation.Test.Algorithms
     [TestClass]
     public class TexasHoldemTrainerTest
     {
-        private const int numberOfhands = 100;
+        private const int numberOfhands = 1;
         private const float tolerance = 0.01f;
 
         private TexasHoldemTrainer trainer = null;
@@ -36,7 +36,7 @@ namespace PokerSimulation.Test.Algorithms
             var infoSet = new InformationSet<ActionBucket>()
             {
                 CardBucket = (int)StartHandBucket.VeryGood,
-                Actions = new List<ActionBucket>()
+                ActionHistory = new List<ActionBucket>()
             };
 
             var gameNode = trainer.GameNodes[infoSet.GetHashCode()];

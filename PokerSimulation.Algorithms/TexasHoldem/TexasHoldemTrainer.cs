@@ -5,6 +5,7 @@ using PokerSimulation.Game.Enumerations;
 using PokerSimulation.Game.Helpers;
 using PokerSimulation.Game.Model;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,84 +15,99 @@ namespace PokerSimulation.Algorithms.TexasHoldem
 {
     public class TexasHoldemTrainer : ITrainer
     {
-        public Dictionary<int, RegretGameNode<ActionBucket>> GameNodes { get; private set; }
+        //Dictionary of long to store the hash codes and access them in O(1).
+        public Dictionary<long, RegretGameNode<ActionBucket>> GameNodes { get; set; }        
+        private Player dummyPlayer1;
+        private Player dummyPlayer2;
+        private List<Player> players;
+        private RandomDealer dealer;
+
+        public TexasHoldemTrainer()
+        {
+            GameNodes = new Dictionary<long, RegretGameNode<ActionBucket>>();
+
+            //dealer needs two players to deal cards to
+            dummyPlayer1 = new Player();
+            dummyPlayer2 = new Player();
+            players = new List<Player>() { dummyPlayer1, dummyPlayer2 };
+            dealer = new RandomDealer();
+        }
 
         public void Train(int numberOfHands)
-        {
-            GameNodes = new Dictionary<int, RegretGameNode<ActionBucket>>();
-
-            var playerEntity1 = new PlayerEntity();
-            var player1 = new Player(playerEntity1);
-            var player2 = new Player(playerEntity1);
-            var players = new List<Player>();
-            players.Add(player1);
-            players.Add(player2);
-
-            var dealer = new RandomDealer();
-
+        {                 
             for (int i = 0; i < numberOfHands; i++)
             {
-                var playedHand = new PlayedHandEntity();
                 dealer.DealHoleCards(players);
-
-                //deal board already
+                // deal board at the beginning of each hand already for training      
                 var board = new List<Card>();
                 dealer.DealFlop(board);
                 dealer.DealTurn(board);
                 dealer.DealRiver(board);
 
-                byte startHandBucket1 = (byte)StartHandAbstracter.FromStartHand(player1.HoleCards[0], player1.HoleCards[1]);
-                byte startHandBucket2 = (byte)StartHandAbstracter.FromStartHand(player2.HoleCards[0], player2.HoleCards[1]);
+                StartHandBucket startHandBucket1 = StartHandAbstracter.FromStartHand(dummyPlayer1.HoleCards[0], dummyPlayer1.HoleCards[1]);
+                StartHandBucket startHandBucket2 = StartHandAbstracter.FromStartHand(dummyPlayer2.HoleCards[0], dummyPlayer2.HoleCards[1]);
+                var handBuckets = new List<byte>() { (byte) startHandBucket1, (byte) startHandBucket2 }.ToArray();
+                var initialState = new HeadsUpGameState()
+                {
+                    Phase = GamePhase.PreFlop,
+                    Board = board,
+                    Player1HoleCards = dummyPlayer1.HoleCards,
+                    Player2HoleCards = dummyPlayer2.HoleCards,
+                    PotSize = HeadsupGame.BigBlindSize + HeadsupGame.SmallBlindSize,
+                    AmountToCall = HeadsupGame.SmallBlindSize
+                };                
 
-                var handBuckets = new List<byte>() { startHandBucket1, startHandBucket1 }.ToArray();
-                var state = new HeadsUpGameState();
-                state.Phase = GamePhase.PreFlop;
-                state.Board = board;
-                state.Player1HoleCards = player1.HoleCards;
-                state.Player2HoleCards = player2.HoleCards;
-                state.PotSize = HeadsupGame.BigBlindSize + HeadsupGame.SmallBlindSize;
-                state.AmountToCall = 1;
-
-                CalculateCounterFactualRegret(state, handBuckets, new List<ActionBucket>(), 1, 1);
+                CalculateCounterFactualRegret(initialState, handBuckets, new List<ActionBucket>(), 1, 1);
             }       
-
-            throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Traverses the sub tree of the passed hand buckets recursively. Calculates and then backpropagates the counter factual regret for each node.        
+        /// </summary>
+        /// <param name="gameState"></param>
+        /// <param name="handBuckets"></param>
+        /// <param name="actions"></param>
+        /// <param name="probabilityPlayer1"></param>
+        /// <param name="probabilityPlayer2"></param>
+        /// <returns></returns>
         private float CalculateCounterFactualRegret(HeadsUpGameState gameState, byte[] handBuckets, List<ActionBucket> actions, float probabilityPlayer1, float probabilityPlayer2)
         {
             int plays = actions.Count;
             int playerIndex = plays % 2;
-            var newState = gameState.GetCopy();
-            bool nextActionCallEnabled = true;   
-
-            ActionBucket lastAction = actions.LastOrDefault();
+            var newState = gameState.GetCopy();            
+            ActionBucket lastAction = ActionBucket.None;
+            if (actions.Count > 0) lastAction = actions[plays - 1];
             ActionBucket secondLastAction = ActionBucket.None;
-            if(actions.Count > 1) secondLastAction = actions[actions.Count - 2];           
-
+            if(actions.Count > 1) secondLastAction = actions[plays - 2];
+            
+            bool nextActionCallEnabled = true;
             bool phaseChanged = false;
             switch (lastAction)
             {
                 case ActionBucket.Pass:
                     if (secondLastAction == ActionBucket.LowBet ||
-                                        secondLastAction == ActionBucket.HighBet ||
-                                        secondLastAction == ActionBucket.MediumBet)
+                        secondLastAction == ActionBucket.HighBet ||
+                        secondLastAction == ActionBucket.MediumBet)
                     {
                         int payoff = (newState.PotSize - newState.AmountToCall) / 2;
                         return (playerIndex == 0) ? payoff : -payoff;                        
                     }
 
-                    if (secondLastAction == ActionBucket.Pass)
+                    switch(secondLastAction)
                     {
-                        newState.NextPhase(newState.Phase);
-                        phaseChanged = true;                                            
-                    }
+                        case ActionBucket.None:
+                            return (playerIndex == 0) ? HeadsupGame.SmallBlindSize : -HeadsupGame.SmallBlindSize;
+                        case ActionBucket.Pass:
+                            newState.SetNextPhase(newState.Phase);
+                            phaseChanged = true;
+                            break;
+                    }             
 
                     nextActionCallEnabled = false;
                     break;
                 case ActionBucket.Call:
                     newState.PotSize += newState.AmountToCall;
-                    newState.NextPhase(newState.Phase);
+                    newState.SetNextPhase(newState.Phase);
                     newState.AmountToCall = 0;
                     phaseChanged = true;
                     break;
@@ -162,7 +178,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem
             var infoSet = new InformationSet<ActionBucket>()
             {
                 CardBucket = handBuckets[playerIndex],
-                Actions = actions
+                ActionHistory = actions
             };
 
             int numberOfActions = Settings.NumberOfActions;
@@ -172,7 +188,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem
             }
 
             RegretGameNode<ActionBucket> node = null;
-            var hash = infoSet.GetHashCode();
+            long hash = infoSet.GetLongHashCode();
             if (!GameNodes.TryGetValue(hash, out node))
             {              
                 node = new RegretGameNode<ActionBucket>(numberOfActions);
@@ -181,17 +197,24 @@ namespace PokerSimulation.Algorithms.TexasHoldem
             }
 
             var strategy = node.calculateStrategy(playerIndex == 0 ? probabilityPlayer1 : probabilityPlayer2);
-            var utilities = new List<float>(Settings.NumberOfActions) { 0, 0 };
+
+            // initialise list with zeros
+            var utilities = new List<float>(numberOfActions);
+            for (int i = 0; i < numberOfActions; i++)
+            {
+                utilities.Add(0);
+            }
+
             float nodeUtility = 0;
-
             int index = 0;
-
             foreach (ActionBucket nextAction in Enum.GetValues(typeof(ActionBucket)))
             {
+                //skip illegal actions
                 if (nextAction == ActionBucket.None) continue;
                 if (nextAction == ActionBucket.Call && !nextActionCallEnabled) continue;                
 
                 var nextHistory = new List<ActionBucket>();
+                nextHistory.AddRange(actions.ToArray());
                 nextHistory.Add(nextAction);
                 
                 utilities[index] = playerIndex == 0

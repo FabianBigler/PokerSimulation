@@ -9,14 +9,14 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
     public enum ActionBucket : byte
     {
         //Default value = None
-        None,
+        None = 0,
         // Pass, Check is considered to be the same action
-        Pass,
+        Pass = 1,
 
         // Bet has to be abstracted to buckets
-        Call,
-        LowBet, 
-        MediumBet, 
-        HighBet  
+        Call = 2,
+        LowBet = 3, 
+        MediumBet = 4, 
+        HighBet = 5  
     }
 }

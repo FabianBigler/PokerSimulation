@@ -16,7 +16,7 @@ namespace PokerSimulation.Game.Model
 
         public Guid Id { get
             {
-                return Entity.Id;
+                return Entity != null ? Entity.Id : Guid.Empty;   
             }
         }
 
@@ -24,11 +24,15 @@ namespace PokerSimulation.Game.Model
         {
             get
             {
-                return Entity.Name;
+                return Entity != null ? Entity.Name : string.Empty;
             }
         }
 
         protected HeadsupGame currentGame { get; set; }
+
+        public Player()
+        {
+        }
 
         public Player(PlayerEntity entity)
         {
@@ -72,7 +76,7 @@ namespace PokerSimulation.Game.Model
             return 0;
         }
 
-        public virtual GameActionEntity GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)
+        public virtual GameActionEntity GetAction(List<ActionType> possibleActions, int amountToCall)
         {
             throw new NotImplementedException("GetAction not implemented!");
         }

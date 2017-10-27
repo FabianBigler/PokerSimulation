@@ -19,18 +19,22 @@ namespace PokerSimulation.Algorithms.TexasHoldem
         public List<Card> Player1HoleCards;
         public List<Card> Player2HoleCards;
 
-        public GamePhase NextPhase(GamePhase phase)
+        public void SetNextPhase(GamePhase phase)
         {
             switch (phase)
             {
                 case GamePhase.PreFlop:
-                    return GamePhase.Flop;                    
+                    this.Phase =  GamePhase.Flop;
+                    break;           
                 case GamePhase.Flop:
-                    return GamePhase.Turn;                
+                    this.Phase = GamePhase.Turn;
+                    break;
                 case GamePhase.Turn:
-                    return GamePhase.River;
+                    this.Phase = GamePhase.River;
+                    break;
                 case GamePhase.River:
-                    return GamePhase.ShowDown;                                    
+                    this.Phase = GamePhase.ShowDown;
+                    break;
                 default:
                     throw new NotImplementedException(string.Format("State {0} is not supported", Phase));
             }            

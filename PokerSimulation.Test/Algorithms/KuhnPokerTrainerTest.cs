@@ -39,7 +39,7 @@ namespace PokerSimulation.Test.Algorithms
             var infoSet = new InformationSet<GameAction>()
             {
                 CardBucket = (int)CardValue.Jack,
-                Actions = new List<GameAction>() // No actions => first turn
+                ActionHistory = new List<GameAction>() // No actions => first turn
             };
 
             var gameNode = trainer.GameNodes[infoSet.GetHashCode()];
@@ -68,7 +68,7 @@ namespace PokerSimulation.Test.Algorithms
 
             infoSet.CardBucket = (int)CardValue.Queen;
             // player 1 checked first turn, Player 2 bet second turn.
-            infoSet.Actions = new List<GameAction>() { GameAction.Pass, GameAction.Bet };
+            infoSet.ActionHistory = new List<GameAction>() { GameAction.Pass, GameAction.Bet };
             gameNode = trainer.GameNodes[infoSet.GetHashCode()];
             averageStrategy = gameNode.calculateAverageStrategy();
 
@@ -89,7 +89,7 @@ namespace PokerSimulation.Test.Algorithms
             var infoSet = new InformationSet<GameAction>()
             {
                 CardBucket = (int)CardValue.Jack,
-                Actions = new List<GameAction>() { GameAction.Bet } // No actions => first turn
+                ActionHistory = new List<GameAction>() { GameAction.Bet } // No actions => first turn
             };
 
             var gameNode = trainer.GameNodes[infoSet.GetHashCode()];
@@ -111,7 +111,7 @@ namespace PokerSimulation.Test.Algorithms
 
             // Jack should bet 1/3 of the time after being passed (i.e. checked) to
             infoSet.CardBucket = (int)CardValue.Jack;
-            infoSet.Actions = new List<GameAction> { GameAction.Pass };
+            infoSet.ActionHistory = new List<GameAction> { GameAction.Pass };
             gameNode = trainer.GameNodes[infoSet.GetHashCode()];
             averageStrategy = gameNode.calculateAverageStrategy();
             betProbability = averageStrategy[(int)GameAction.Bet];

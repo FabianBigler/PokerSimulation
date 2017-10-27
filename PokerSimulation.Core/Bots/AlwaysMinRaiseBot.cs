@@ -14,7 +14,7 @@ namespace PokerSimulation.Core.Bots
         {
         }
 
-        public override GameActionEntity GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)
+        public override GameActionEntity GetAction(List<ActionType> possibleActions, int amountToCall)
         {
             if (possibleActions.Contains(ActionType.Raise))
             {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
 {
     public class ActionAbstracter
-    {     
+    {
         public static int GetBetSize(ActionBucket action, int amountToCall, int potSize)
         {
             int currentMoneyInPot = (potSize - amountToCall) / 2;
@@ -33,7 +33,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
             {
                 int betSizeFactor = 0;
                 if (amountToCall == HeadsupGame.SmallBlindSize)
-                {                    
+                {
                     betSizeFactor = HeadsupGame.BigBlindSize;
                 }
                 else
@@ -63,56 +63,95 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
             return betSize;
         }
 
-        //public static ActionBucket ToActionBucket(ActionType action, int amountToCall, int potSize)
-        //{            
-        //    switch(action)
-        //    {
-        //        case ActionType.Call:
-        //            return ActionBucket.Call;
-        //        case ActionType.Check:
-        //        case ActionType.Fold:
-        //            return ActionBucket.Pass;
-        //        case ActionType.Bet:
+        public static ActionBucket MapToBucket(ActionType action, int amountToCall, int potSize, int amount)
+        {
+            switch (action)
+            {
+                case ActionType.Call:
+                    return ActionBucket.Call;
+                case ActionType.Check:
+                case ActionType.Fold:
+                    return ActionBucket.Pass;
+                case ActionType.Bet:
+                case ActionType.Raise:
+                    int low = GetBetSize(ActionBucket.LowBet, amountToCall, potSize);
+                    int medium = GetBetSize(ActionBucket.MediumBet, amountToCall, potSize);
+                    int high = GetBetSize(ActionBucket.HighBet, amountToCall, potSize);
 
-        //            //TODO @fb                    
+                    if (amount <= low) return ActionBucket.LowBet;
+                    if (amount >= high) return ActionBucket.HighBet;
+                    if (amount == medium) return ActionBucket.MediumBet;
 
-        //        //-Bet ½ des Pots (in diesem Fall $4)
-        //        //-Bet ¾ des Pots (in diesem Fall $6)
-        //        //-Bet Grösse des Pots(in diesem Fall $8)
-        //        //- All - In(die verbleibenden $194)
+                    //the amount's nearest neighbours are LowBet and MediumBet                                     
+                    if (amount > low && amount < medium)
+                    {
+                        return getBucketByDistanceProbability(amount, low, medium, ActionBucket.LowBet, ActionBucket.MediumBet);         
+                    }
+                    //the amount's nearest neighbours are MediumBet and HighBet
+                    if (amount > medium && amount < high)
+                    {                        
+                        return getBucketByDistanceProbability(amount, medium, high, ActionBucket.MediumBet, ActionBucket.HighBet);
+                    }
+                    break;
+            }
 
-        //            break;
-        //        case ActionType.Raise:
-        //            //TODO @fb
-        //            break;
-        //    }
+            return ActionBucket.Pass;
+        }
 
-        //    return ActionBucket.Pass;
-        //}
+        public static ActionType MapToAction(ActionBucket action, int amountToCall)
+        {
+            switch (action)
+            {
+                case ActionBucket.Call:
+                    return ActionType.Call;
+                case ActionBucket.Pass:
+                    if(amountToCall == 0)
+                    {
+                        return ActionType.Check;
+                    } else
+                    {
+                        return ActionType.Fold;
+                    }
+                case ActionBucket.LowBet:
+                case ActionBucket.HighBet:
+                case ActionBucket.MediumBet:
+                    if(amountToCall == 0)
+                    {
+                        return ActionType.Bet;
+                    } else
+                    {
+                        return ActionType.Raise;
+                    }                                                             
+            }
 
-        //public static GameAction ToAction(ActionBucket bucket, int potSize, int amountToCall)
-        //{
-        //    var action = new GameAction();
-        //    switch(bucket)
-        //    {
-        //        case ActionBucket.Call:
+            return ActionType.Illegal;
+        }
 
-        //            break;              
-        //        case ActionBucket.HighBet:
-
-        //            break;
-        //        case ActionBucket.LowBet:
-
-        //            break;
-        //        case ActionBucket.MediumBet:
-
-        //            break;
-        //        case ActionBucket.Pass:
-
-        //            break;                
-        //    }
-
-        //    return action;
-        //}
+        /// <summary>
+        /// Minimise exploitability by mapping the bucket based on the distance to the nearest neighbours
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="low"></param>
+        /// <param name="high"></param>
+        /// <param name="lowBucket"></param>
+        /// <param name="highBucket"></param>
+        /// <returns></returns>
+        private static ActionBucket getBucketByDistanceProbability(int amount, int low, int high, ActionBucket lowBucket, ActionBucket highBucket)
+        {
+            var random = new Random();
+            int distanceAmountToLow = amount - low;
+            int distanceLowToHigh = high - low;
+            decimal probabilityHigh = (decimal)(distanceAmountToLow / distanceLowToHigh) * 100;
+            int probabilityHighPercentage = (int)Math.Round(probabilityHigh);
+            int randomValue = random.Next(1, 100);
+            if (randomValue <= probabilityHighPercentage)
+            {
+                return highBucket;
+            }
+            else
+            {
+                return lowBucket;
+            }
+        }       
     }
 }

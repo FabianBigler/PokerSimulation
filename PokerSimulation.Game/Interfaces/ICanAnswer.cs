@@ -6,6 +6,6 @@ namespace PokerSimulation.Game.Interfaces
 {
     public interface ICanPlay
     {
-        GameActionEntity GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall);
+        GameActionEntity GetAction(List<ActionType> possibleActions, int amountToCall);
     }
 }

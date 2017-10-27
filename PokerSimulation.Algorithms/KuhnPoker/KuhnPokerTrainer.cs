@@ -59,7 +59,7 @@ namespace PokerSimulation.Algorithms.KuhnPoker
             var infoSet = new InformationSet<GameAction>()
             {
                 CardBucket = cards[player],
-                Actions = actions
+                ActionHistory = actions
             };
 
             RegretGameNode<GameAction> node = null;

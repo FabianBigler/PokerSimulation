@@ -21,7 +21,11 @@ namespace PokerSimulation.Algorithms
         private List<float> strategy { get; set; }
 
         [ProtoMember(4)]
-        private List<float> strategySum { get; set; }        
+        private List<float> strategySum { get; set; }
+
+        public RegretGameNode()
+        {
+        }
 
         public RegretGameNode(int numberOfAction)
         {
@@ -29,7 +33,7 @@ namespace PokerSimulation.Algorithms
             strategy = new List<float>(numberOfAction);
             strategySum = new List<float>(numberOfAction);
 
-            //initialize lists with 0s
+            //initialise lists with 0s
             for (int i = 0;i < numberOfAction; i++)
             {
                 RegretSum.Add(0);
@@ -71,7 +75,7 @@ namespace PokerSimulation.Algorithms
                 if (normalizingSum > 0)
                     averageStrategy[i] = strategySum[i] / normalizingSum;
                 else
-                    averageStrategy[i] = 1.0f / Settings.NumberOfActions;
+                    averageStrategy[i] = 1.0f / strategy.Count;
             }
 
             return averageStrategy;

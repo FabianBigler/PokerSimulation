@@ -13,7 +13,7 @@ namespace PokerSimulation.Core.Bots
         {
         }
 
-        public override GameActionEntity GetAction(List<ActionType> possibleActions, HeadsupGame context, int amountToCall)
+        public override GameActionEntity GetAction(List<ActionType> possibleActions, int amountToCall)
         {            
             var rand = new Random();
             var randIndex = rand.Next(0, possibleActions.Count);
