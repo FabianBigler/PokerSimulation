@@ -4,9 +4,15 @@
 
 <div class="row">  
     <div class="col-md-12">
-        <h1>Session</h1>             
-        <div class="row">              
-            @Html.Action("LineChart", "Session", new { sessionId = @Model.Id })           
-        </div>                                                               
+        <h1>Session @Model.Id.ToString()</h1>             
+        <div id="SessionID" hidden>@Model.Id</div>        
+        <div class="row">                        
+            <h2>@Model.PlayerEntity1.Name vs @Model.PlayerEntity2.Name</h2>            
+                                    
+            <div id="stats"><p>Statistics loading...</p></div>
+        </div>         
+        
+       
+        @*@Html.Action("LineChart", "Session", new { sessionId = @Model.Id })*@                                                                         
     </div>
 </div>

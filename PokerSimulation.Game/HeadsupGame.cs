@@ -52,6 +52,7 @@ namespace PokerSimulation.Game
 
         private void initializeValues()
         {
+            Phase = GamePhase.PreFlop;
             Board.Clear();
             //reset chip stack after each round
             foreach(var player in players)
@@ -214,7 +215,7 @@ namespace PokerSimulation.Game
                             }
                             else
                             {
-                                possibleActions = new List<ActionType> { ActionType.Check, ActionType.Raise };
+                                possibleActions = new List<ActionType> { ActionType.Check, ActionType.Bet };
                             }
                             playerToAct.ChipStack -= playerAction.Amount;
                             PotSize += playerAction.Amount;
@@ -223,11 +224,12 @@ namespace PokerSimulation.Game
                             {
                                 goToShowdown = true;
                             }
+                            amountToCall = 0;
                             break;
                         case ActionType.Check:
                             if (bothPlayersActed)
                                 bettingRoundFinished = true;
-                            playerToAct.AmountAlreadyInPotThisRound = 0;
+                            playerToAct.AmountAlreadyInPotThisRound = 0;                            
                             break;
                         case ActionType.Fold:
                             bettingRoundFinished = true;

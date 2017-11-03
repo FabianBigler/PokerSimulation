@@ -27,10 +27,10 @@ namespace PokerSimulation.Core.Bots
                     break;
                 case ActionType.Raise:
                     if (amountToCall < HeadsupGame.BigBlindSize )
-                    {
+                    {                    
                         amount = HeadsupGame.BigBlindSize * HeadsupGame.MinAmountToBetFactor;
                     } else
-                    {
+                    {                        
                         amount = amountToCall * HeadsupGame.MinAmountToBetFactor;
                     }                    
                     break;

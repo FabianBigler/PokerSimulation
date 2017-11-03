@@ -24,23 +24,23 @@ namespace PokerSimulation.Test.Algorithms
             Assert.AreEqual(expectedBetSize, betSize);
 
             betSize = ActionAbstracter.GetBetSize(ActionBucket.HighBet, 10, 30);
-            expectedBetSize = 190;
+            expectedBetSize = 90;
             Assert.AreEqual(expectedBetSize, betSize);
         }
 
         [TestMethod]
         public void GetBetSizeBigPotRaiseTest()
         {
-            int betSize = ActionAbstracter.GetBetSize(ActionBucket.LowBet, 20, 380);
-            int expectedBetSize = 20;
+            int betSize = ActionAbstracter.GetBetSize(ActionBucket.LowBet, 20, 190);
+            int expectedBetSize = 10;
             Assert.AreEqual(expectedBetSize, betSize);
             
-            betSize = ActionAbstracter.GetBetSize(ActionBucket.MediumBet, 10, 380);
-            expectedBetSize = 15;
+            betSize = ActionAbstracter.GetBetSize(ActionBucket.MediumBet, 10, 190);
+            expectedBetSize = 10;
             Assert.AreEqual(expectedBetSize, betSize);
 
-            betSize = ActionAbstracter.GetBetSize(ActionBucket.HighBet, 10, 300);
-            expectedBetSize = 55;
+            betSize = ActionAbstracter.GetBetSize(ActionBucket.HighBet, 10, 190);
+            expectedBetSize = 10;
             Assert.AreEqual(expectedBetSize, betSize);
         }
 
@@ -57,23 +57,23 @@ namespace PokerSimulation.Test.Algorithms
             Assert.AreEqual(expectedBetSize, betSize);
 
             betSize = ActionAbstracter.GetBetSize(ActionBucket.HighBet, 0, 30);
-            expectedBetSize = 185;
+            expectedBetSize = 85;
             Assert.AreEqual(expectedBetSize, betSize);
         }
 
         [TestMethod]
         public void GetBetSizeBigPotBetTest()
         {
-            int betSize = ActionAbstracter.GetBetSize(ActionBucket.LowBet, 0, 380);
+            int betSize = ActionAbstracter.GetBetSize(ActionBucket.LowBet, 0, 180);
             int expectedBetSize = 10;
             Assert.AreEqual(expectedBetSize, betSize);
 
-            betSize = ActionAbstracter.GetBetSize(ActionBucket.MediumBet, 0, 380);
+            betSize = ActionAbstracter.GetBetSize(ActionBucket.MediumBet, 0, 180);
             expectedBetSize = 10;
             Assert.AreEqual(expectedBetSize, betSize);
 
-            betSize = ActionAbstracter.GetBetSize(ActionBucket.HighBet, 0, 300);
-            expectedBetSize = 50;
+            betSize = ActionAbstracter.GetBetSize(ActionBucket.HighBet, 0, 150);
+            expectedBetSize = 25;
             Assert.AreEqual(expectedBetSize, betSize);
         }
     }

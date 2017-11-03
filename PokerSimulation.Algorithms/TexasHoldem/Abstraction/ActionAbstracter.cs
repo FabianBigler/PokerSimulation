@@ -11,7 +11,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
     public class ActionAbstracter
     {
         public static int GetBetSize(ActionBucket action, int amountToCall, int potSize)
-        {
+        {            
             int currentMoneyInPot = (potSize - amountToCall) / 2;
             int betSize = 0;
             if (amountToCall == 0)
@@ -27,7 +27,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
                     case ActionBucket.LowBet:
                         betSize = potSize / 2;
                         break;
-                }
+                }                                
             }
             else
             {
@@ -55,9 +55,23 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
                 }
             }
 
-            if ((betSize + currentMoneyInPot) > HeadsupGame.StackSize)
+            //if ((betSize + currentMoneyInPot) > HeadsupGame.StackSize)
+            if (potSize + betSize > HeadsupGame.StackSize * 2)
             {
-                betSize = HeadsupGame.StackSize - currentMoneyInPot;
+                int opponentMoneyInPot = potSize - currentMoneyInPot;
+                int maxAmountOpponentCanCall = HeadsupGame.StackSize - opponentMoneyInPot;
+                if(maxAmountOpponentCanCall > 0)
+                {
+                    betSize = amountToCall + maxAmountOpponentCanCall;
+                } else {
+                    betSize = (HeadsupGame.StackSize * 2 - potSize);
+                }
+
+                //betSize = (HeadsupGame.StackSize - currentMoneyInPot);                
+                if (betSize < 0)
+                {
+                    betSize = 0;
+                }            
             }
 
             return betSize;

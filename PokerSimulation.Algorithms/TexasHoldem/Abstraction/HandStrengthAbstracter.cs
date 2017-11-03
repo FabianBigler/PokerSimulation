@@ -23,8 +23,8 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
             {
                 var pairValue = topCards.First().Value;
                 var boardOrderedByValue = board.OrderBy(x => x.Value);
-                var topValue = boardOrderedByValue.First().Value;
-                var lowestValue = boardOrderedByValue.Last().Value;
+                var lowestValue = boardOrderedByValue.First().Value;
+                var topValue = boardOrderedByValue.Last().Value;
 
                 if (pairValue >= topValue)
                 {

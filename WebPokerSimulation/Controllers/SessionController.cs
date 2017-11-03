@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using System.Linq;
 using WebPokerSimulation.Game;
 using PokerSimulation.Game.Entities;
+using WebPokerSimulation.Model;
+using PokerSimulation.Game;
 
 namespace WebPokerSimulation.Controllers
 {
@@ -66,6 +68,33 @@ namespace WebPokerSimulation.Controllers
         {            
             var session = sessionRepository.GetById(sessionID);
             return View(session);
+        }
+
+        [HttpGet]
+        public ActionResult GetStatistics(Guid sessionID)
+        {
+            var session = sessionRepository.GetById(sessionID);
+            var stats = new SessionStatistics();
+
+            var playedHands = playedHandRepository.GetAllBySessionId(sessionID);
+
+            int player1Sum = playedHands.Where(x => x.WinnerId == session.Player1Id).Sum(x => x.AmountWon);
+            int player2Sum = playedHands.Where(x => x.WinnerId == session.Player2Id).Sum(x => x.AmountWon);
+
+            int diff = player1Sum - player2Sum;
+            if(diff > 0)
+            {
+                stats.Winner = session.PlayerEntity1.Name;                                
+            } else
+            {
+                stats.Winner = session.PlayerEntity2.Name;
+            }
+
+            int diffAbs = Math.Abs(diff);
+            stats.TotalAmountWon = diffAbs;
+            stats.TotalBigBlindsWon = (decimal)diffAbs / HeadsupGame.BigBlindSize;
+            stats.PlayedHandsCount = playedHands.Count();
+            return Json(stats, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

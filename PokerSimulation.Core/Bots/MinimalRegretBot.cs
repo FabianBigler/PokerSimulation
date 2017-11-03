@@ -23,7 +23,10 @@ namespace PokerSimulation.Core.Bots
 
         public MinimalRegretBot(PlayerEntity entity) : base(entity)
         {
-            var fs = new FileStream("cfr-tree.proto", FileMode.Open);
+            var appDomain = System.AppDomain.CurrentDomain;
+            var basePath = appDomain.RelativeSearchPath ?? appDomain.BaseDirectory;
+            var filePath = Path.Combine(basePath, "CFR", "cfr-tree.proto");
+            var fs = new FileStream(filePath, FileMode.Open);
             trainedTree = Serializer.Deserialize<Dictionary<long, RegretGameNode<ActionBucket>>>(fs);                                 
         }
 
@@ -63,8 +66,14 @@ namespace PokerSimulation.Core.Bots
             RegretGameNode<ActionBucket> gameNode;
             trainedTree.TryGetValue(infoSet.GetLongHashCode(), out gameNode);
             if(gameNode == null)
-            {
-                throw new Exception("Information Set not found");                  
+            {                
+                //throw new Exception("Information Set not found"); 
+                return new GameActionEntity
+                {
+                    ActionType = possibleActions[0],
+                    Amount = 0,
+                    PlayerId = this.Id
+                };
             } else
             {
                 var optimalStrategy = gameNode.calculateAverageStrategy();
@@ -80,27 +89,47 @@ namespace PokerSimulation.Core.Bots
                     if (action == ActionBucket.None) continue;
                     if (action == ActionBucket.Call && !isCallActionEnabled) continue;
 
-                    double newPercent = sumPercent + optimalStrategy[index];                    
-                    if(randomValue >= sumPercent && randomValue <= optimalStrategy[index])
+                    double newSumPercent = sumPercent + optimalStrategy[index];                    
+                    if(randomValue >= sumPercent && randomValue <= newSumPercent)
                     {
                         selectedActionBucket = action;
                         break;
                     }
 
-                    sumPercent += optimalStrategy[index];
+                    sumPercent = newSumPercent;
                     index++;
                 }
                 
                 ActionType selectedAction= ActionAbstracter.MapToAction(selectedActionBucket, amountToCall);
                 int betSize = 0;   
-                if(selectedAction == ActionType.Bet || selectedAction == ActionType.Raise)
+                switch(selectedAction)
                 {
-                    betSize = ActionAbstracter.GetBetSize(selectedActionBucket, amountToCall, currentGame.PotSize);
+                    case ActionType.Bet:
+                    case ActionType.Raise:
+                        betSize = ActionAbstracter.GetBetSize(selectedActionBucket, amountToCall, currentGame.PotSize);
+                        break;
+                    case ActionType.Call:
+                        betSize = amountToCall;
+                        break;
                 }
+          
 
                 if(!possibleActions.Contains(selectedAction))
                 {
-                    throw new Exception("Selected action is illegal!");
+                    // in all-in scenarios actions from bot may differ from possible actions
+                    switch (selectedAction)
+                    {
+                        case ActionType.Bet:
+                        case ActionType.Raise:
+                        case ActionType.Check:
+                            if (possibleActions.Contains(ActionType.Call))
+                            {
+                                selectedAction = ActionType.Call;
+                            }
+                            break;
+                        default:
+                            throw new Exception("Selected action is illegal!");
+                    }                               
                 }
 
                 return new GameActionEntity
