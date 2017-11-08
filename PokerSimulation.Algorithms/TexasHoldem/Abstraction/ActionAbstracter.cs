@@ -27,7 +27,12 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
                     case ActionBucket.LowBet:
                         betSize = potSize / 2;
                         break;
-                }                                
+                }                    
+                
+                if(betSize + currentMoneyInPot > HeadsupGame.StackSize)
+                {
+                    betSize = HeadsupGame.StackSize - currentMoneyInPot;
+                }
             }
             else
             {
@@ -54,8 +59,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
                         break;
                 }
             }
-
-            //if ((betSize + currentMoneyInPot) > HeadsupGame.StackSize)
+           
             if (potSize + betSize > HeadsupGame.StackSize * 2)
             {
                 int opponentMoneyInPot = potSize - currentMoneyInPot;
@@ -66,12 +70,11 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
                 } else {
                     betSize = (HeadsupGame.StackSize * 2 - potSize);
                 }
-
-                //betSize = (HeadsupGame.StackSize - currentMoneyInPot);                
+                           
                 if (betSize < 0)
                 {
                     betSize = 0;
-                }            
+                }                     
             }
 
             return betSize;

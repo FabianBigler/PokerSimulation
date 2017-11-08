@@ -42,9 +42,11 @@ namespace PokerSimulation.Test.Algorithms
                         getProbability(ActionBucket.HighBet, optimalStrategy);
             float totalProbability = passProbability + callProbability + betProbability;
 
-            //bet and call  probability should be higher than pass probability (it does not make sense to fold with very good hands)        
+            // given the best hand the bet probability should be higher than either call or pass probability           
             Assert.IsTrue(betProbability > passProbability);
-            Assert.IsTrue(callProbability > passProbability);
+            Assert.IsTrue(betProbability > callProbability);
+            // call probability must be higher than pass probability
+            Assert.IsTrue(callProbability > passProbability);            
         }
 
         [TestMethod]
@@ -75,9 +77,10 @@ namespace PokerSimulation.Test.Algorithms
                         getProbability(ActionBucket.HighBet, optimalStrategy);
             float totalProbability = passProbability + callProbability + betProbability;
 
-            //bet and call  probability should be higher than pass probability (it does not make sense to fold with very good hands)        
-            Assert.IsTrue(betProbability > passProbability);
-            Assert.IsTrue(callProbability > passProbability);
+            // calling is not possible
+            Assert.IsTrue(callProbability == 0);     
+            // bet probability must be much higher than passing  
+            Assert.IsTrue(betProbability > passProbability);            
         }
 
         [TestMethod]
@@ -146,6 +149,13 @@ namespace PokerSimulation.Test.Algorithms
                         
             Assert.IsTrue(totalProbability < (1 + tolerance));
             Assert.IsTrue(totalProbability > (1 - tolerance));
+        }
+
+        [TestMethod]
+        public void NumberOfStatesTest()
+        {
+            int expectedCount = 95716;
+            Assert.IsTrue(trainedTree.Count == expectedCount);            
         }
 
         private List<float> getOptimalStrategy(byte handBucket, List<ActionBucket> actions)

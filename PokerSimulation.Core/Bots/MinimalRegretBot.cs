@@ -18,16 +18,22 @@ namespace PokerSimulation.Core.Bots
     {        
         private Dictionary<long, RegretGameNode<ActionBucket>> trainedTree;
         private byte handBucket;
-        private List<ActionBucket> actionHistory;        
-        
+        private List<ActionBucket> actionHistory;
+        Object thisLock = new Object();
+
 
         public MinimalRegretBot(PlayerEntity entity) : base(entity)
         {
-            var appDomain = System.AppDomain.CurrentDomain;
-            var basePath = appDomain.RelativeSearchPath ?? appDomain.BaseDirectory;
-            var filePath = Path.Combine(basePath, "CFR", "cfr-tree.proto");
-            var fs = new FileStream(filePath, FileMode.Open);
-            trainedTree = Serializer.Deserialize<Dictionary<long, RegretGameNode<ActionBucket>>>(fs);                                 
+            lock(thisLock)
+            {
+                var appDomain = System.AppDomain.CurrentDomain;
+                var basePath = appDomain.RelativeSearchPath ?? appDomain.BaseDirectory;
+                var filePath = Path.Combine(basePath, "CFR", "cfr-tree.proto");
+                using (var fs = new FileStream(filePath, FileMode.Open))
+                {
+                    trainedTree = Serializer.Deserialize<Dictionary<long, RegretGameNode<ActionBucket>>>(fs);
+                }                    
+            }           
         }
 
         public override void DealHoleCards(Card card1, Card card2)

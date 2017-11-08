@@ -18,21 +18,39 @@ namespace PokerSimulation.Core.Bots
             var rand = new Random();
             var randIndex = rand.Next(0, possibleActions.Count);
 
-            var actionType = possibleActions[randIndex];
-            var amount = 0;
+            ActionType actionType = possibleActions[randIndex];
+            int amount = 0;
+            int minAmount;
             switch(actionType)
             {
                 case ActionType.Bet:
-                    amount = HeadsupGame.BigBlindSize;
+                    minAmount = HeadsupGame.BigBlindSize;
+                    
+                    if(minAmount < ChipStack)
+                    {
+                        amount = rand.Next(minAmount, ChipStack);
+                    } else
+                    {
+                        amount = rand.Next(ChipStack, minAmount);
+                    }                    
                     break;
                 case ActionType.Raise:
                     if (amountToCall < HeadsupGame.BigBlindSize )
-                    {                    
-                        amount = HeadsupGame.BigBlindSize * HeadsupGame.MinAmountToBetFactor;
+                    {                                            
+                        minAmount = HeadsupGame.BigBlindSize * HeadsupGame.MinAmountToBetFactor;
                     } else
-                    {                        
-                        amount = amountToCall * HeadsupGame.MinAmountToBetFactor;
-                    }                    
+                    {
+                        minAmount = amountToCall * HeadsupGame.MinAmountToBetFactor;
+                    }
+
+                    if (minAmount < ChipStack)
+                    {
+                        amount = rand.Next(minAmount, ChipStack);
+                    }
+                    else
+                    {
+                        amount = rand.Next(ChipStack, minAmount);
+                    }
                     break;
                 case ActionType.Call:
                     amount = amountToCall;

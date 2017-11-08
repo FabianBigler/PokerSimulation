@@ -44,7 +44,7 @@ namespace PokerSimulation.TrainingConsole
         {
             var dealer = new RandomDealer();
             var trainer = new TexasHoldemTrainer(dealer);
-            int numberOfTrainings = 1000;
+            int numberOfTrainings = 10000;
             int handsPerTraining = 100;
             int handsCounter = 0;
             int numberOfTotalhands = numberOfTrainings * handsPerTraining;
