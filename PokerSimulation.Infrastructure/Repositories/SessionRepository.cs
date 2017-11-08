@@ -26,7 +26,7 @@ namespace PokerSimulation.Infrastructure.Repositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sessions = db.Query<SessionEntity>("SELECT * FROM Session");
+                var sessions = db.Query<SessionEntity>("SELECT * FROM Session ORDER BY [Created] DESC");
                 foreach (var session in sessions)
                 {
                     session.PlayerEntity1 = playerRepository.GetById(session.Player1Id);
@@ -44,8 +44,8 @@ namespace PokerSimulation.Infrastructure.Repositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlInsert = @"INSERT INTO [dbo].[Session](
-                                    [Id],[Player1Id],[Player2Id],[State],[TotalHandsCount],[PlayedHandsCount]) 
-                                    VALUES (@Id,@Player1Id,@Player2Id,@State, @TotalHandsCount, @PlayedHandsCount)";
+                                    [Id],[Player1Id],[Player2Id],[State],[TotalHandsCount],[PlayedHandsCount], [Created]) 
+                                    VALUES (@Id,@Player1Id,@Player2Id,@State, @TotalHandsCount, @PlayedHandsCount, @Created)";
                 db.Execute(sqlInsert,
                     new
                     {
@@ -54,7 +54,8 @@ namespace PokerSimulation.Infrastructure.Repositories
                         Player2Id = session.Player2Id,
                         State = session.State,
                         TotalHandsCount = session.TotalHandsCount,
-                        PlayedHandsCount = session.PlayedHandsCount
+                        PlayedHandsCount = session.PlayedHandsCount,
+                        Created = DateTime.Now                     
                     });
             }
 

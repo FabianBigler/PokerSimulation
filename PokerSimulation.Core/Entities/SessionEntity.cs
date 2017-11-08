@@ -13,7 +13,8 @@ namespace PokerSimulation.Core.Entities
         public Guid Player2Id { get; set; }      
         public SessionState State { get; set; }
         public int TotalHandsCount { get; set; }
-        public int PlayedHandsCount { get;  set; }        
+        public int PlayedHandsCount { get;  set; }     
+        public DateTime Created { get; set; }   
                 
         public PlayerEntity PlayerEntity1 { get; set; }        
         public PlayerEntity PlayerEntity2 { get; set; }     

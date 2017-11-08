@@ -20,6 +20,10 @@ namespace PokerSimulation.Core.Model
                     return new RandomBot(playerEntity);
                 case PlayerType.CounterFactualRegret:
                     return new MinimalRegretBot(playerEntity);
+                case PlayerType.AlwaysFold:
+                    return new AlwaysFoldBot(playerEntity);
+                case PlayerType.OpponentModelling:
+                    return new OpponentModellingBot(playerEntity);
                 default:
                     throw new NotImplementedException("PlayerType not implemented in PlayerFactory!");                    
             }

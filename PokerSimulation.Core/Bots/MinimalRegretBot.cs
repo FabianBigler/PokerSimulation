@@ -52,8 +52,7 @@ namespace PokerSimulation.Core.Bots
 
 
         private void Game_PlayerActed(Guid playerId, ActionType action, int amountToCall, int amount)
-        {
-            //if (this.Id == playerId) return;
+        {            
             var actionBucket = ActionAbstracter.MapToBucket(action, amountToCall, currentGame.PotSize,amount);
             actionHistory.Add(actionBucket);         
         }
@@ -137,6 +136,8 @@ namespace PokerSimulation.Core.Bots
                             throw new Exception("Selected action is illegal!");
                     }                               
                 }
+
+                if (ChipStack < betSize) betSize = this.ChipStack;
 
                 return new GameActionEntity
                 {
