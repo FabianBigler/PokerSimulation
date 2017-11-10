@@ -17,6 +17,7 @@ namespace PokerSimulation.Core.Bots
 
         public override GameActionEntity GetAction(List<ActionType> possibleActions, int amountToCall)
         {
+
             throw new NotImplementedException();     
         }
     }

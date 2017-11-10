@@ -55,13 +55,17 @@
     <Compile Include="TexasHoldem\Abstraction\StartHandAbstracter.cs" />
     <Compile Include="TexasHoldem\Abstraction\HandStrengthBucket.cs" />
     <Compile Include="TexasHoldem\Abstraction\StartHandBucket.cs" />
-    <Compile Include="TexasHoldem\HeadsUpGameState.cs" />
-    <Compile Include="TexasHoldem\Settings.cs" />
+    <Compile Include="TexasHoldem\CounterFactualRegret\HeadsUpGameState.cs" />
+    <Compile Include="TexasHoldem\CounterFactualRegret\Settings.cs" />
     <Compile Include="KuhnPoker\KuhnPokerTrainer.cs" />
     <Compile Include="RegretGameNode.cs" />
     <Compile Include="Infoset.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TexasHoldem\TexasHoldemTrainer.cs" />
+    <Compile Include="TexasHoldem\CounterFactualRegret\TexasHoldemTrainer.cs" />
+    <Compile Include="TexasHoldem\OpponentModelling\FeatureAction.cs" />
+    <Compile Include="TexasHoldem\OpponentModelling\Precondition.cs" />
+    <Compile Include="TexasHoldem\OpponentModelling\Feature.cs" />
+    <Compile Include="TexasHoldem\OpponentModelling\Opponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

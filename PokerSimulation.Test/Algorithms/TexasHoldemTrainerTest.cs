@@ -2,6 +2,7 @@
 using PokerSimulation.Algorithms;
 using PokerSimulation.Algorithms.TexasHoldem;
 using PokerSimulation.Algorithms.TexasHoldem.Abstraction;
+using PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret;
 using PokerSimulation.Game.Enumerations;
 using PokerSimulation.Game.Model;
 using PokerSimulation.Test.Core;
