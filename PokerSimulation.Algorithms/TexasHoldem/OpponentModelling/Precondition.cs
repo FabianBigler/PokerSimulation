@@ -9,7 +9,13 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
 {
     public class Precondition
     {        
-        public bool IsInPosition { get; set; }
-        public List<ActionBucket> LastActions { get; set; }
+        public Positioning Positioning { get; set; }
+        public Aggression Aggression { get; set; }
+        public List<FeatureAction> LastActions { get; set; }
+
+        public Precondition()
+        {
+            LastActions = new List<FeatureAction>();
+        }
     }
 }

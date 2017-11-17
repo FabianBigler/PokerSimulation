@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace PokerSimulation.Game.Enumerations
 {
-    public enum GamePhase
+    public enum GamePhase : byte
     {
         PreFlop,
         Flop,
         Turn,
         River,
-        ShowDown                    
+        Showdown                    
     }
 }

@@ -33,7 +33,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
                     this.Phase = GamePhase.River;
                     break;
                 case GamePhase.River:
-                    this.Phase = GamePhase.ShowDown;
+                    this.Phase = GamePhase.Showdown;
                     break;
                 default:
                     throw new NotImplementedException(string.Format("State {0} is not supported", Phase));

@@ -59,7 +59,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
                     AmountToCall = HeadsupGame.SmallBlindSize
                 };
 
-                CalculateCounterFactualRegret(initialState, handBuckets, new List<ActionBucket>(), 1, 1, 0);
+                CalculateCounterFactualRegret(initialState, handBuckets, new List<ActionBucket>(), 1, 1);
             }
         }
 
@@ -72,16 +72,16 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
         /// <param name="probabilityPlayer1"></param>
         /// <param name="probabilityPlayer2"></param>
         /// <returns></returns>
-        private float CalculateCounterFactualRegret(HeadsUpGameState gameState, byte[] handBuckets, List<ActionBucket> actions, float probabilityPlayer1, float probabilityPlayer2, int depth)
+        private float CalculateCounterFactualRegret(HeadsUpGameState gameState, byte[] handBuckets, List<ActionBucket> actions, float probabilityPlayer1, float probabilityPlayer2)
         {
             int plays = actions.Count;
             int playerIndex = plays % 2;
+
             var newState = gameState.GetCopy();
             ActionBucket lastAction = ActionBucket.None;
             if (actions.Count > 0) lastAction = actions[plays - 1];
             ActionBucket secondLastAction = ActionBucket.None;
-            if (actions.Count > 1) secondLastAction = actions[plays - 2];
-            depth++;            
+            if (actions.Count > 1) secondLastAction = actions[plays - 2];            
 
             bool nextActionCallEnabled = true;
             bool phaseChanged = false;
@@ -178,20 +178,20 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
                         if(newState.PotSize >= HeadsupGame.StackSize * 2)
                         {
                             phaseChanged = true;
-                            newState.Phase = GamePhase.ShowDown;
+                            newState.Phase = GamePhase.Showdown;
                         }
                     }
                     else
                     {
                         phaseChanged = true;
-                        newState.Phase = GamePhase.ShowDown;
+                        newState.Phase = GamePhase.Showdown;
                     }
                     break;
             }
 
             if (phaseChanged)
             {
-                if (newState.Phase == GamePhase.ShowDown)
+                if (newState.Phase == GamePhase.Showdown)
                 {
                     int payoff = newState.PotSize / 2;
                     var handComparison = HandComparer.Compare(newState.Player1HoleCards, newState.Player2HoleCards, newState.Board);
@@ -265,23 +265,14 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
             {
                 //skip illegal actions
                 if (nextAction == ActionBucket.None) continue;
-                if (nextAction == ActionBucket.Call && !nextActionCallEnabled) continue;
-
-                if(depth == 2)
-                {
-                    Debug.WriteLine(nextAction);
-                    if (nextAction == ActionBucket.LowBet)
-                    {
-
-                    }
-                }
+                if (nextAction == ActionBucket.Call && !nextActionCallEnabled) continue;           
                 var nextHistory = new List<ActionBucket>();
                 nextHistory.AddRange(actions.ToArray());
                 nextHistory.Add(nextAction);                                
 
                 utilities[index] = playerIndex == 0
-                    ? -CalculateCounterFactualRegret(newState, handBuckets, nextHistory, probabilityPlayer1 * strategy[index], probabilityPlayer2, depth)
-                   : -CalculateCounterFactualRegret(newState, handBuckets, nextHistory, probabilityPlayer1, probabilityPlayer2 * strategy[index], depth);
+                    ? -CalculateCounterFactualRegret(newState, handBuckets, nextHistory, probabilityPlayer1 * strategy[index], probabilityPlayer2)
+                   : -CalculateCounterFactualRegret(newState, handBuckets, nextHistory, probabilityPlayer1, probabilityPlayer2 * strategy[index]);
 
                 nodeUtility += strategy[index] * utilities[index];
                 index++;

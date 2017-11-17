@@ -63,6 +63,8 @@
     <Compile Include="Algorithms\ActionAbstracterTest.cs" />
     <Compile Include="Algorithms\HandStrengthAbstracterTest.cs" />
     <Compile Include="Algorithms\KuhnPokerTrainerTest.cs" />
+    <Compile Include="Algorithms\OpponentModelling\OpponentSerializerTest.cs" />
+    <Compile Include="Algorithms\OpponentModelling\OpponentTest.cs" />
     <Compile Include="Algorithms\StartHandAbstracterTest.cs" />
     <Compile Include="Algorithms\TexasHoldemCfrTreeTest.cs" />
     <Compile Include="Algorithms\TexasHoldemTrainerTest.cs" />

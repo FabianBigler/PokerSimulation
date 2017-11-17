@@ -44,8 +44,8 @@ namespace PokerSimulation.Test.Algorithms
         [TestMethod]
         public void TrainedOneHandTest()
         {
-            // this number heavily depends on abstraction (i.e. stack size, bet size, hand strength and actions)
-            int numberOfStatesPerBucket = 15889;           
+            // this number highly depends on abstraction (i.e. stack size, bet size, hand strength and actions)
+            int numberOfStatesPerBucket = 15908;           
             Assert.AreEqual(numberOfStatesPerBucket, trainer.GameNodes.Count);
 
             //check if information sets are complete

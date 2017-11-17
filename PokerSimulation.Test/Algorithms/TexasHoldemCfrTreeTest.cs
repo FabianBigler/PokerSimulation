@@ -154,7 +154,7 @@ namespace PokerSimulation.Test.Algorithms
         [TestMethod]
         public void NumberOfStatesTest()
         {
-            int expectedCount = 95716;
+            int expectedCount = 95830;
             Assert.IsTrue(trainedTree.Count == expectedCount);            
         }
 

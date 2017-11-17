@@ -8,6 +8,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
 {
     public enum HandStrengthBucket : byte
     {
+        None = 0,
         // Very low hand
         HighCardElse = 1,
         // No card hit, but at least there is an Ace High Card

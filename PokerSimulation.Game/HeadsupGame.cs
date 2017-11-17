@@ -17,6 +17,8 @@ namespace PokerSimulation.Game
         public event ChangedPhaseEventHandler ChangedPhase;
         public delegate void PlayerActedEventHandler(Guid playerId, ActionType action, int amountToCall, int amount);
         public event PlayerActedEventHandler PlayerActed;
+        public delegate void OnAfterShowdownEventHandler(Guid winnerId);
+        public event OnAfterShowdownEventHandler OnAfterShowdown;
 
         public const int BigBlindSize = 2;
         public const int SmallBlindSize = 1;
@@ -85,7 +87,7 @@ namespace PokerSimulation.Game
             }
             dealer.DealHoleCards(players);
             result.HoleCards1 = players[0].HoleCards.ToAbbreviations();
-            result.HoleCards2 = players[1].HoleCards.ToAbbreviations();
+            result.HoleCards2 = players[1].HoleCards.ToAbbreviations();            
         }
 
         public void StartNextPhase(GamePhase phase, out List<ActionType> possibleActions, out int firstAmountToCall)
@@ -119,8 +121,7 @@ namespace PokerSimulation.Game
             var bigBlindPlayer = players.First(x => x.IsBigBlind);
 
             var possibleActions = new List<ActionType> { ActionType.Fold, ActionType.Call, ActionType.Raise };                      
-            var firstAmountToCall = SmallBlindSize;
-            //in headsup: the small blind acts first before the Flop  
+            var firstAmountToCall = SmallBlindSize;            
             playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, playedHand, out roundFinished, out goToShowdown);
             if (roundFinished)
             {                
@@ -130,7 +131,7 @@ namespace PokerSimulation.Game
             StartNextPhase(GamePhase.Flop, out possibleActions, out firstAmountToCall);
             if (!goToShowdown)
             {                
-                playBettingRound(bigBlindPlayer, smallBlindPlayer, possibleActions, firstAmountToCall, playedHand, out roundFinished, out goToShowdown);
+                playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, playedHand, out roundFinished, out goToShowdown);
                 if (roundFinished)
                 {
                     playedHand.Board = this.Board.ToAbbreviations();
@@ -161,6 +162,8 @@ namespace PokerSimulation.Game
             }
 
             showDown(smallBlindPlayer, bigBlindPlayer, playedHand);
+
+            onAfterShowdown(playedHand.WinnerId);
             playedHand.Board = this.Board.ToAbbreviations();
             return playedHand;
         }
@@ -334,6 +337,14 @@ namespace PokerSimulation.Game
             {
                 ChangedPhase(board, phase);
             }            
+        }
+
+        private void onAfterShowdown(Guid winnerId)
+        {            
+            if (OnAfterShowdown != null)
+            {
+                OnAfterShowdown(winnerId);
+            }
         }
     }
 }

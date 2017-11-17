@@ -7,3 +7,13 @@
    at PokerSimulation.Core.Model.PlayerFactory.GetPlayer(PlayerEntity playerEntity) in C:\Projekte\PokerSimulation\PokerSimulation.Core\Model\PlayerFactory.cs:line 22
    at PokerSimulation.Core.Model.Session..ctor(SessionEntity entity, IRepository`1 sessionRepository, IRepository`1 playedHandRepository) in C:\Projekte\PokerSimulation\PokerSimulation.Core\Model\Session.cs:line 55
    at PokerSimulation.Core.SessionScheduler.StartNewSession(SessionEntity sessionEntity) in C:\Projekte\PokerSimulation\PokerSimulation.Core\SessionScheduler.cs:line 31
+15.11.17 16:19:41:System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\Projekte\PokerSimulation\WebPokerSimulation\bin\OpponentModelling\opponent.xml'.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode)
+   at PokerSimulation.Algorithms.TexasHoldem.OpponentModelling.OpponentSerializer.Deserialize() in C:\Projekte\PokerSimulation\PokerSimulation.Algorithms\TexasHoldem\OpponentModelling\OpponentSerializer.cs:line 33
+   at PokerSimulation.Core.Bots.OpponentModellingBot..ctor(PlayerEntity entity) in C:\Projekte\PokerSimulation\PokerSimulation.Core\Bots\OpponentModellingBot.cs:line 32
+   at PokerSimulation.Core.Model.PlayerFactory.GetPlayer(PlayerEntity playerEntity) in C:\Projekte\PokerSimulation\PokerSimulation.Core\Model\PlayerFactory.cs:line 26
+   at PokerSimulation.Core.Model.Session..ctor(SessionEntity entity, IRepository`1 sessionRepository, IRepository`1 playedHandRepository) in C:\Projekte\PokerSimulation\PokerSimulation.Core\Model\Session.cs:line 55
+   at PokerSimulation.Core.SessionScheduler.StartNewSession(SessionEntity sessionEntity) in C:\Projekte\PokerSimulation\PokerSimulation.Core\SessionScheduler.cs:line 31

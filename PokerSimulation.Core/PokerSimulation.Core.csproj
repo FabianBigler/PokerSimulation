@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\FeatureActionMapper.cs" />
     <Compile Include="Bots\OpponentModellingBot.cs" />
     <Compile Include="Bots\AlwaysFoldBot.cs" />
     <Compile Include="Entities\SessionEntity.cs" />
