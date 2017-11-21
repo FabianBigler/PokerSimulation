@@ -16,6 +16,7 @@ namespace PokerSimulation.Core.Model
         private Player player2;
         private IRepository<SessionEntity> sessionRepository;
         private IRepository<PlayedHandEntity> playedHandRepository;
+        private HeadsupGame game;
 
 
         public Guid Id { 
@@ -44,6 +45,11 @@ namespace PokerSimulation.Core.Model
         {
             get { return player2; }
         }      
+
+        public HeadsupGame Game
+        {
+            get { return game; }
+        }
         
         public Session(SessionEntity entity, IRepository<SessionEntity> sessionRepository, IRepository<PlayedHandEntity> playedHandRepository)
         {
@@ -64,7 +70,7 @@ namespace PokerSimulation.Core.Model
             players.Add(player2);
 
             var dealer = new RandomDealer();
-            var game = new HeadsupGame(players, dealer);
+            game = new HeadsupGame(players, dealer);
 
             while(sessionEntity.PlayedHandsCount < sessionEntity.TotalHandsCount && State == SessionState.Running)
             {

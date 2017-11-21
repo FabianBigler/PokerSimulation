@@ -81,11 +81,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bots\FeatureActionMapper.cs" />
+    <Compile Include="Bots\HumanPlayer.cs" />
     <Compile Include="Bots\OpponentModellingBot.cs" />
     <Compile Include="Bots\AlwaysFoldBot.cs" />
     <Compile Include="Entities\SessionEntity.cs" />
     <Compile Include="Helpers\Logger.cs" />
+    <Compile Include="HumanGameService.cs" />
+    <Compile Include="Interfaces\IHumanGameService.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IPlayedHandRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />

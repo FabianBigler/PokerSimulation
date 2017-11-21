@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PokerSimulation.Core.Bots
+namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
 {
     public class FeatureActionMapper
     {

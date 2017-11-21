@@ -11,6 +11,7 @@ using PokerSimulation.Game.Entities;
 using PokerSimulation.Game;
 using ProtoBuf;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace PokerSimulation.Core.Bots
 {
@@ -62,7 +63,7 @@ namespace PokerSimulation.Core.Bots
             handBucket = (byte) HandStrengthAbstracter.MapToHandBucket(board, HoleCards);
         }     
 
-        public override GameActionEntity GetAction(List<ActionType> possibleActions, int amountToCall)
+        public override Task<GameActionEntity> GetAction(List<ActionType> possibleActions, int amountToCall)
         {               
             var infoSet = new InformationSet<ActionBucket>();
             infoSet.ActionHistory = actionHistory;
@@ -71,14 +72,14 @@ namespace PokerSimulation.Core.Bots
             RegretGameNode<ActionBucket> gameNode;
             trainedTree.TryGetValue(infoSet.GetLongHashCode(), out gameNode);
             if(gameNode == null)
-            {                
+            {
                 //throw new Exception("Information Set not found"); 
-                return new GameActionEntity
+                return Task.FromResult<GameActionEntity>(new GameActionEntity
                 {
                     ActionType = possibleActions[0],
                     Amount = 0,
                     PlayerId = this.Id
-                };
+                });
             } else
             {
                 var optimalStrategy = gameNode.calculateAverageStrategy();
@@ -139,12 +140,12 @@ namespace PokerSimulation.Core.Bots
 
                 if (ChipStack < betSize) betSize = this.ChipStack;
 
-                return new GameActionEntity
+                return Task.FromResult<GameActionEntity>(new GameActionEntity
                 {
                     ActionType = selectedAction,
                     Amount = betSize,
                     PlayerId = this.Id
-                };
+                });
             }
         }         
     }

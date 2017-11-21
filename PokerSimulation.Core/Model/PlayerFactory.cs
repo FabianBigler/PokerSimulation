@@ -24,6 +24,8 @@ namespace PokerSimulation.Core.Model
                     return new AlwaysFoldBot(playerEntity);
                 case PlayerType.OpponentModelling:
                     return new OpponentModellingBot(playerEntity);
+                case PlayerType.Human:
+                    return new HumanPlayer(playerEntity);
                 default:
                     throw new NotImplementedException("PlayerType not implemented in PlayerFactory!");                    
             }

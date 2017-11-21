@@ -65,12 +65,17 @@ namespace PokerSimulation.Core
                 {
                     var session = new Session(sessionEntity, sessionRepository, playedHandRepository);
                     currentSessions.Add(session);
-                    Task.Run(() => session.Start());
+                    Task.Run(() => session.Start());                    
                 }
             } catch (Exception ex)
             {
                 logger.LogException(ex);
             }           
+        }
+
+        public Session GetSession(Guid sessionId)
+        {
+            return currentSessions.FirstOrDefault(x => x.Id == sessionId);
         }
     }
 }

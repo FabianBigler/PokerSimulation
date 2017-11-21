@@ -7,6 +7,7 @@
         Random = 3,
         CounterFactualRegret = 4,
         OpponentModelling = 5,
-        AlwaysFold = 6
+        AlwaysFold = 6,
+        Human = 7
     }
 }

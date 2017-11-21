@@ -4,6 +4,7 @@ using PokerSimulation.Game.Enumerations;
 using PokerSimulation.Game.Model;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PokerSimulation.Core.Bots
 {
@@ -13,7 +14,7 @@ namespace PokerSimulation.Core.Bots
         {
         }
 
-        public override GameActionEntity GetAction(List<ActionType> possibleActions, int amountToCall)
+        public override Task<GameActionEntity> GetAction(List<ActionType> possibleActions, int amountToCall)
         {            
             var rand = new Random();
             var randIndex = rand.Next(0, possibleActions.Count);
@@ -58,15 +59,14 @@ namespace PokerSimulation.Core.Bots
             }
 
             if(ChipStack < amount) amount = this.ChipStack;                            
-                      
-            var action = new GameActionEntity
-            {
-                PlayerId = Id,
-                ActionType = possibleActions[randIndex],
-                Amount = amount
-            };            
-
-            return action;         
+                                  
+            return Task.FromResult<GameActionEntity>(
+                new GameActionEntity
+                {
+                    PlayerId = Id,
+                    ActionType = possibleActions[randIndex],
+                    Amount = amount
+                });         
         }
     }
 }

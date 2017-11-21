@@ -15,7 +15,7 @@ namespace PokerSimulation.Core.Bots
         {
         }
 
-        public override GameActionEntity GetAction(List<ActionType> possibleActions, int amountToCall)
+        public override Task<GameActionEntity> GetAction(List<ActionType> possibleActions, int amountToCall)
         {
             ActionType selectedAction = ActionType.Check;
             if(possibleActions.Contains(ActionType.Fold))
@@ -23,12 +23,12 @@ namespace PokerSimulation.Core.Bots
                 selectedAction = ActionType.Fold;
             }
 
-            return new GameActionEntity()
+            return Task.FromResult<GameActionEntity>(new GameActionEntity()
             {
                 ActionType = selectedAction,
                 Amount = 0,
                 PlayerId = Id
-            };
+            });
         }
 
     }

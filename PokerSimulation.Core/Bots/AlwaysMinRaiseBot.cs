@@ -5,6 +5,7 @@ using PokerSimulation.Game.Entities;
 using PokerSimulation.Game.Enumerations;
 using PokerSimulation.Game.Model;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PokerSimulation.Core.Bots
 {
@@ -14,7 +15,7 @@ namespace PokerSimulation.Core.Bots
         {
         }
 
-        public override GameActionEntity GetAction(List<ActionType> possibleActions, int amountToCall)
+        public override Task<GameActionEntity> GetAction(List<ActionType> possibleActions, int amountToCall)
         {
             if (possibleActions.Contains(ActionType.Raise))
             {
@@ -29,33 +30,33 @@ namespace PokerSimulation.Core.Bots
                     //first round: small blind only has to pay $3 for min raise
                     minRaise = HeadsupGame.SmallBlindSize + HeadsupGame.BigBlindSize;
                 }
-                             
-                return new GameActionEntity
+
+                return Task.FromResult<GameActionEntity>(new GameActionEntity
                 {
                     ActionType = ActionType.Raise,
                     Amount = minRaise,
                     PlayerId = Id
-                };
+                });
             }
 
 
             if (possibleActions.Contains(ActionType.Bet))
             {
-                var minBet = HeadsupGame.BigBlindSize;                
-                return new GameActionEntity
+                var minBet = HeadsupGame.BigBlindSize;
+                return Task.FromResult<GameActionEntity>(new GameActionEntity
                 {
                     ActionType = ActionType.Bet,
                     Amount = minBet,
                     PlayerId = Id
-                };
+                });
             }
-            
-            return new GameActionEntity
+
+            return Task.FromResult<GameActionEntity>(new GameActionEntity
             {
                 ActionType = ActionType.Call,
                 Amount = amountToCall,
                 PlayerId = Id
-            };
+            });
         }
     }
 }

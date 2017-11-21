@@ -26,7 +26,10 @@ namespace WebPokerSimulation
             bundles.Add(new ScriptBundle("~/bundles/sessions").Include(
                      "~/Scripts/sessions.js",
                      "~/Scripts/session-detail.js"));
-      
+
+            bundles.Add(new ScriptBundle("~/bundles/game").Include(
+                    "~/Scripts/game.js"));
+
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

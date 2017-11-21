@@ -33,13 +33,13 @@ namespace PokerSimulation.Core.Bots
             randomBot = new RandomBot(entity);
         }
 
-        public override GameActionEntity GetAction(List<ActionType> possibleActions, int amountToCall)
+        public override Task<GameActionEntity> GetAction(List<ActionType> possibleActions, int amountToCall)
         {
             var possibleFeatureActions = new List<FeatureAction>();
-            foreach(var possibleAction in possibleActions)
+            foreach (var possibleAction in possibleActions)
             {
                 var featureAction = FeatureActionMapper.FromActionType(possibleAction);
-                if(!possibleFeatureActions.Contains(featureAction))
+                if (!possibleFeatureActions.Contains(featureAction))
                 {
                     possibleFeatureActions.Add(featureAction);
                 }
@@ -54,20 +54,21 @@ namespace PokerSimulation.Core.Bots
                 opponentAggression = getOpponentAggression(opponentPositioning);
             }
 
-            var counterAction = opponent.GetCounterAction(possibleFeatureActions,currentPhasehistory.ActionHistory, currentGame.Phase, opponentAggression, opponentPositioning);
+            var counterAction = opponent.GetCounterAction(possibleFeatureActions, currentPhasehistory.ActionHistory, currentGame.Phase, opponentAggression, opponentPositioning);
             ActionBucket selectedActionBucket = ActionBucket.None;
-            if(counterAction == null)
+            if (counterAction == null)
             {
                 if (currentGame.Phase == GamePhase.PreFlop)
-                {                    
-                    switch(opponent.PlayStyle)
+                {
+                    switch (opponent.PlayStyle)
                     {
                         case PlayStyle.LooseAggressive:
                             //play TightAggressive
-                            if(startHandBucket >= StartHandBucket.AverageGood)
+                            if (startHandBucket >= StartHandBucket.AverageGood)
                             {
                                 selectedActionBucket = ActionBucket.LowBet;
-                            } else
+                            }
+                            else
                             {
                                 selectedActionBucket = ActionBucket.Pass;
                             }
@@ -162,16 +163,16 @@ namespace PokerSimulation.Core.Bots
             {
                 if (currentGame.Phase == GamePhase.PreFlop)
                 {
-                    switch(counterAction)
+                    switch (counterAction)
                     {
                         case FeatureAction.Bet:
                             if (startHandBucket > StartHandBucket.Worst)
                             {
                                 selectedActionBucket = ActionBucket.LowBet;
                             }
-                            break;                        
+                            break;
                         case FeatureAction.Pass:
-                            if(startHandBucket < StartHandBucket.AverageGood)
+                            if (startHandBucket < StartHandBucket.AverageGood)
                             {
                                 selectedActionBucket = ActionBucket.Pass;
                             }
@@ -183,7 +184,7 @@ namespace PokerSimulation.Core.Bots
                     switch (counterAction)
                     {
                         case FeatureAction.Bet:
-                            selectedActionBucket = ActionBucket.LowBet;                            
+                            selectedActionBucket = ActionBucket.LowBet;
                             break;
                         case FeatureAction.Pass:
                             if (handStrengthBucket < HandStrengthBucket.LowPair)
@@ -194,8 +195,8 @@ namespace PokerSimulation.Core.Bots
                     }
                 }
             }
-            
-            switch(selectedActionBucket)
+
+            switch (selectedActionBucket)
             {
                 case ActionBucket.None:
                     //no counter move has been found. Fall back to default strategy
@@ -218,7 +219,7 @@ namespace PokerSimulation.Core.Bots
 
 
                     if (!possibleActions.Contains(selectedAction))
-                    {                        
+                    {
                         switch (selectedAction)
                         {
                             case ActionType.Bet:
@@ -236,14 +237,14 @@ namespace PokerSimulation.Core.Bots
 
                     if (ChipStack < betSize) betSize = this.ChipStack;
 
-                    return new GameActionEntity
-                    {
-                        ActionType = selectedAction,
-                        Amount = betSize,
-                        PlayerId = this.Id
-                    };
-                                                          
-            }                                          
+                    return Task.FromResult<GameActionEntity>(
+                        new GameActionEntity
+                        {
+                            ActionType = selectedAction,
+                            Amount = betSize,
+                            PlayerId = this.Id
+                        });
+            }
         }
 
         public override void AssignCurrentGame(HeadsupGame game)
@@ -305,7 +306,7 @@ namespace PokerSimulation.Core.Bots
                 Positioning opponentPositioning = Positioning.None;
                 Aggression opponentAggression = Aggression.None;
                 if (currentGame.Phase > GamePhase.PreFlop)
-                {                                 
+                {
                     opponentPositioning = getOpponentPositioning(currentPhasehistory.ActionHistory.Count);
                     opponentAggression = getOpponentAggression(opponentPositioning);
                 }
@@ -335,7 +336,7 @@ namespace PokerSimulation.Core.Bots
                 ActionHistory = new List<FeatureAction>();
             }
         }
-   
+
         private Positioning getOpponentPositioning(int countCurrentPhase)
         {
             if (countCurrentPhase % 2 == 0)

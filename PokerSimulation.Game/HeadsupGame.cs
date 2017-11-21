@@ -202,7 +202,7 @@ namespace PokerSimulation.Game
             
             while (!bettingRoundFinished)
             {                
-                var playerAction = playerToAct.GetAction(possibleActions, amountToCall);
+                var playerAction = playerToAct.GetAction(possibleActions, amountToCall).Result;
                 playerAction.Timestamp = DateTime.Now;                                
                 result.Actions.Add(playerAction);
                 onPlayerActed(playerAction.PlayerId, playerAction.ActionType, amountToCall, playerAction.Amount);

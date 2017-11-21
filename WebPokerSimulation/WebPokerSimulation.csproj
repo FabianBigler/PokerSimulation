@@ -146,10 +146,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Model\GameView.cs" />
     <Compile Include="Model\SessionLineChart.cs" />
     <Compile Include="Model\SessionStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -175,6 +177,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\session-detail.js" />
+    <Content Include="Scripts\game.js" />
     <Content Include="Scripts\sessions.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
@@ -193,6 +196,7 @@
     <Content Include="Views\Session\Index.cshtml" />
     <Content Include="Views\Session\Detail.cshtml" />
     <Content Include="Views\Session\LineChart.cshtml" />
+    <Content Include="Views\Game\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

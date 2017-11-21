@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Human vs Bot";
+}
+
+
+<div class="row">  
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <h1>@ViewBag.Message</h1>
+    }
+
+    <div class="col-md-12">
+        <h3>Bot 1:</h3>  
+        <div id="botHoleCards"></div>
+        
+    </div>
+    <hr />
+
+    <div class="col-md-12">        
+        <div id="phase"></div>        
+        <div id="potSize"></div>
+
+        <h3>Board:</h3>
+        <div id="boardCards">            
+        </div>
+    </div>
+    <hr />
+
+    <div class="col-md-12">
+        <h3>You:</h3>
+        <div id="playerHoleCards">
+        </div>
+
+        <div id="actionBar">
+        </div>
+    </div>
+
+    
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/game")

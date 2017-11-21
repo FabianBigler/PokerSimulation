@@ -46,7 +46,8 @@ namespace WebPokerSimulation.App_Start
             container.RegisterType<IPlayedHandRepository, PlayedHandRepository>();
             container.RegisterType<IRepository<GameActionEntity>, GameActionRepository>();
             //singleton
-            container.RegisterType<ISessionScheduler, SessionScheduler>(new ContainerControlledLifetimeManager());                                    
+            container.RegisterType<ISessionScheduler, SessionScheduler>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IHumanGameService, HumanGameService>(new ContainerControlledLifetimeManager());            
         }
     }
 }

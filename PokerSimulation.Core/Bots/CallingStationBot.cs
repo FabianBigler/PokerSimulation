@@ -5,6 +5,7 @@ using PokerSimulation.Game.Entities;
 using PokerSimulation.Game.Enumerations;
 using PokerSimulation.Game.Model;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PokerSimulation.Core.Bots
 {
@@ -15,33 +16,33 @@ namespace PokerSimulation.Core.Bots
             
         }        
     
-        public override GameActionEntity GetAction(List<ActionType> possibleActions, int amountToCall)
+        public override Task<GameActionEntity> GetAction(List<ActionType> possibleActions, int amountToCall)
         {
             if (possibleActions.Contains(ActionType.Call))
             {
-                return new GameActionEntity
+                return Task.FromResult<GameActionEntity>(new GameActionEntity
                 {
                     ActionType = ActionType.Call,
                     Amount = amountToCall,
                     PlayerId = this.Id
-                };
+                });
             }
 
             if (possibleActions.Contains(ActionType.Check))
             {
-                return new GameActionEntity
+                return Task.FromResult<GameActionEntity>(new GameActionEntity
                 {
                     ActionType = ActionType.Check,
                     PlayerId = this.Id
-                };
+                });
             }
 
-            return new GameActionEntity
+            return Task.FromResult<GameActionEntity>(new GameActionEntity
             {
                 ActionType = ActionType.Fold,
                 Amount = amountToCall,
                 PlayerId = this.Id
-            };
+            });
         }
     }
 }

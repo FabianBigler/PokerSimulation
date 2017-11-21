@@ -1,4 +1,5 @@
 ﻿using PokerSimulation.Core.Entities;
+using PokerSimulation.Core.Model;
 using System;
 
 namespace PokerSimulation.Core.Interfaces
@@ -9,5 +10,6 @@ namespace PokerSimulation.Core.Interfaces
         void PauseSession(Guid sessionId);
         void ResumeSession(Guid sessionId);
         void StartAllSessions();
+        Session GetSession(Guid sessionId);  
     }
 }
