@@ -27,22 +27,24 @@ namespace WebPokerSimulation.Controllers
         public ActionResult Index()
         {
             var session = humanGameService.GetHumanSession();
-            if(session == null)
+            if (session == null)
             {
                 ViewBag.Message = "Please create a new session with a human player!";
             }
 
-            return View();        
+            return View();
         }
 
         [HttpGet]
         public ActionResult GetGame()
         {
             var currentGame = humanGameService.CurrentGame;
+            if (currentGame == null) return Json(new { success = false });
+
             var currentHumanPlayer = humanGameService.CurrentHumanPlayer;
             var currentOpponent = humanGameService.CurrentOpponent;
             var currentSession = humanGameService.CurrentSession;
-            var pendingAction = humanGameService.GetPendingAction();                                   
+            var pendingAction = humanGameService.GetPendingAction();
 
             var gameView = new GameView()
             {
@@ -60,15 +62,17 @@ namespace WebPokerSimulation.Controllers
                 {
                     ChipStack = currentHumanPlayer.ChipStack,
                     HoleCard1 = currentHumanPlayer.HoleCards[0].ToString(),
-                    HoleCard2 = currentHumanPlayer.HoleCards[0].ToString(),
-                    Name = "You",                                        
+                    HoleCard2 = currentHumanPlayer.HoleCards[1].ToString(),
+                    Name = "You",
                 },
-                History = new HistoryView()
+                Statistics = new StatisticsView()
                 {
                     PlayedHandsCount = currentSession.PlayedHandsCount,
-                    TotalHandsCount = currentSession.TotalHandsCount
-                }              
+                    TotalHandsCount = currentSession.TotalHandsCount,
+                    AmountWon = humanGameService.GetAmountWon()
+                }
             };
+
 
             if (pendingAction != null)
             {
@@ -83,31 +87,56 @@ namespace WebPokerSimulation.Controllers
                 {
                     minAmount = pendingAction.AmountToCall;
                     minAmountToRaise = pendingAction.AmountToCall * 2;
-                }                                
+                    if(minAmountToRaise < HeadsupGame.BigBlindSize * 2)
+                    {
+                        minAmountToRaise = HeadsupGame.BigBlindSize * 2;
+                    }
+                }
 
-                if(minAmount > currentHumanPlayer.ChipStack)
+                if (minAmount > currentHumanPlayer.ChipStack)
                 {
                     minAmount = currentHumanPlayer.ChipStack;
+                }
+                if (minAmountToRaise > currentHumanPlayer.ChipStack)
+                {
+                    minAmountToRaise = currentHumanPlayer.ChipStack;
                 }
 
                 gameView.PendingAction = new PendingActionView()
                 {
                     AmountToCall = pendingAction.AmountToCall,
-                    PossibleActions = pendingAction.PossibleActions,
                     MinAmount = minAmount,
-                    MaxAmount = currentHumanPlayer.ChipStack
+                    MinAmountToRaise = minAmountToRaise,
+                    MaxAmount = currentHumanPlayer.ChipStack,
+                    PossibleActions = pendingAction.PossibleActions
                 };
+
+                //foreach (var action in pendingAction.PossibleActions)
+                //{
+                //    gameView.PendingAction.PossibleActions.Add(action.ToString());
+                //}
             }
-         
+
 
             return Json(gameView, JsonRequestBehavior.AllowGet);
-        }    
+        }
 
 
         [HttpPost]
         public ActionResult SetAction(ActionType actionType, int amount)
-        {
-            humanGameService.SetAction(actionType, amount);
+        {            
+            switch (actionType)
+            {
+                case ActionType.Raise:
+                case ActionType.Bet:
+                case ActionType.Call:
+                    humanGameService.SetAction(actionType, amount);
+                    break;                
+                default:
+                    humanGameService.SetAction(actionType, 0);
+                    break;
+            }
+            
             return View();
         }
     }

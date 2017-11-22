@@ -17,16 +17,18 @@ namespace PokerSimulation.Core
 {
     public class HumanGameService : IHumanGameService
     {
-        private IRepository<SessionEntity> sessionRepository;
-        private ISessionScheduler sessionScheduler;
+        private readonly IRepository<SessionEntity> sessionRepository;
+        private readonly ISessionScheduler sessionScheduler;
+        private readonly IPlayedHandRepository playedHandRepository;
 
         private HeadsupGame currentGame;
         private Session currentSession;
         private Player currentHumanPlayer;
         private Player currentOpponentPlayer;
+
         private PendingAction currentPendingAction;
         private GameActionEntity currentPlayerAction;
-          
+
         public Player CurrentHumanPlayer
         {
             get
@@ -59,11 +61,12 @@ namespace PokerSimulation.Core
             }
         }
 
-        public HumanGameService(IRepository<SessionEntity> sessionRepository, ISessionScheduler sessionScheduler)
+        public HumanGameService(IRepository<SessionEntity> sessionRepository, ISessionScheduler sessionScheduler, IPlayedHandRepository playedHandRepository)
         {
             this.sessionRepository = sessionRepository;
             this.sessionScheduler = sessionScheduler;
-        }     
+            this.playedHandRepository = playedHandRepository;
+        }
 
 
         private GameActionEntity Player_ActionRequired(HeadsupGame game, List<ActionType> possibleActions, int amountToCall)
@@ -79,47 +82,49 @@ namespace PokerSimulation.Core
                 Task.Delay(3000);
             }
 
-            return currentPlayerAction;
+            var playerAction = currentPlayerAction;
+            currentPlayerAction = null;
+
+            return playerAction;
         }
 
         public Session GetHumanSession()
         {
-            if (currentSession == null)
+            var humanSessionEntity = sessionRepository.GetAll().FirstOrDefault(x => (x.State == SessionState.Running || x.State == SessionState.Ready) &&
+                                                                        (x.PlayerEntity1.Type == PlayerType.Human ||
+                                                                         x.PlayerEntity2.Type == PlayerType.Human));
+            if (humanSessionEntity != null)
             {
-                var humanSessionEntity = sessionRepository.GetAll().FirstOrDefault(x => (x.State == SessionState.Running || x.State == SessionState.Ready) &&
-                                                                            (x.PlayerEntity1.Type == PlayerType.Human ||
-                                                                             x.PlayerEntity2.Type == PlayerType.Human));
-                if (humanSessionEntity != null)
+                var session = sessionScheduler.GetSession(humanSessionEntity.Id);
+                currentGame = session.Game;
+                if (session != null)
                 {
-                    var session = sessionScheduler.GetSession(humanSessionEntity.Id);
-                    currentGame = session.Game;
-                    if (session != null)
+                    currentSession = session;
+                    if (humanSessionEntity.PlayerEntity1.Type == PlayerType.Human)
                     {
-                        currentSession = session;
-                        if (humanSessionEntity.PlayerEntity1.Type == PlayerType.Human)
-                        {
-                            currentHumanPlayer = session.Player1;
-                            currentOpponentPlayer = session.Player2;
-                            session.Player1.ActionRequired -= Player_ActionRequired;
-                            session.Player1.ActionRequired += Player_ActionRequired;
-                        }
-                        else
-                        {
-                            currentHumanPlayer = session.Player2;
-                            currentOpponentPlayer = session.Player1;
-                            session.Player1.ActionRequired -= Player_ActionRequired;
-                            session.Player2.ActionRequired += Player_ActionRequired;
-                        }
-                        return session;
+                        currentHumanPlayer = session.Player1;
+                        currentOpponentPlayer = session.Player2;
+                        session.Player1.ActionRequired -= Player_ActionRequired;
+                        session.Player1.ActionRequired += Player_ActionRequired;
                     }
+                    else
+                    {
+                        currentHumanPlayer = session.Player2;
+                        currentOpponentPlayer = session.Player1;
+                        session.Player1.ActionRequired -= Player_ActionRequired;
+                        session.Player2.ActionRequired += Player_ActionRequired;
+                    }
+                    return session;
+                } else
+                {
+                    currentSession = null;
                 }
-            }
-            else
+            } else
             {
-                return currentSession;
+                currentSession = null;
             }
 
-            return null;
+            return currentSession;
         }
 
         public PendingAction GetPendingAction()
@@ -127,6 +132,13 @@ namespace PokerSimulation.Core
             return currentPendingAction;
         }
 
+        public int GetAmountWon()
+        {
+            var playedHands = playedHandRepository.GetAllBySessionId(currentSession.Id);
+            int humanAmountWonSum = playedHands.Where(x => x.WinnerId == currentHumanPlayer.Id).Sum(x => x.AmountWon);
+            int opponentAmountWonSum = playedHands.Where(x => x.WinnerId == currentOpponentPlayer.Id).Sum(x => x.AmountWon);
+            return humanAmountWonSum - opponentAmountWonSum;
+        }
 
         public void SetAction(ActionType type, int amount)
         {
@@ -138,7 +150,7 @@ namespace PokerSimulation.Core
                 PlayerId = currentHumanPlayer.Id
             };
 
-            currentPlayerAction = gameAction;            
+            currentPlayerAction = gameAction;
         }
     }
 

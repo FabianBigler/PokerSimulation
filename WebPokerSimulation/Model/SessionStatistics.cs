@@ -15,7 +15,7 @@ namespace WebPokerSimulation.Model
         {
             get
             {
-                return this.TotalBigBlindsWon / (this.PlayedHandsCount / 100);
+                return this.TotalBigBlindsWon / ((decimal)this.PlayedHandsCount / 100);
             }
         }
     }

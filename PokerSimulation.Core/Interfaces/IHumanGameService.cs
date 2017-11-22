@@ -18,8 +18,9 @@ namespace PokerSimulation.Core.Interfaces
         Player CurrentHumanPlayer { get; }
         Player CurrentOpponent { get; }
         Session CurrentSession { get; }
+        int GetAmountWon();
 
         PendingAction GetPendingAction();
-        void SetAction(ActionType type, int amount);
+        void SetAction(ActionType type, int amount);        
     }
 }

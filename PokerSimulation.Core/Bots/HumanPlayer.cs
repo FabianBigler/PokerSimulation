@@ -11,12 +11,9 @@ using PokerSimulation.Game;
 namespace PokerSimulation.Core.Bots
 {
     public class HumanPlayer : Player
-    {
-        
-
+    {        
         public HumanPlayer(PlayerEntity entity) : base(entity)
         {
-
         }
 
         public override async Task<GameActionEntity> GetAction(List<ActionType> possibleActions, int amountToCall)

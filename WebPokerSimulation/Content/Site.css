@@ -22,3 +22,22 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.card-image
+{
+    padding:20px;
+    display: inline;
+}
+
+/*.board-card-image
+{
+    padding:20px;
+    display: inline;
+    max-width:80px;    
+    height:auto;
+}*/
+
+img{
+    max-width:15%;
+    max-height:15%;
+}
