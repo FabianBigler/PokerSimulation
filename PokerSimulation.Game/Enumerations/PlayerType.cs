@@ -8,6 +8,11 @@
         CounterFactualRegret = 4,
         OpponentModelling = 5,
         AlwaysFold = 6,
-        Human = 7
+        Human = 7,
+        TightAggressive = 8,
+        TightPassive = 9,
+        LooseAggressive = 10,
+        LoosePassive = 11
     }
 }
+ 

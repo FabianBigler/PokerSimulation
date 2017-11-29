@@ -124,7 +124,8 @@ namespace PokerSimulation.Game
             var firstAmountToCall = SmallBlindSize;            
             playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, playedHand, out roundFinished, out goToShowdown);
             if (roundFinished)
-            {                
+            {
+                playedHand.Phase = this.Phase;
                 return playedHand;
             }
 
@@ -134,6 +135,7 @@ namespace PokerSimulation.Game
                 playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, playedHand, out roundFinished, out goToShowdown);
                 if (roundFinished)
                 {
+                    playedHand.Phase = this.Phase;
                     playedHand.Board = this.Board.ToAbbreviations();
                     return playedHand;
                 }
@@ -145,6 +147,7 @@ namespace PokerSimulation.Game
                 playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, playedHand, out roundFinished, out goToShowdown);
                 if (roundFinished)
                 {
+                    playedHand.Phase = this.Phase;
                     playedHand.Board = this.Board.ToAbbreviations();
                     return playedHand;
                 }
@@ -156,6 +159,7 @@ namespace PokerSimulation.Game
                 playBettingRound(smallBlindPlayer, bigBlindPlayer, possibleActions, firstAmountToCall, playedHand,   out roundFinished, out goToShowdown);
                 if (roundFinished)
                 {
+                    playedHand.Phase = this.Phase;
                     playedHand.Board = this.Board.ToAbbreviations();
                     return playedHand;
                 }
@@ -165,12 +169,13 @@ namespace PokerSimulation.Game
 
             onAfterShowdown(playedHand.WinnerId);
             playedHand.Board = this.Board.ToAbbreviations();
+            playedHand.Phase = this.Phase;
             return playedHand;
         }
         
 
-        private void showDown(Player smallBlindPlayer, Player bigBlindPlayer, PlayedHandEntity result)
-        {
+        private void showDown(Player smallBlindPlayer, Player bigBlindPlayer, PlayedHandEntity playedHand)
+        {            
             HandComparison comparison = HandComparer.Compare(smallBlindPlayer.HoleCards, bigBlindPlayer.HoleCards, Board);
             switch (comparison)
             {
@@ -178,15 +183,16 @@ namespace PokerSimulation.Game
                     //no winner is determined = split pot                               
                     break;
                 case HandComparison.Player1Won:
-                    result.WinnerId = smallBlindPlayer.Id;
+                    playedHand.WinnerId = smallBlindPlayer.Id;
                     break;
                 case HandComparison.Player2Won:
-                    result.WinnerId = bigBlindPlayer.Id;
+                    playedHand.WinnerId = bigBlindPlayer.Id;
                     break;
             }
                       
-            result.AmountWon = PotSize / 2;
-            result.PotSize = PotSize;
+            playedHand.AmountWon = PotSize / 2;
+            playedHand.PotSize = PotSize;
+            this.Phase = GamePhase.Showdown;
         }
 
 

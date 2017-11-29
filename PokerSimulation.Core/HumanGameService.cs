@@ -79,7 +79,7 @@ namespace PokerSimulation.Core
 
             while (currentPlayerAction == null)
             {
-                Task.Delay(3000);
+                Task.Delay(1000);
             }
 
             var playerAction = currentPlayerAction;
@@ -142,6 +142,7 @@ namespace PokerSimulation.Core
 
         public void SetAction(ActionType type, int amount)
         {
+
             currentPendingAction = null;
             var gameAction = new GameActionEntity()
             {

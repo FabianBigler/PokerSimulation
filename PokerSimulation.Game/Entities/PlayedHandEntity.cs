@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PokerSimulation.Game.Enumerations;
+using System;
 using System.Collections.Generic;
 
 namespace PokerSimulation.Game.Entities
@@ -11,6 +12,7 @@ namespace PokerSimulation.Game.Entities
         public string HoleCards1 { get; set; }
         public string HoleCards2 { get; set; }
         public string Board { get; set; }
+        public GamePhase Phase { get; set; }
 
         public int PotSize { get; set; }              
           

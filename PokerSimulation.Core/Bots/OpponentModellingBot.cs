@@ -63,48 +63,48 @@ namespace PokerSimulation.Core.Bots
                     switch (opponent.PlayStyle)
                     {
                         case PlayStyle.LooseAggressive:
-                            //play TightAggressive
-                            if (startHandBucket >= StartHandBucket.AverageGood)
-                            {
-                                selectedActionBucket = ActionBucket.LowBet;
-                            }
-                            else
-                            {
-                                selectedActionBucket = ActionBucket.Pass;
-                            }
-                            break;
                         case PlayStyle.LoosePassive:
                             //play TightAggressive
-                            if (startHandBucket >= StartHandBucket.AverageGood)
-                            {
-                                selectedActionBucket = ActionBucket.LowBet;
+                            if (this.IsBigBlind)
+                            {                                
+                                if (startHandBucket >= StartHandBucket.VeryBad)
+                                {
+                                    selectedActionBucket = ActionBucket.LowBet;
+                                }
+                                else
+                                {
+                                    selectedActionBucket = ActionBucket.Pass;
+                                }
+                            } else
+                            {                                
+                                if (startHandBucket >= StartHandBucket.Bad)
+                                {
+                                    selectedActionBucket = ActionBucket.LowBet;
+                                }
+                                else
+                                {
+                                    selectedActionBucket = ActionBucket.Pass;
+                                }
                             }
-                            else
-                            {
-                                selectedActionBucket = ActionBucket.Pass;
-                            }
-                            break;
+                      
+                            break;                        
                         case PlayStyle.TightAggressive:
-                            //play LooseAggressive
-                            if (startHandBucket >= StartHandBucket.VeryBad)
-                            {
-                                selectedActionBucket = ActionBucket.LowBet;
-                            }
-                            else
-                            {
-                                selectedActionBucket = ActionBucket.Pass;
-                            }
-                            break;
                         case PlayStyle.TightPassive:
-                            //play LooseAggressive
-                            if (startHandBucket >= StartHandBucket.VeryBad)
+                            if (this.IsBigBlind)
                             {
                                 selectedActionBucket = ActionBucket.LowBet;
                             }
                             else
                             {
-                                selectedActionBucket = ActionBucket.Pass;
-                            }
+                                if (startHandBucket >= StartHandBucket.VeryBad)
+                                {
+                                    selectedActionBucket = ActionBucket.LowBet;
+                                }
+                                else
+                                {
+                                    selectedActionBucket = ActionBucket.Pass;
+                                }
+                            }                      
                             break;
                     }
                 }
@@ -183,7 +183,7 @@ namespace PokerSimulation.Core.Bots
                 {
                     switch (counterAction)
                     {
-                        case FeatureAction.Bet:
+                        case FeatureAction.Bet:                            
                             selectedActionBucket = ActionBucket.LowBet;
                             break;
                         case FeatureAction.Pass:

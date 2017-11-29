@@ -10,6 +10,7 @@ using WebPokerSimulation.Game;
 using PokerSimulation.Game.Entities;
 using WebPokerSimulation.Model;
 using PokerSimulation.Game;
+using PokerSimulation.Game.Enumerations;
 
 namespace WebPokerSimulation.Controllers
 {
@@ -78,12 +79,15 @@ namespace WebPokerSimulation.Controllers
 
             var playedHands = playedHandRepository.GetAllBySessionId(sessionID);
 
-            int player1Sum = playedHands.Where(x => x.WinnerId == session.Player1Id).Sum(x => x.AmountWon);
-            int player2Sum = playedHands.Where(x => x.WinnerId == session.Player2Id).Sum(x => x.AmountWon);
+            var player1HandsWon = playedHands.Where(x => x.WinnerId == session.Player1Id);
+            var player2HandsWon = playedHands.Where(x => x.WinnerId == session.Player2Id);
+            int player1Sum = player1HandsWon.Sum(x => x.AmountWon);
+            int player2Sum = player2HandsWon.Sum(x => x.AmountWon);
 
             int diff = player1Sum - player2Sum;
+            Guid winnerId;
             if(diff > 0)
-            {
+            {                
                 stats.Winner = session.PlayerEntity1.Name;                                
             } else
             {
@@ -94,7 +98,48 @@ namespace WebPokerSimulation.Controllers
             stats.TotalAmountWon = diffAbs;
             stats.TotalBigBlindsWon = (decimal)diffAbs / HeadsupGame.BigBlindSize;
             stats.PlayedHandsCount = playedHands.Count();
+      
+            foreach(GamePhase phase in Enum.GetValues(typeof(GamePhase)))
+            {
+                stats.StatisticsDetails.Add(GetStatsDetail(session.PlayerEntity1.Name, session.PlayerEntity2.Name,
+                                                          player1HandsWon, player2HandsWon, phase, stats.PlayedHandsCount));            
+            }                     
             return Json(stats, JsonRequestBehavior.AllowGet);
+        }
+
+        private SessionStatisticsDetail GetStatsDetail(string player1Name, string player2Name,
+                                                       IEnumerable<PlayedHandEntity> player1HandsWon,
+                                                       IEnumerable<PlayedHandEntity> player2HandsWon, GamePhase phase, int totalHandsCount)
+        {
+            IEnumerable<PlayedHandEntity> player1handsToSum, player2handsToSum;
+            player1handsToSum = player1HandsWon.Where(x => x.Phase == phase);
+            player2handsToSum = player2HandsWon.Where(x => x.Phase == phase);
+            int playedHandsCount = player1handsToSum.Count() + player2handsToSum.Count();
+
+            int player1Sum, player2Sum;
+            player1Sum = player1handsToSum.Sum(x => x.AmountWon);
+            player2Sum = player2handsToSum.Sum(x => x.AmountWon);
+            
+            int diff = player1Sum - player2Sum;            
+            string winner;
+            if (diff > 0)
+            {
+                winner = player1Name;
+            }
+            else
+            {
+                winner = player2Name;
+            }
+
+            return new SessionStatisticsDetail()
+            {
+                AmountWon = Math.Abs(diff),
+                BigBlindsWon = Math.Abs(diff) / HeadsupGame.BigBlindSize,
+                Phase = phase,
+                TotalHandsCount = totalHandsCount,
+                PlayedHandsCount = playedHandsCount,
+                Winner = winner
+            };           
         }
 
         [HttpPost]
@@ -122,6 +167,9 @@ namespace WebPokerSimulation.Controllers
 
         public ActionResult GetAvailablePlayers()
         {
+
+
+
             return View();
         }
 

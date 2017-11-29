@@ -26,6 +26,14 @@ namespace PokerSimulation.Core.Model
                     return new OpponentModellingBot(playerEntity);
                 case PlayerType.Human:
                     return new HumanPlayer(playerEntity);
+                case PlayerType.TightAggressive:
+                    return new TightAggressiveBot(playerEntity);
+                case PlayerType.TightPassive:
+                    return new TightPassiveBot(playerEntity);
+                case PlayerType.LooseAggressive:
+                    return new LooseAggressiveBot(playerEntity);
+                case PlayerType.LoosePassive:
+                    return new LoosePassiveBot(playerEntity);
                 default:
                     throw new NotImplementedException("PlayerType not implemented in PlayerFactory!");                    
             }

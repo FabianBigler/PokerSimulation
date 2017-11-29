@@ -15,6 +15,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
         public const double PassiveThreshold = 0.4;
         public const double TightThreshold = 0.3;
         public const double LooseThreshold = 0.4;
+        public const int MinCountThreshold = 10;
 
 
         public Opponent()
@@ -159,7 +160,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
                                 (x.PreCondition.LastActions.Count == 0 ||
                                 reversedActions.Take(x.PreCondition.LastActions.Count).SequenceEqual<FeatureAction>(x.PreCondition.LastActions)))));
 
-            if(pastActionFeature != null)
+            if(pastActionFeature != null && pastActionFeature.CountTotal > MinCountThreshold)
             {
                 if (pastActionFeature.IsInBetRange)
                 {
@@ -186,7 +187,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
                                 (x.PreCondition.LastActions.Count == 0 ||
                                 actions.Take(x.PreCondition.LastActions.Count).SequenceEqual<FeatureAction>(x.PreCondition.LastActions)))));
 
-                if(futureActionFeature != null)
+                if(futureActionFeature != null && futureActionFeature.CountTotal > MinCountThreshold)
                 {
                     if(futureActionFeature.IsInBetRange)
                     {

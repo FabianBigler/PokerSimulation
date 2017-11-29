@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    setInterval(pollGameState, 1000);
+    setInterval(pollGameState, 2000);
 });
 
 function pollGameState() {
@@ -11,8 +11,7 @@ function pollGameState() {
             let gameHash = document.getElementById('gameHash').innerHTML;
             if (gameHash != data.HashCode) {                
                 document.getElementById('gameHash').innerHTML = data.HashCode;
-
-                botName
+                
                 $('#botName').empty();
                 $('#botName').append('<h3> Bot: ' + data.Bot.Name + '</h3>');
                 $('#phase').empty();

@@ -59,9 +59,9 @@ namespace PokerSimulation.Infrastructure.Repositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlInsert = @"INSERT INTO [dbo].[PlayedHand]
-                   ([Id],[WinnerId],[PotSize],[Timestamp],[SessionId],[Holecards1],[Holecards2],[Board],[AmountWon])
+                   ([Id],[WinnerId],[PotSize],[Timestamp],[SessionId],[Holecards1],[Holecards2],[Board],[AmountWon],[Phase])
                     VALUES
-                   (@Id, @WinnerId, @Potsize, @Timestamp, @SessionId,@Holecards1,@Holecards2,@Board,@AmountWon)";
+                   (@Id, @WinnerId, @Potsize, @Timestamp, @SessionId,@Holecards1,@Holecards2,@Board,@AmountWon,@Phase)";
 
                 db.Execute(sqlInsert,
                 new
@@ -74,7 +74,8 @@ namespace PokerSimulation.Infrastructure.Repositories
                     Holecards1 = hand.HoleCards1,
                     Holecards2 = hand.HoleCards2,
                     Board = hand.Board,
-                    AmountWon = hand.AmountWon
+                    AmountWon = hand.AmountWon,
+                    Phase = hand.Phase
                 });                
             }
 

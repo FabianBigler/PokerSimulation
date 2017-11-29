@@ -81,9 +81,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\BasePlayerStyleBot.cs" />
     <Compile Include="Bots\HumanPlayer.cs" />
+    <Compile Include="Bots\LooseAggressiveBot.cs" />
+    <Compile Include="Bots\LoosePassiveBot.cs" />
     <Compile Include="Bots\OpponentModellingBot.cs" />
     <Compile Include="Bots\AlwaysFoldBot.cs" />
+    <Compile Include="Bots\TightAggressiveBot.cs" />
+    <Compile Include="Bots\TightPassiveBot.cs" />
     <Compile Include="Entities\SessionEntity.cs" />
     <Compile Include="Helpers\Logger.cs" />
     <Compile Include="HumanGameService.cs" />

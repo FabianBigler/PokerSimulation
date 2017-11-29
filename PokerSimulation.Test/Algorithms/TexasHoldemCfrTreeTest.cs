@@ -83,6 +83,36 @@ namespace PokerSimulation.Test.Algorithms
             Assert.IsTrue(betProbability > passProbability);            
         }
 
+
+        [TestMethod]
+        public void ComparePlayer1ToPlayer2BestStartHandBucket()
+        {
+            var optimalStrategy1 = getOptimalStrategy((byte)StartHandBucket.Best, new List<ActionBucket>());
+            float passProbability1 = getProbability(ActionBucket.Pass, optimalStrategy1);
+            float callProbability1 = getProbability(ActionBucket.Call, optimalStrategy1);
+            float betProbability1 = getProbability(ActionBucket.LowBet, optimalStrategy1) +
+                        getProbability(ActionBucket.MediumBet, optimalStrategy1) +
+                        getProbability(ActionBucket.HighBet, optimalStrategy1);
+            float totalProbability = passProbability1 + callProbability1 + betProbability1;
+
+            // given the best hand the bet probability should be higher than either call or pass probability           
+            Assert.IsTrue(betProbability1 > passProbability1);
+            Assert.IsTrue(betProbability1 > callProbability1);
+            // call probability must be higher than pass probability
+            Assert.IsTrue(callProbability1 > passProbability1);
+
+            var optimalStrategy2 = getOptimalStrategy((byte)StartHandBucket.Best, new List<ActionBucket>() { ActionBucket.Call });
+
+            float passProbability2 = getProbability(ActionBucket.Pass, optimalStrategy2);
+            float callProbability2 = getProbability(ActionBucket.Call, optimalStrategy2);
+            float betProbability2 = getProbability(ActionBucket.LowBet, optimalStrategy2) +
+                        getProbability(ActionBucket.MediumBet, optimalStrategy2) +
+                        getProbability(ActionBucket.HighBet, optimalStrategy2);
+            float totalProbability2 = passProbability2 + callProbability2 + betProbability2;
+                        
+            Assert.IsTrue(betProbability1 < betProbability2);
+        }
+
         [TestMethod]
         public void Player2WorstStartHandBucketAfterCallTest()
         {
