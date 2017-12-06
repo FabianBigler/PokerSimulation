@@ -26,18 +26,19 @@ namespace PokerSimulation.Test.Algorithms.OpponentModelling
             // cbet 2 of 3 times
             var lastActions = new List<FeatureAction>() { FeatureAction.Bet };
             opponent.StartNewhand();
-            opponent.UpdateFeaturesAfterAction(lastActions, GamePhase.Flop, 
+            opponent.UpdateFeaturesAfterAction(lastActions, GamePhase.Flop,
                 Aggression.IsLast, Positioning.InPosition);
             opponent.StartNewhand();
             opponent.UpdateFeaturesAfterAction(lastActions, GamePhase.Flop,
                 Aggression.IsLast, Positioning.InPosition);
             lastActions = new List<FeatureAction>() { FeatureAction.Pass };
             opponent.StartNewhand();
-            opponent.UpdateFeaturesAfterAction(lastActions, GamePhase.Flop,
-              Aggression.IsLast, Positioning.InPosition);
+            opponent.UpdateFeaturesAfterAction(lastActions, GamePhase.Flop, 
+                Aggression.IsLast, Positioning.InPosition);
 
-            var featureToCheck = opponent.Features.FirstOrDefault(x => x.Name == FeatureNames.ContinuationBetIp);
-            double expected = (double) 2 / 3;
+            var featureToCheck = opponent.Features.FirstOrDefault(x => x.Name == 
+                FeatureNames.ContinuationBetIp);
+            double expected = (double)2 / 3;
             Assert.AreEqual(expected, featureToCheck.Value);
         }
 
@@ -48,7 +49,7 @@ namespace PokerSimulation.Test.Algorithms.OpponentModelling
             //4 went to showdown
             //won showdown 2 of 3. 1 split pot (ignored)
             opponent.StartNewhand();
-            opponent.StartNewhand();            
+            opponent.StartNewhand();
             opponent.StartNewhand();
             opponent.UpdateFeaturesAfterShowdown(null);
             opponent.StartNewhand();

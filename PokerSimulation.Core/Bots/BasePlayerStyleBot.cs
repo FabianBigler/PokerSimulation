@@ -13,6 +13,11 @@ namespace PokerSimulation.Core.Bots
 {
     public class BasePlayerStyleBot : Player
     {
+        public const double Tight = 0.8;
+        public const double Loose = 0.2;
+        public const double Aggressive = 0.8;
+        public const double Passive = 0.2;
+
         private HandStrengthBucket handStrengthBucket;
         private StartHandBucket startHandBucket;
 
@@ -35,19 +40,26 @@ namespace PokerSimulation.Core.Bots
             switch (currentGame.Phase)
             {
                 case GamePhase.PreFlop:
-                    double handTightRatio = (double)startHandBucket / (double)StartHandBucket.Best;
-                    if (TightRatio <= handTightRatio)
-                    {                        
-                        selectedActionBucket = ActionBucket.LowBet;
+                    double startHandStrengthRatio = (double)startHandBucket / (double)StartHandBucket.Best;
+                    if (TightRatio <= startHandStrengthRatio)
+                    {
+                        startHandStrengthRatio = 1 - startHandStrengthRatio;
+                        if (AggressiveRatio >= startHandStrengthRatio)
+                        {
+                            selectedActionBucket = ActionBucket.LowBet;
+                        } else
+                        {                            
+                            selectedActionBucket = ActionBucket.Call;
+                        }                        
                     }
                     else
                     {
                         selectedActionBucket = ActionBucket.Pass;
-                    }
+                    }                    
                     break;
                 default:
-                    double handAggressiveRatio = (double)handStrengthBucket / (double)HandStrengthBucket.TopHands;
-                    if (AggressiveRatio <= handAggressiveRatio)
+                    double handStrengthRatio = 1 -  (double)handStrengthBucket / (double)HandStrengthBucket.TopHands;
+                    if (AggressiveRatio >= handStrengthRatio)
                     {
                         selectedActionBucket = ActionBucket.LowBet;
                     }
@@ -58,6 +70,7 @@ namespace PokerSimulation.Core.Bots
 
                     break;
             }
+
             ActionType selectedAction = ActionAbstracter.MapToAction(selectedActionBucket, amountToCall);
             int betSize = 0;
             switch (selectedAction)
@@ -81,6 +94,12 @@ namespace PokerSimulation.Core.Bots
                         if (possibleActions.Contains(ActionType.Call))
                         {
                             selectedAction = ActionType.Call;
+                        }
+                        break;
+                   case ActionType.Call:
+                        if (possibleActions.Contains(ActionType.Check))
+                        {
+                            selectedAction = ActionType.Check;
                         }
                         break;
                     default:

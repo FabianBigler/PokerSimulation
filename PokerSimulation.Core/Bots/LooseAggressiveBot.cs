@@ -9,8 +9,8 @@ namespace PokerSimulation.Core.Bots
 {
     public class LooseAggressiveBot : BasePlayerStyleBot
     {
-        private const double tightRatio = 0.1;
-        private const double aggressiveRatio = 0.9;
+        private const double tightRatio = Loose;
+        private const double aggressiveRatio = Aggressive;
 
         public LooseAggressiveBot(PlayerEntity entity) : base(entity)
         {

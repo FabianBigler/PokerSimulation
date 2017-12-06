@@ -18,6 +18,7 @@ namespace PokerSimulation.Core.Bots
     {
         private Opponent opponent;
         private RandomBot randomBot;
+        private MinimalRegretBot minimalRegretBot;
 
         private HandStrengthBucket handStrengthBucket;
         private StartHandBucket startHandBucket;
@@ -29,7 +30,7 @@ namespace PokerSimulation.Core.Bots
         {
             var serializer = new OpponentSerializer();
             this.opponent = serializer.Deserialize();
-
+            
             randomBot = new RandomBot(entity);
         }
 
@@ -55,7 +56,7 @@ namespace PokerSimulation.Core.Bots
             }
 
             var counterAction = opponent.GetCounterAction(possibleFeatureActions, currentPhasehistory.ActionHistory, currentGame.Phase, opponentAggression, opponentPositioning);
-            ActionBucket selectedActionBucket = ActionBucket.None;
+            ActionBucket selectedActionBucket = ActionBucket.None;            
             if (counterAction == null)
             {
                 if (currentGame.Phase == GamePhase.PreFlop)
@@ -64,32 +65,6 @@ namespace PokerSimulation.Core.Bots
                     {
                         case PlayStyle.LooseAggressive:
                         case PlayStyle.LoosePassive:
-                            //play TightAggressive
-                            if (this.IsBigBlind)
-                            {                                
-                                if (startHandBucket >= StartHandBucket.VeryBad)
-                                {
-                                    selectedActionBucket = ActionBucket.LowBet;
-                                }
-                                else
-                                {
-                                    selectedActionBucket = ActionBucket.Pass;
-                                }
-                            } else
-                            {                                
-                                if (startHandBucket >= StartHandBucket.Bad)
-                                {
-                                    selectedActionBucket = ActionBucket.LowBet;
-                                }
-                                else
-                                {
-                                    selectedActionBucket = ActionBucket.Pass;
-                                }
-                            }
-                      
-                            break;                        
-                        case PlayStyle.TightAggressive:
-                        case PlayStyle.TightPassive:
                             if (this.IsBigBlind)
                             {
                                 selectedActionBucket = ActionBucket.LowBet;
@@ -104,9 +79,15 @@ namespace PokerSimulation.Core.Bots
                                 {
                                     selectedActionBucket = ActionBucket.Pass;
                                 }
-                            }                      
+                            }
+
                             break;
-                    }
+                        case PlayStyle.TightAggressive:
+                        case PlayStyle.TightPassive:
+                            //play hyper aggressive
+                            selectedActionBucket = ActionBucket.LowBet;
+                            break;
+                    }         
                 }
                 else
                 {
@@ -114,7 +95,7 @@ namespace PokerSimulation.Core.Bots
                     {
                         case PlayStyle.LooseAggressive:
                             //play TightAggressive
-                            if (handStrengthBucket >= HandStrengthBucket.LowPair)
+                            if (handStrengthBucket >= HandStrengthBucket.HighCardAce)
                             {
                                 selectedActionBucket = ActionBucket.LowBet;
                             }
@@ -124,19 +105,11 @@ namespace PokerSimulation.Core.Bots
                             }
                             break;
                         case PlayStyle.LoosePassive:
-                            //play TightAggressive
-                            if (handStrengthBucket >= HandStrengthBucket.LowPair)
-                            {
-                                selectedActionBucket = ActionBucket.LowBet;
-                            }
-                            else
-                            {
-                                selectedActionBucket = ActionBucket.Pass;
-                            }
+                            selectedActionBucket = ActionBucket.LowBet;
                             break;
                         case PlayStyle.TightAggressive:
                             //play LooseAggressive
-                            if (handStrengthBucket >= HandStrengthBucket.HighCardAce)
+                            if (handStrengthBucket >= HandStrengthBucket.LowPair)
                             {
                                 selectedActionBucket = ActionBucket.LowBet;
                             }
@@ -147,7 +120,7 @@ namespace PokerSimulation.Core.Bots
                             break;
                         case PlayStyle.TightPassive:
                             //play LooseAggressive
-                            if (handStrengthBucket >= HandStrengthBucket.HighCardAce)
+                            if (handStrengthBucket >= HandStrengthBucket.HighCardElse)
                             {
                                 selectedActionBucket = ActionBucket.LowBet;
                             }
@@ -172,7 +145,7 @@ namespace PokerSimulation.Core.Bots
                             }
                             break;
                         case FeatureAction.Pass:
-                            if (startHandBucket < StartHandBucket.AverageGood)
+                            if (startHandBucket < StartHandBucket.Bad)
                             {
                                 selectedActionBucket = ActionBucket.Pass;
                             }
@@ -183,7 +156,7 @@ namespace PokerSimulation.Core.Bots
                 {
                     switch (counterAction)
                     {
-                        case FeatureAction.Bet:                            
+                        case FeatureAction.Bet:
                             selectedActionBucket = ActionBucket.LowBet;
                             break;
                         case FeatureAction.Pass:
@@ -199,8 +172,7 @@ namespace PokerSimulation.Core.Bots
             switch (selectedActionBucket)
             {
                 case ActionBucket.None:
-                    //no counter move has been found. Fall back to default strategy
-                    var globalFeatures = opponent.Features.Where(x => x.IsGlobal);
+                    //no counter move has been found. Fall back to randomness                    
                     randomBot.ChipStack = this.ChipStack;
                     return randomBot.GetAction(possibleActions, amountToCall);
                 default:
@@ -229,7 +201,7 @@ namespace PokerSimulation.Core.Bots
                                 {
                                     selectedAction = ActionType.Call;
                                 }
-                                break;
+                                break;                         
                             default:
                                 throw new Exception("Selected action is illegal!");
                         }

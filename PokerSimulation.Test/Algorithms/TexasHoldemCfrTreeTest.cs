@@ -132,7 +132,7 @@ namespace PokerSimulation.Test.Algorithms
         [TestMethod]
         public void WeakHandOnFlopTest()
         {
-            // small bind bets, big blind calls, small blind bets again on the flop
+            // small blind bets, big blind calls, small blind bets again on the flop
             // big blind hits nothing (i.e. HighCardAce) and has to decide which action to do next
             var optimalStrategy = getOptimalStrategy((byte)HandStrengthBucket.HighCardAce, new List<ActionBucket>() { ActionBucket.MediumBet, ActionBucket.Call, ActionBucket.MediumBet });            
             float passProbability = getProbability(ActionBucket.Pass, optimalStrategy);

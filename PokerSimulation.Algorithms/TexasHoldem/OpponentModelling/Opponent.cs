@@ -39,7 +39,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
                 isAggressive = vpipFeature.Value - pfrFeature.Value < 0.2;
                 isPassive = vpipFeature.Value - pfrFeature.Value > 0.4;
                 isTight = vpipFeature.Value < 0.4;
-                isLoose = vpipFeature.Value > 0.5;
+                isLoose = vpipFeature.Value > 0.4;
 
                 if(isTight && isAggressive)
                 {
@@ -53,9 +53,9 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
                 {
                     return PlayStyle.LooseAggressive;
                 }
-                if(isTight && isAggressive)
+                if(isLoose && isPassive)
                 {
-                    return PlayStyle.TightAggressive;
+                    return PlayStyle.LoosePassive;
                 }
 
                 return PlayStyle.None;                                    
@@ -151,7 +151,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
             reversedActions.Reverse();
 
             //is there any past action feature?
-            var pastActionFeature = Features.FirstOrDefault(x => x.Phase == phase &&
+            var pastActionFeature = Features.FirstOrDefault(x => x.Phase == phase && x.IsGlobal == false &&
                                 (x.PreCondition == null ||
                                 ((x.PreCondition.Aggression == Aggression.None ||
                                 x.PreCondition.Aggression == aggression) &&
@@ -178,7 +178,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
                 actions.Add(possibleAction);
                 actions.Reverse();
 
-                var futureActionFeature = Features.FirstOrDefault(x => x.Phase == phase &&
+                var futureActionFeature = Features.FirstOrDefault(x => x.Phase == phase && x.IsGlobal == false &&
                                 (x.PreCondition != null &&
                                 ((x.PreCondition.Aggression == Aggression.None ||
                                 x.PreCondition.Aggression == aggression) &&

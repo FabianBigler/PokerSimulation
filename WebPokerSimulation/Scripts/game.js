@@ -123,7 +123,12 @@ function pollGameState() {
     });
 }
 
-function SetAction(actionType) {
+function SetAction(actionType) {    
+    //var nodes = document.getElementById('actionBar').getElementsByTagName('*');
+    //for (var i = 0; i < nodes.length; i++) {
+    //    nodes[i].disabled = true;
+    //}
+
     let amount = $('#amount').val();
     let amountToCall = 0
     if(document.getElementById('amountToCall') != null)
@@ -134,14 +139,19 @@ function SetAction(actionType) {
     let actionIndex = 0;
     if (actionType == 2) {
         amount = amountToCall;
-    }    
+    }
+
+    $('#actionBar').empty();
 
     $.ajax({
         url: '/game/SetAction',
         type: 'POST',
         data: { actionType: actionType, amount: amount },
         success: function (data) {
-
+            //var nodes = document.getElementById('actionBar').getElementsByTagName('*');
+            //for (var i = 0; i < nodes.length; i++) {
+            //    nodes[i].disabled = false;                
+            //}
         }
     });
 }

@@ -36,10 +36,10 @@ namespace PokerSimulation.Test.Algorithms.OpponentModelling
             {
                 Name = FeatureNames.ThreeBet,
                 Phase = GamePhase.PreFlop,
-                BetMinThreshold = 0.4,
-                BetMaxThreshold = 1,
-                PassMinThreshold = 0,
-                PassMaxThreshold = 0.2,
+                BetMinThreshold = 0,
+                BetMaxThreshold = 0.2,
+                PassMinThreshold = 0.4,
+                PassMaxThreshold = 1.0,
                 ActionsToMeasure = new List<FeatureAction>() { FeatureAction.Bet },
                 PreCondition = new Precondition()
                 {

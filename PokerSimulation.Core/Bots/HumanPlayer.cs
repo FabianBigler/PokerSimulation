@@ -33,6 +33,23 @@ namespace PokerSimulation.Core.Bots
                 }
             }
 
+            if (!possibleActions.Contains(action.ActionType))
+            {
+                switch(action.ActionType)
+                {
+                    case ActionType.Call:
+                        if(possibleActions.Contains(ActionType.Check))
+                        {
+                            action.ActionType = ActionType.Check;
+                        }
+                        break;
+                    case ActionType.Fold:
+
+                        break;
+                }
+
+            }
+
             return await Task.FromResult<GameActionEntity>(action);
         }
     }

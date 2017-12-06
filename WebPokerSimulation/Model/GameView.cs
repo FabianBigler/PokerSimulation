@@ -85,8 +85,9 @@ namespace WebPokerSimulation.Model
                 hash = hash * 23 + MinAmountToRaise;
                 foreach (var action in PossibleActions)
                 {
+                    int actionHash = (int) action + 1;
                     hash *= 23; // multiply by a prime number
-                    hash += action.GetHashCode(); // add next hash code                    
+                    hash += actionHash; // add next hash code                    
                 }                                
                 return hash;
             }
