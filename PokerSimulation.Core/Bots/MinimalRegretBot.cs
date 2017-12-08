@@ -21,6 +21,7 @@ namespace PokerSimulation.Core.Bots
         private byte handBucket;
         private List<ActionBucket> actionHistory;
         Object thisLock = new Object();
+        private RandomBot randomBot;
 
 
         public MinimalRegretBot(PlayerEntity entity) : base(entity)
@@ -34,7 +35,9 @@ namespace PokerSimulation.Core.Bots
                 {
                     trainedTree = Serializer.Deserialize<Dictionary<long, RegretGameNode<ActionBucket>>>(fs);
                 }                    
-            }           
+            }
+
+            randomBot = new RandomBot(entity);
         }
 
         public override void DealHoleCards(Card card1, Card card2)
@@ -61,8 +64,8 @@ namespace PokerSimulation.Core.Bots
         private void Game_ChangedPhase(List<Card> board, GamePhase phase)
         {
             handBucket = (byte) HandStrengthAbstracter.MapToHandBucket(board, HoleCards);
-        }     
-
+        }
+        
         public override Task<GameActionEntity> GetAction(List<ActionType> possibleActions, int amountToCall)
         {               
             var infoSet = new InformationSet<ActionBucket>();
@@ -70,16 +73,12 @@ namespace PokerSimulation.Core.Bots
             infoSet.CardBucket = handBucket;
 
             RegretGameNode<ActionBucket> gameNode;
-            trainedTree.TryGetValue(infoSet.GetLongHashCode(), out gameNode);
-            if(gameNode == null)
-            {
-                //throw new Exception("Information Set not found"); 
-                return Task.FromResult<GameActionEntity>(new GameActionEntity
-                {
-                    ActionType = possibleActions[0],
-                    Amount = 0,
-                    PlayerId = this.Id
-                });
+            trainedTree.TryGetValue(infoSet.GetLongHashCode(), out gameNode);            
+            if (gameNode == null)
+            {                
+                // this should never happen             
+                randomBot.ChipStack = this.ChipStack;
+                return randomBot.GetAction(possibleActions, amountToCall);         
             } else
             {
                 var optimalStrategy = gameNode.calculateAverageStrategy();

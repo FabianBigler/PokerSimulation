@@ -114,9 +114,10 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
                                     lastActionPassCount++;
                                 }
                                 else
-                                {
+                                {                                   
                                     //special case: if it's first round, call pass results in ending the round
-                                    if(actions[i] == ActionBucket.Call && i == 0)
+                                    if((actions[i] == ActionBucket.Call && i == 0) && 
+                                        actions.Count > 2 && actions[i+1] ==ActionBucket.Pass)
                                     {                                        
                                         lastActionPassCount--;                                        
                                     }

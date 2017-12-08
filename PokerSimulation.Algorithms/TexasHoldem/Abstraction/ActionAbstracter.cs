@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
 {
+
     public class ActionAbstracter
     {
         public static int GetBetSize(ActionBucket action, int amountToCall, int potSize)
