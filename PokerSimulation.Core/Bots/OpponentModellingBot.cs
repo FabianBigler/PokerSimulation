@@ -237,7 +237,7 @@ namespace PokerSimulation.Core.Bots
                 Phase = GamePhase.PreFlop
             });
 
-            startHandBucket = StartHandAbstracter.FromStartHand(card1, card2);
+            startHandBucket = StartHandAbstracter.MapToBucket(card1, card2);
             handStrengthBucket = HandStrengthBucket.None;
 
             opponent.StartNewhand();
@@ -290,7 +290,7 @@ namespace PokerSimulation.Core.Bots
 
         private void game_ChangedPhase(List<Card> board, GamePhase phase)
         {
-            handStrengthBucket = HandStrengthAbstracter.MapToHandBucket(board, HoleCards);
+            handStrengthBucket = HandStrengthAbstracter.MapToBucket(board, HoleCards);
             actionHistoriesPerPhase.Add(new ActionHistoryPerPhase()
             {
                 Phase = phase

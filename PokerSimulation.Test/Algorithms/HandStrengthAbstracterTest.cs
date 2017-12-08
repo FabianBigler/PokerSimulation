@@ -27,7 +27,7 @@ namespace PokerSimulation.Test.Algorithms
             board.Add(new Card(CardSuit.Clubs, CardValue.Two));
             board.Add(new Card(CardSuit.Spades, CardValue.Two));
 
-            var handbucket = HandStrengthAbstracter.MapToHandBucket(board, holeCards);
+            var handbucket = HandStrengthAbstracter.MapToBucket(board, holeCards);
             Assert.AreEqual(HandStrengthBucket.TopHands, handbucket);
         }
 
@@ -45,7 +45,7 @@ namespace PokerSimulation.Test.Algorithms
             board.Add(new Card(CardSuit.Clubs, CardValue.Four));
             board.Add(new Card(CardSuit.Spades, CardValue.Two));
 
-            var handbucket = HandStrengthAbstracter.MapToHandBucket(board, holeCards);
+            var handbucket = HandStrengthAbstracter.MapToBucket(board, holeCards);
             Assert.AreEqual(HandStrengthBucket.TopPair, handbucket);
         }
 
@@ -63,7 +63,7 @@ namespace PokerSimulation.Test.Algorithms
             board.Add(new Card(CardSuit.Clubs, CardValue.Four));
             board.Add(new Card(CardSuit.Spades, CardValue.Two));
 
-            var handbucket = HandStrengthAbstracter.MapToHandBucket(board, holeCards);
+            var handbucket = HandStrengthAbstracter.MapToBucket(board, holeCards);
             Assert.AreEqual(HandStrengthBucket.MiddlePair, handbucket);
         }
 
@@ -81,7 +81,7 @@ namespace PokerSimulation.Test.Algorithms
             board.Add(new Card(CardSuit.Clubs, CardValue.Two));
             board.Add(new Card(CardSuit.Spades, CardValue.Two));
 
-            var handbucket = HandStrengthAbstracter.MapToHandBucket(board, holeCards);
+            var handbucket = HandStrengthAbstracter.MapToBucket(board, holeCards);
             Assert.AreEqual(HandStrengthBucket.LowPair, handbucket);
         }
 
@@ -99,7 +99,7 @@ namespace PokerSimulation.Test.Algorithms
             board.Add(new Card(CardSuit.Clubs, CardValue.Two));
             board.Add(new Card(CardSuit.Spades, CardValue.Five));
 
-            var handbucket = HandStrengthAbstracter.MapToHandBucket(board, holeCards);
+            var handbucket = HandStrengthAbstracter.MapToBucket(board, holeCards);
             Assert.AreEqual(HandStrengthBucket.HighCardAce, handbucket);
         }
 
@@ -117,7 +117,7 @@ namespace PokerSimulation.Test.Algorithms
             board.Add(new Card(CardSuit.Clubs, CardValue.Two));
             board.Add(new Card(CardSuit.Spades, CardValue.Five));
 
-            var handbucket = HandStrengthAbstracter.MapToHandBucket(board, holeCards);
+            var handbucket = HandStrengthAbstracter.MapToBucket(board, holeCards);
             Assert.AreEqual(HandStrengthBucket.HighCardElse, handbucket);
         }
     }

@@ -46,8 +46,8 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
                 dealer.DealTurn(board);
                 dealer.DealRiver(board);
 
-                StartHandBucket startHandBucket1 = StartHandAbstracter.FromStartHand(dummyPlayer1.HoleCards[0], dummyPlayer1.HoleCards[1]);
-                StartHandBucket startHandBucket2 = StartHandAbstracter.FromStartHand(dummyPlayer2.HoleCards[0], dummyPlayer2.HoleCards[1]);
+                StartHandBucket startHandBucket1 = StartHandAbstracter.MapToBucket(dummyPlayer1.HoleCards[0], dummyPlayer1.HoleCards[1]);
+                StartHandBucket startHandBucket2 = StartHandAbstracter.MapToBucket(dummyPlayer2.HoleCards[0], dummyPlayer2.HoleCards[1]);
                 var handBuckets = new List<byte>() { (byte)startHandBucket1, (byte)startHandBucket2 }.ToArray();
                 var initialState = new HeadsUpGameState()
                 {
@@ -224,8 +224,8 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
                             break;
                     }
                     
-                    byte bucket1 = (byte)HandStrengthAbstracter.MapToHandBucket(currentBoard, newState.Player1HoleCards);
-                    byte bucket2 = (byte)HandStrengthAbstracter.MapToHandBucket(currentBoard, newState.Player2HoleCards);                    
+                    byte bucket1 = (byte)HandStrengthAbstracter.MapToBucket(currentBoard, newState.Player1HoleCards);
+                    byte bucket2 = (byte)HandStrengthAbstracter.MapToBucket(currentBoard, newState.Player2HoleCards);                    
                     handBuckets = new byte[] { bucket1, bucket2};
                 }
             }

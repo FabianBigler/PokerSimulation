@@ -128,13 +128,13 @@ namespace PokerSimulation.Core.Bots
         public override void DealHoleCards(Card card1, Card card2)
         {
             base.DealHoleCards(card1, card2);
-            startHandBucket = StartHandAbstracter.FromStartHand(card1, card2);
+            startHandBucket = StartHandAbstracter.MapToBucket(card1, card2);
             handStrengthBucket = HandStrengthBucket.None;
         }
 
         private void game_ChangedPhase(List<Card> board, GamePhase phase)
         {
-            handStrengthBucket = HandStrengthAbstracter.MapToHandBucket(board, HoleCards);
+            handStrengthBucket = HandStrengthAbstracter.MapToBucket(board, HoleCards);
         }
     }
 }

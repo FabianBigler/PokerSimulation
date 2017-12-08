@@ -44,7 +44,7 @@ namespace PokerSimulation.Core.Bots
         {
             base.DealHoleCards(card1, card2);
             actionHistory = new List<ActionBucket>();
-            handBucket = (byte) StartHandAbstracter.FromStartHand(card1, card2);
+            handBucket = (byte) StartHandAbstracter.MapToBucket(card1, card2);
         }
 
         public override void AssignCurrentGame(HeadsupGame game)
@@ -63,7 +63,7 @@ namespace PokerSimulation.Core.Bots
 
         private void Game_ChangedPhase(List<Card> board, GamePhase phase)
         {
-            handBucket = (byte) HandStrengthAbstracter.MapToHandBucket(board, HoleCards);
+            handBucket = (byte) HandStrengthAbstracter.MapToBucket(board, HoleCards);
         }
         
         public override Task<GameActionEntity> GetAction(List<ActionType> possibleActions, int amountToCall)
@@ -75,8 +75,8 @@ namespace PokerSimulation.Core.Bots
             RegretGameNode<ActionBucket> gameNode;
             trainedTree.TryGetValue(infoSet.GetLongHashCode(), out gameNode);            
             if (gameNode == null)
-            {                
-                // this should never happen             
+            {
+                // this should never happen
                 randomBot.ChipStack = this.ChipStack;
                 return randomBot.GetAction(possibleActions, amountToCall);         
             } else

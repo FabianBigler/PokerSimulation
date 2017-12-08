@@ -24,7 +24,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
                                            { 4,4,4,6,6,6,6,6,7,7,7,8,7 },
                                            { 6,6,6,6,6,6,6,7,7,7,7,7,8 } };
 
-        public static StartHandBucket FromStartHand(Card card1, Card card2)
+        public static StartHandBucket MapToBucket(Card card1, Card card2)
         {
             byte index1 = (byte)card1.Value;
             byte index2 = (byte)card2.Value;
