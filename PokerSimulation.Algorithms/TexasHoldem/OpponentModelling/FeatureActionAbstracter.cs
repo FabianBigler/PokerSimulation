@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
 {
-    public class FeatureActionMapper
+    public class FeatureActionAbstracter
     {
         public static FeatureAction FromActionBucket(ActionBucket actionBucket)
         {

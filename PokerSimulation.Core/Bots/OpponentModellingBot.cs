@@ -17,8 +17,7 @@ namespace PokerSimulation.Core.Bots
     public class OpponentModellingBot : Player
     {
         private Opponent opponent;
-        private RandomBot randomBot;
-        private MinimalRegretBot minimalRegretBot;
+        private RandomBot randomBot;        
 
         private HandStrengthBucket handStrengthBucket;
         private StartHandBucket startHandBucket;
@@ -39,7 +38,7 @@ namespace PokerSimulation.Core.Bots
             var possibleFeatureActions = new List<FeatureAction>();
             foreach (var possibleAction in possibleActions)
             {
-                var featureAction = FeatureActionMapper.FromActionType(possibleAction);
+                var featureAction = FeatureActionAbstracter.FromActionType(possibleAction);
                 if (!possibleFeatureActions.Contains(featureAction))
                 {
                     possibleFeatureActions.Add(featureAction);
@@ -268,7 +267,7 @@ namespace PokerSimulation.Core.Bots
             var actionBucket = ActionAbstracter.MapToBucket(action, amountToCall, currentGame.PotSize, amount);
             actionHistory.Add(actionBucket);
 
-            FeatureAction featureAction = FeatureActionMapper.FromActionBucket(actionBucket);
+            FeatureAction featureAction = FeatureActionAbstracter.FromActionBucket(actionBucket);
 
             var currentPhasehistory = actionHistoriesPerPhase.FirstOrDefault(x => x.Phase == currentGame.Phase);
             currentPhasehistory.ActionHistory.Add(featureAction);

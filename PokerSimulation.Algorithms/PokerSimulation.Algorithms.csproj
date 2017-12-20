@@ -64,7 +64,7 @@
     <Compile Include="TexasHoldem\CounterFactualRegret\TexasHoldemTrainer.cs" />
     <Compile Include="TexasHoldem\OpponentModelling\Aggression.cs" />
     <Compile Include="TexasHoldem\OpponentModelling\FeatureAction.cs" />
-    <Compile Include="TexasHoldem\OpponentModelling\FeatureActionMapper.cs" />
+    <Compile Include="TexasHoldem\OpponentModelling\FeatureActionAbstracter.cs" />
     <Compile Include="TexasHoldem\OpponentModelling\FeatureNames.cs" />
     <Compile Include="TexasHoldem\OpponentModelling\OpponentSerializer.cs" />
     <Compile Include="TexasHoldem\OpponentModelling\PlayerType.cs" />
@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CFR_ClassDiagram.cd" />
+    <None Include="OpponentModelling_ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
