@@ -35,7 +35,7 @@ namespace PokerSimulation.Infrastructure.Repositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                return db.Query<PlayerEntity>("SELECT * FROM Player");                
+                return db.Query<PlayerEntity>("SELECT * FROM Player ORDER BY Name");                
             }
         }
 
