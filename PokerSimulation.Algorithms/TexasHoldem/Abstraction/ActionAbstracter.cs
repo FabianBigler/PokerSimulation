@@ -11,6 +11,13 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
 
     public class ActionAbstracter
     {
+        /// <summary>
+        /// Maps the action bucket based on the current amount to call and the pot size to a suitable bet size.
+        /// </summary>
+        /// <param name="action">abstracted action</param>
+        /// <param name="amountToCall">current amount to call (if this is zero, the player is betting, otherwise the player is raising)</param>
+        /// <param name="potSize">current pot size</param>
+        /// <returns>bet size</returns>
         public static int GetBetSize(ActionBucket action, int amountToCall, int potSize)
         {            
             int currentMoneyInPot = (potSize - amountToCall) / 2;
@@ -81,6 +88,14 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
             return betSize;
         }
 
+        /// <summary>
+        /// Maps the real action to an action bucket based on the distance to the next two buckets.
+        /// </summary>
+        /// <param name="action">real action</param>
+        /// <param name="amountToCall">current amount to call (if this is zero, the player is betting, otherwise the player is raising)</param>
+        /// <param name="potSize">current pot size</param>
+        /// <param name="amount">real amount of current action</param>
+        /// <returns>action bucket</returns>
         public static ActionBucket MapToBucket(ActionType action, int amountToCall, int potSize, int amount)
         {
             switch (action)
@@ -116,6 +131,13 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
             return ActionBucket.Pass;
         }
 
+        /// <summary>
+        /// Maps the action bucket to a real action
+        /// the amount to call determines whether the real action will be check, respectively fold or bet, respectively raise.
+        /// </summary>
+        /// <param name="action">the abstracted action</param>
+        /// <param name="amountToCall">current amount to call</param>
+        /// <returns>real action</returns>
         public static ActionType MapToAction(ActionBucket action, int amountToCall)
         {
             switch (action)
@@ -153,7 +175,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
         /// <param name="high"></param>
         /// <param name="lowBucket"></param>
         /// <param name="highBucket"></param>
-        /// <returns></returns>
+        /// <returns>action bucket</returns>
         private static ActionBucket getBucketByDistanceProbability(int amount, int low, int high, ActionBucket lowBucket, ActionBucket highBucket)
         {
             var random = new Random();

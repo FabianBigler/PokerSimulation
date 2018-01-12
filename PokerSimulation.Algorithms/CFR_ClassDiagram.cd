@@ -44,13 +44,6 @@
       <FileName>TexasHoldem\Abstraction\ActionAbstracter.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="PokerSimulation.Algorithms.TexasHoldem.Abstraction.GameAction">
-    <Position X="0.75" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAQ=</HashCode>
-      <FileName>TexasHoldem\Abstraction\GameAction.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="PokerSimulation.Algorithms.TexasHoldem.Abstraction.HandStrengthAbstracter" Collapsed="true">
     <Position X="5.5" Y="5.25" Width="2" />
     <TypeIdentifier>

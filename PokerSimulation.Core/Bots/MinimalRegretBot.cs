@@ -76,7 +76,7 @@ namespace PokerSimulation.Core.Bots
             trainedTree.TryGetValue(infoSet.GetLongHashCode(), out gameNode);            
             if (gameNode == null)
             {
-                // this should never happen
+                // this should never occur
                 randomBot.ChipStack = this.ChipStack;
                 return randomBot.GetAction(possibleActions, amountToCall);         
             } else

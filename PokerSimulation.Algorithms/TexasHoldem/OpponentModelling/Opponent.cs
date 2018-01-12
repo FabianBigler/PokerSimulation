@@ -11,6 +11,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
     {
         public List<Feature> Features { get; set; }
 
+        //these values are based on expert knowledge
         public const double AggressiveThreshold = 0.2;
         public const double PassiveThreshold = 0.4;
         public const double TightThreshold = 0.3;
@@ -23,6 +24,10 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
             this.Features = new List<Feature>();
         }
 
+        /// <summary>
+        /// Returns the current playstyle based on the features VPIP and PFR.
+        /// This may return PlayStyle.None if the playstyle is not identifiable.
+        /// </summary>
         public PlayStyle PlayStyle    
         {
             get
@@ -62,6 +67,13 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
             }
         }
 
+        /// <summary>
+        /// Updates the features which are relevant in the current state of the game.
+        /// </summary>
+        /// <param name="lastActions">Last actions of the current phase</param>
+        /// <param name="phase">Phase of the game</param>
+        /// <param name="aggression">Aggression of the player</param>
+        /// <param name="positioning">Positioning of the player</param>
         public void UpdateFeaturesAfterAction(List<FeatureAction> lastActions, GamePhase phase, Aggression aggression, Positioning positioning)
         {
             //reverse action list to make it easier comparable
@@ -95,6 +107,10 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
             }
         }
 
+        /// <summary>
+        /// Update features after the showdown has occured
+        /// </summary>
+        /// <param name="isWinner"></param>
         public void UpdateFeaturesAfterShowdown(bool? isWinner)
         {
             var features = Features.Where(x => x.Phase == GamePhase.Showdown);
@@ -119,7 +135,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
                         {
                             feature.CountTotal++;
                         }
-                        break;
+                        break;                                            
                 }
             }                                                                                                
         }

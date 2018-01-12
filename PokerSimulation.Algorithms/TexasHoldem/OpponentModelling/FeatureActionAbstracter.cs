@@ -11,6 +11,11 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
 {
     public class FeatureActionAbstracter
     {
+        /// <summary>
+        /// Maps the action bucket to an even more abstracted feature action
+        /// </summary>
+        /// <param name="actionBucket"></param>
+        /// <returns></returns>
         public static FeatureAction FromActionBucket(ActionBucket actionBucket)
         {
             switch (actionBucket)
@@ -28,6 +33,12 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
             }
         }
 
+
+        /// <summary>
+        /// Maps the real action to an abstracted action
+        /// </summary>
+        /// <param name="actionType"></param>
+        /// <returns></returns>
         public static FeatureAction FromActionType(ActionType actionType)
         {
             switch (actionType)

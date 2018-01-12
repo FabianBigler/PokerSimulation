@@ -8,17 +8,23 @@ using System.Threading.Tasks;
 
 namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
 {
+    /// <summary>
+    /// This class holds the current state of the heads up game   
+    /// </summary>
     public class HeadsUpGameState
     {
         public int AmountToCall;
         public int PotSize;
         public GamePhase Phase;
-
-        //does not change while playing a hand
+        
         public List<Card> Board;
         public List<Card> Player1HoleCards;
         public List<Card> Player2HoleCards;
 
+        /// <summary>
+        /// Sets the next phase of the game
+        /// </summary>
+        /// <param name="phase">current phase of the game</param>
         public void SetNextPhase(GamePhase phase)
         {
             switch (phase)
@@ -40,6 +46,10 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
             }            
         }
 
+        /// <summary>
+        /// Retrieves a new copy of the current game state
+        /// </summary>
+        /// <returns></returns>
         public HeadsUpGameState GetCopy()
         {
             var state = new HeadsUpGameState();

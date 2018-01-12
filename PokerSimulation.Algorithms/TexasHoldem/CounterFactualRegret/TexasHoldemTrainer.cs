@@ -69,8 +69,8 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
         /// <param name="gameState"></param>
         /// <param name="handBuckets"></param>
         /// <param name="actions"></param>
-        /// <param name="probabilityPlayer1"></param>
-        /// <param name="probabilityPlayer2"></param>
+        /// <param name="probabilityPlayer1">probability of player 1 to reach this node</param>
+        /// <param name="probabilityPlayer2">probability of player 2 to reach this node</param>
         /// <returns></returns>
         private float CalculateCounterFactualRegret(HeadsUpGameState gameState, byte[] handBuckets, List<ActionBucket> actions, float probabilityPlayer1, float probabilityPlayer2)
         {
@@ -85,6 +85,8 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
 
             bool nextActionCallEnabled = true;
             bool phaseChanged = false;
+
+            //the last actions determine whether the next phase has to be set or whether the game (i.e. the recursion) ends
             switch (lastAction)
             {
                 case ActionBucket.Pass:
@@ -190,6 +192,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
                     break;
             }
 
+            //if the phase has changed, the next event has to occur (e.g. adding a card to the current board)
             if (phaseChanged)
             {
                 if (newState.Phase == GamePhase.Showdown)
@@ -224,6 +227,7 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
                             break;
                     }
                     
+                    //evaluate new hand buckets
                     byte bucket1 = (byte)HandStrengthAbstracter.MapToBucket(currentBoard, newState.Player1HoleCards);
                     byte bucket2 = (byte)HandStrengthAbstracter.MapToBucket(currentBoard, newState.Player2HoleCards);                    
                     handBuckets = new byte[] { bucket1, bucket2};
@@ -242,8 +246,9 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
                 numberOfActions = Settings.NumberOfActions - 1;
             }
 
-            RegretGameNode<ActionBucket> node = null;
+            RegretGameNode<ActionBucket> node = null;            
             long hash = infoSet.GetLongHashCode();
+            //checks if the current information set already exists in O(1)
             if (!GameNodes.TryGetValue(hash, out node))
             {
                 node = new RegretGameNode<ActionBucket>(numberOfActions);
@@ -251,9 +256,10 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
                 GameNodes.Add(hash, node);
             }
 
+            //gets the strategy of the current player
             var strategy = node.calculateStrategy(playerIndex == 0 ? probabilityPlayer1 : probabilityPlayer2);
 
-            // initialise list with zeros
+            // initialise utilities  with zeros
             var utilities = new List<float>(numberOfActions);
             for (int i = 0; i < numberOfActions; i++)
             {
@@ -262,26 +268,32 @@ namespace PokerSimulation.Algorithms.TexasHoldem.CounterFactualRegret
 
             float nodeUtility = 0;
             int index = 0;
+
+            // traverse the tree further down with a breadth first search
             foreach (ActionBucket nextAction in Enum.GetValues(typeof(ActionBucket)))
             {
                 //skip illegal actions
-                if (nextAction == ActionBucket.None) continue;
+                if (nextAction == ActionBucket.None) continue;             
                 if (nextAction == ActionBucket.Call && !nextActionCallEnabled) continue;           
+
                 var nextHistory = new List<ActionBucket>();
                 nextHistory.AddRange(actions.ToArray());
                 nextHistory.Add(nextAction);                                
-
+                                
                 utilities[index] = playerIndex == 0
                     ? -CalculateCounterFactualRegret(newState, handBuckets, nextHistory, probabilityPlayer1 * strategy[index], probabilityPlayer2)
                    : -CalculateCounterFactualRegret(newState, handBuckets, nextHistory, probabilityPlayer1, probabilityPlayer2 * strategy[index]);
 
+                //accumulate the utility of the sub branches
                 nodeUtility += strategy[index] * utilities[index];
                 index++;
             }
 
             for (int i = 0; i < numberOfActions; i++)
             {
+                //calculate the regret
                 float regret = utilities[i] - nodeUtility;
+                //calculate the regret sum based on the current player
                 node.RegretSum[i] += (playerIndex == 0 ? probabilityPlayer2 : probabilityPlayer1) * regret;
             }
 

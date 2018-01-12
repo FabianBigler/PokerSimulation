@@ -6,16 +6,22 @@ using System.Threading.Tasks;
 
 namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
 {
+    /// <summary>
+    /// ActionBucket has 5 legal actions: Pass, Call, LowBet, MediumBet, HighBet which may be extended to more actions.
+    /// Whereas LowBet, MediumBet and HighBet are highly abstracted.
+    /// </summary>
     public enum ActionBucket : byte
-    {
-        //Default value = None
+    {        
+        /// <summary>
+        /// Default value = None
+        /// </summary>
         None = 0,
-        // Pass, Check is considered to be the same action
-        Pass = 1,
-
-        // Bet has to be abstracted to buckets
+        /// <summary>
+        /// Pass, Check is considered to be the same action
+        /// </summary>
+        Pass = 1,                
         Call = 2,
-        LowBet = 3, 
+        LowBet = 3,        
         MediumBet = 4, 
         HighBet = 5  
     }

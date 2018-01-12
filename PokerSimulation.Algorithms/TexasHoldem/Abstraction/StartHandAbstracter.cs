@@ -24,6 +24,13 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
                                            { 4,4,4,6,6,6,6,6,7,7,7,8,7 },
                                            { 6,6,6,6,6,6,6,7,7,7,7,7,8 } };
 
+        /// <summary>
+        /// Maps the actual hole cards of the player to the start hand bucket
+        /// Based on the lookup table from https://www.pokernews.com/strategy/artificial-intelligence-hold-em-part-2-23188.htm
+        /// </summary>
+        /// <param name="card1">hole card 1</param>
+        /// <param name="card2">hole card 2</param>
+        /// <returns>start hand bucket</returns>
         public static StartHandBucket MapToBucket(Card card1, Card card2)
         {
             byte index1 = (byte)card1.Value;

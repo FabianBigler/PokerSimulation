@@ -12,6 +12,12 @@ namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
 {
     public class HandStrengthAbstracter
     {
+        /// <summary>
+        /// Evaluates the handrank and maps it to the corresponding hand strength bucket.
+        /// </summary>
+        /// <param name="board">current community cards (or board)</param>
+        /// <param name="holeCards">current hole cards of the player</param>
+        /// <returns></returns>
         public static HandStrengthBucket MapToBucket(List<Card> board, List<Card> holeCards)
         {
             var evaluator = new HandEvaluator(holeCards, board);

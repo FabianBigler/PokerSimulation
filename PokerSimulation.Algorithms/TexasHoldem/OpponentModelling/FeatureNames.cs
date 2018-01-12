@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
 {
+    /// <summary>
+    /// The names of the currently used features
+    /// </summary>
     public class FeatureNames
     {
         public const string Vpip = "VPIP";

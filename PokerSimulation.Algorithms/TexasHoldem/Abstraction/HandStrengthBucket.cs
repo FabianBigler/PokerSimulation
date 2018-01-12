@@ -6,20 +6,38 @@ using System.Threading.Tasks;
 
 namespace PokerSimulation.Algorithms.TexasHoldem.Abstraction
 {
+    /// <summary>
+    /// Hand Strengths 
+    /// </summary>
     public enum HandStrengthBucket : byte
     {
-        None = 0,
-        // Very low hand
+        /// <summary>
+        /// Default value, not legal bucket
+        /// </summary>
+        None = 0,        
+        /// <summary>
+        /// Very low hand
+        /// </summary>
         HighCardElse = 1,
-        // No card hit, but at least there is an Ace High Card
+        /// <summary>
+        /// No card hit, but at least there is an Ace High Card
+        /// </summary>
         HighCardAce = 2,
-        // Low pair hit
+        /// <summary>
+        /// Low pair hit
+        /// </summary>
         LowPair = 3,
-        // Middle pair hit
+        /// <summary>
+        /// Middle pair hit
+        /// </summary>
         MiddlePair = 4,
-        // Top pair hit
+        /// <summary>
+        /// Top pair hit
+        /// </summary>
         TopPair = 5,
-        // Top hands (anything better than one pair)
+        /// <summary>
+        /// Top hands (anything better than one pair)
+        /// </summary>
         TopHands = 6
     }
 }

@@ -1,4 +1,12 @@
-﻿/****** Object:  Table [dbo].[Session]    Script Date: 17/05/2017 11:52:41 ******/
+﻿/****** 
+This script creates the essential tables with the players.
+Just change "DataBaseName" to the corresponding name and it will work accordingly.
+******/
+
+USE [DataBaseName]
+GO
+
+/****** Object:  Table [dbo].[Session]    Script Date: 26.12.2017 13:24:16 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -12,6 +20,7 @@ CREATE TABLE [dbo].[Session](
 	[State] [int] NOT NULL,
 	[TotalHandsCount] [int] NOT NULL,
 	[PlayedHandsCount] [int] NOT NULL,
+	[Created] [datetime] NULL,
  CONSTRAINT [PK_Session] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -20,8 +29,7 @@ CREATE TABLE [dbo].[Session](
 
 GO
 
-
-/****** Object:  Table [dbo].[Player]    Script Date: 17/05/2017 11:52:33 ******/
+/****** Object:  Table [dbo].[Player]    Script Date: 26.12.2017 13:24:30 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -41,8 +49,7 @@ CREATE TABLE [dbo].[Player](
 
 GO
 
-
-/****** Object:  Table [dbo].[PlayedHand]    Script Date: 17/05/2017 11:52:25 ******/
+/****** Object:  Table [dbo].[PlayedHand]    Script Date: 26.12.2017 13:25:06 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -59,6 +66,7 @@ CREATE TABLE [dbo].[PlayedHand](
 	[Holecards2] [nchar](5) NULL,
 	[Board] [nchar](14) NULL,
 	[AmountWon] [int] NULL,
+	[Phase] [tinyint] NULL,
  CONSTRAINT [PK_PlayedHand] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -75,7 +83,8 @@ GO
 ALTER TABLE [dbo].[PlayedHand] CHECK CONSTRAINT [FK_Session_PlayedHand_Cascade]
 GO
 
-/****** Object:  Table [dbo].[GameAction]    Script Date: 17/05/2017 11:52:15 ******/
+
+/****** Object:  Table [dbo].[GameAction]    Script Date: 26.12.2017 13:25:21 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -105,11 +114,34 @@ GO
 ALTER TABLE [dbo].[GameAction] CHECK CONSTRAINT [FK_PlayedHand_GameAction_Cascade]
 GO
 
+GO
+INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'34b52c39-0d7f-4c5c-9d6f-028c7acc1bf3', N'AlwaysFoldBot1                                    ', N'This bot always folds.                                                                                                                                                                                                                                    ', 6)
+GO
 INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'6be69315-40cc-466b-a88a-0b8c4f01f4db', N'RandomBot1                                        ', N'This bot is stupid and just randomly selects an option.                                                                                                                                                                                                   ', 3)
+GO
+INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'981bebdc-6cd1-4f89-9b26-19746905042c', N'Human                                             ', N'Human playing against Bot                                                                                                                                                                                                                                 ', 7)
 GO
 INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'a3fbede8-41c5-4a0a-b36b-20885ab8eacc', N'AlwaysMinRaiseBot                                 ', N'This bot always minraises, no matter what.                                                                                                                                                                                                                ', 2)
 GO
+INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'c61a5bef-a347-4ed2-9d27-22cb15c72c19', N'LoosePassiveBot                                   ', N'This bot''s play style is loose passive                                                                                                                                                                                                                    ', 11)
+GO
 INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'492539d7-3fbc-4f31-897d-3d22ceac3d63', N'RandomBot2                                        ', N'This bot is stupid and just randomly selects an option.                                                                                                                                                                                                   ', 3)
 GO
+INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'e5fdb088-5b0d-4c6a-baff-4e4e049660f3', N'OpponentModelling1                                ', N'Based on Opponent modelling                                                                                                                                                                                                                               ', 5)
+GO
+INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'08127235-4c03-4cea-a777-5b2d5914e95c', N'TightPassiveBot                                   ', N'This bot''s play style is tight passive                                                                                                                                                                                                                    ', 9)
+GO
+INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'311eb5a0-9e92-4ae3-a067-5c743df70fe2', N'LooseAggressiveBot                                ', N'This bot''s play style is loose aggressive                                                                                                                                                                                                                 ', 10)
+GO
+INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'54283a3c-671a-4c09-aad7-90d9498cec1b', N'TightAggressiveBot                                ', N'This bot''s play style is tight aggressive                                                                                                                                                                                                                 ', 8)
+GO
+INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'bd0655f5-3ec8-4bb3-8f91-94d2c3400b98', N'MinimalRegretBot1                                 ', N'This bot is based on the algorithm Counterfactual Regret Minimization.                                                                                                                                                                                    ', 4)
+GO
+INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'2efcc44d-3948-4ffb-816e-a42ab386fc8f', N'AlwaysFoldBot2                                    ', N'This bot always folds.                                                                                                                                                                                                                                    ', 6)
+GO
+INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'6c07f0bf-d1a4-4c74-88e8-ca46169fb80d', N'MinimalRegretBot2                                 ', N'This bot is based on the algorithm Counterfactual Regret Minimization.                                                                                                                                                                                    ', 4)
+GO
 INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'd91f0046-ca67-4ee4-a183-dadc18d49ae9', N'Callingstation                                    ', N'This bot always calls, that is why it is called Callingstation.                                                                                                                                                                                           ', 1)
+GO
+INSERT [dbo].[Player] ([Id], [Name], [Description], [Type]) VALUES (N'204a1e74-d227-4bdb-a505-e3bc3c0f0999', N'OpponentModelling2                                ', N'Based on Opponent Modelling                                                                                                                                                                                                                               ', 5)
 GO

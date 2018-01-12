@@ -10,6 +10,11 @@ namespace PokerSimulation.Algorithms.KuhnPoker
     {       
         public Dictionary<int, RegretGameNode<GameAction>> GameNodes { get; private set; }
 
+        /// <summary>
+        /// Trains the exposed GameNodes property for the passed number of hands.
+        /// After each played hand the deck will be shuffled, the cards dealt randomly.
+        /// </summary>
+        /// <param name="numberOfhands">The number of hands the trainer has to train.</param>
         public void Train(int numberOfhands)
         {
             GameNodes = new Dictionary<int, RegretGameNode<GameAction>>();
@@ -25,6 +30,15 @@ namespace PokerSimulation.Algorithms.KuhnPoker
             }
         }
 
+        /// <summary>
+        /// Recursively implements the Counterfactual Regret Minimization algorithm
+        /// 
+        /// </summary>
+        /// <param name="cards">Hand cards of player 1 and 2</param>
+        /// <param name="actions">Action History</param>
+        /// <param name="probability0">Accumulated action probability of player 1</param>
+        /// <param name="probability1">Accumulated action probability of player 2</param>
+        /// <returns></returns>
         private float CalculateCounterFactualRegret(int[] cards, List<GameAction> actions, float probability0, float probability1)
         {
             int plays = actions.Count;

@@ -50,7 +50,6 @@
     <Compile Include="KuhnPoker\Settings.cs" />
     <Compile Include="TexasHoldem\Abstraction\ActionAbstracter.cs" />
     <Compile Include="TexasHoldem\Abstraction\ActionBucket.cs" />
-    <Compile Include="TexasHoldem\Abstraction\GameAction.cs" />
     <Compile Include="TexasHoldem\Abstraction\HandStrengthAbstracter.cs" />
     <Compile Include="TexasHoldem\Abstraction\StartHandAbstracter.cs" />
     <Compile Include="TexasHoldem\Abstraction\HandStrengthBucket.cs" />
@@ -67,7 +66,7 @@
     <Compile Include="TexasHoldem\OpponentModelling\FeatureActionAbstracter.cs" />
     <Compile Include="TexasHoldem\OpponentModelling\FeatureNames.cs" />
     <Compile Include="TexasHoldem\OpponentModelling\OpponentSerializer.cs" />
-    <Compile Include="TexasHoldem\OpponentModelling\PlayerType.cs" />
+    <Compile Include="TexasHoldem\OpponentModelling\PlayStyle.cs" />
     <Compile Include="TexasHoldem\OpponentModelling\Positioning.cs" />
     <Compile Include="TexasHoldem\OpponentModelling\Precondition.cs" />
     <Compile Include="TexasHoldem\OpponentModelling\Feature.cs" />
