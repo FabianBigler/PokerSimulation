@@ -84,8 +84,7 @@ namespace WebPokerSimulation.Controllers
             int player1Sum = player1HandsWon.Sum(x => x.AmountWon);
             int player2Sum = player2HandsWon.Sum(x => x.AmountWon);
 
-            int diff = player1Sum - player2Sum;
-            Guid winnerId;
+            int diff = player1Sum - player2Sum;            
             if(diff > 0)
             {                
                 stats.Winner = session.PlayerEntity1.Name;                                

@@ -28,7 +28,7 @@ namespace WebPokerSimulation.Controllers
         {
             var session = humanGameService.GetHumanSession();
             if (session == null)
-            {
+            {                
                 ViewBag.Message = "Please create a new session with a human player!";
             }
 
@@ -40,6 +40,7 @@ namespace WebPokerSimulation.Controllers
         {
             var currentGame = humanGameService.CurrentGame;
             if (currentGame == null) return Json(new { success = false });
+            
 
             var currentHumanPlayer = humanGameService.CurrentHumanPlayer;
             var currentOpponent = humanGameService.CurrentOpponent;

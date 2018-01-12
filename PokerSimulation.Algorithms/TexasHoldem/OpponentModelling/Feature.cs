@@ -19,10 +19,13 @@ namespace PokerSimulation.Algorithms.TexasHoldem.OpponentModelling
         public double PassMaxThreshold { get; set; }
         public List<FeatureAction> ActionsToMeasure { get; set; }
 
-        // global features' CountTotal matches the played hands' count   
+        // global features' CountTotal matches the played hands' count 
+        // some features (e.g. went to showdown) have to be counted
+        // even if they have not occured
         public bool IsGlobal { get; set; }
 
         // every feature has to be incremented only once per hand
+        // but may occur multiple times
         public bool AlreadyIncremented { get; set; }
 
         // the following values are evaluated at runtime        
