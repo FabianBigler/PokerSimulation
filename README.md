@@ -10,4 +10,4 @@ PokerSimulation lets bots compete against each other.
 # Setup Training Data:
 After Building your software:
 If you wish to use the CFR and the Opponent Modelling Algorithm:
-1) Copy the folders PokerSimulation\CFR\ and to PokerSimulation\PokerSimulation.Test\bin\Debug and to PokerSimulation\WebPokerSimulation\bin
+1) Copy the folders PokerSimulation\Setup\CFR and PokerSimulation\Setup\OpponentModelling to PokerSimulation\PokerSimulation.Test\bin\Debug and to PokerSimulation\WebPokerSimulation\bin
