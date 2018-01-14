@@ -73,8 +73,6 @@
     <Compile Include="TexasHoldem\OpponentModelling\Opponent.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CFR_ClassDiagram.cd" />
-    <None Include="OpponentModelling_ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
